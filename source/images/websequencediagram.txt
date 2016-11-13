@@ -1,0 +1,8 @@
+title APP Launch Flow
+
+EHR->launch.html: User launches APP
+launch.html->Authorization Server: Request Authorization
+Authorization Server->index.html: On Approval
+index.html->EHR: Get token
+note right of index.html: After token Approval
+index.html->EHR: Access Patient data via FHIR API
