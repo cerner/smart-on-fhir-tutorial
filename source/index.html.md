@@ -47,7 +47,7 @@ This tutorial is designed to have a minimal footprint so we made the decision to
 
 **launch.html**
 
-launch.html is the SMART app's initial entry point and in a real production environment, would be invoked by the application launching your SMART app (for instance, the EHR or patient portal). In the [SMART documentation](http://docs.smarthealthit.org/), this is your app's "launch URL". In this tutorial, this page will be invoked when you launch your app from Cerner's [code Console](https://code.cerner.com).
+launch.html is the SMART app's initial entry point and in a real production environment, would be invoked by the application launching your SMART app (for instance, the EHR or patient portal). In the [SMART documentation](http://docs.smarthealthit.org/), this is your app's "launch URL". In this tutorial, this page will be invoked when you launch your app from Cerner's [code Console](https://code.cerner.com/developer/smart-on-fhir/apps).
 
 As the entry point into your SMART app, this page will kick-off the SMART authorization workflow.
 
