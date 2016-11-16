@@ -83,7 +83,7 @@ $ bundle install
 $ ./deploy.sh
 ```
 
-> Alternatively if ruby cannot be installed on your machine you can manually checkout the gh-pages branch and push changes to the example-smart-app folder.
+> Alternatively if ruby cannot be installed on your machine you can use GitHub UI to directly edit /example-smart-app/index.html. Make sure you switch the branch to gh-pages before you edit.
 
 >The SMART app will be available at:
 
@@ -101,6 +101,8 @@ For the purposes of this tutorial we will be hosting our SMART app through <a hr
 Setting up GitHub pages is easy, so easy in fact that it's already done for you. GitHub pages works by hosting content from a gh-pages branch. Since you forked the tutorial, the gh-pages branch has already been created, however GitHub won't publish your site until you make a change to the gh-pages branch, so let's make a change. Modify the index.html page to include your GitHub user-name in the title, commit, and push the change to master.
 
 Now that we have a change, let's redeploy the app. Because this tutorial is built from Slate, we have a handy built-in script to deploy changes to the GitHub Pages branch. First if you haven't already, run ```bundle install```.  Then run ```./deploy.sh``` to deploy your SMART app.
+
+If you do not have ruby install or just don't want to mess with git, you can use GitHub UI to directly edit "index.html". Simply switch the branch to gh-pages, navigate to /example-smart-app/index.html an click the pencil icon. Commit your changes to deploy.
 
 Once the app has been redeployed go to ```https://<your-username>.github.io/smart-on-fhir-tutorial/example-smart-app/health``` to ensure your app is available.
 
@@ -442,6 +444,8 @@ The last remaining task for our application is displaying the resource informati
 ```bash
 $ ./deploy.sh
 ```
+
+> Or make sure your gh-pages branch is up to date.
 
 Now that we have a snazzy SMART app, it's time to test it. First, commit to master any changes and deploy the site again.
 
