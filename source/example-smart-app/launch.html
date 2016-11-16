@@ -3,16 +3,21 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'>
     <title>Example-SMART-App</title>
   </head>
-  Loading...
   <body>
     <script src='./lib/fhir-client.js'></script>
-    <script>
+<!--     <script>
       FHIR.oauth2.authorize({
         'client_id': '81bcf1d5-71a7-4bcb-93b8-89b9249f2ad3',
         'scope':  'patient/Patient.read patient/Observation.read launch online_access openid profile'
       });
-    </script>
+    </script> -->
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
   </body>
 </html>
