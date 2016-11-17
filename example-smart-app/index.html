@@ -8,11 +8,15 @@
     <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'>
   </head>
   <body>
-    <h2>Example-SMART-App</h2>
     <div id='errors'>
     </div>
-    <div id="loading">Loading...</div>
+    <div id="loading" class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
     <div id='holder' >
+      <h2>Example-SMART-App</h2>
 
       <h2>Patient Resource</h2>
       <table>
@@ -74,6 +78,7 @@
 
         //Display 'Failed to call FHIR Service' if extractData failed
         function() {
+          $('#loading').hide();
           $('#errors').html('<p> Failed to call FHIR Service </p>');
         }
       );

@@ -196,7 +196,7 @@ This tutorial is designed to have a minimal footprint so we made the decision to
 </code></pre>
 
 <blockquote>
-<p>Alternatively if ruby cannot be installed on your machine you can manually checkout the gh-pages branch and push changes to the example-smart-app folder.</p>
+<p>Alternatively if ruby cannot be installed on your machine you can use GitHub UI to directly edit /example-smart-app/index.html. Make sure you switch the branch to gh-pages before you edit.</p>
 
 <p>The SMART app will be available at:</p>
 </blockquote>
@@ -214,6 +214,8 @@ This tutorial is designed to have a minimal footprint so we made the decision to
 <p>Setting up GitHub pages is easy, so easy in fact that it&rsquo;s already done for you. GitHub pages works by hosting content from a gh-pages branch. Since you forked the tutorial, the gh-pages branch has already been created, however GitHub won&rsquo;t publish your site until you make a change to the gh-pages branch, so let&rsquo;s make a change. Modify the index.html page to include your GitHub user-name in the title, commit, and push the change to master.</p>
 
 <p>Now that we have a change, let&rsquo;s redeploy the app. Because this tutorial is built from Slate, we have a handy built-in script to deploy changes to the GitHub Pages branch. First if you haven&rsquo;t already, run <code class="prettyprint">bundle install</code>.  Then run <code class="prettyprint">./deploy.sh</code> to deploy your SMART app.</p>
+
+<p>If you do not have ruby install or just don&rsquo;t want to mess with git, you can use GitHub UI to directly edit &ldquo;index.html&rdquo;. Simply switch the branch to gh-pages, navigate to /example-smart-app/index.html an click the pencil icon. Commit your changes to deploy.</p>
 
 <p>Once the app has been redeployed go to <code class="prettyprint">https://&lt;your-username&gt;.github.io/smart-on-fhir-tutorial/example-smart-app/health</code> to ensure your app is available.</p>
 
@@ -624,6 +626,10 @@ The OAuth 2 client id is an identifier, not a secret. As such, it does not need 
 </blockquote>
 <pre class="highlight shell"><code><span class="gp">$ </span>./deploy.sh
 </code></pre>
+
+<blockquote>
+<p>Or make sure your gh-pages branch is up to date.</p>
+</blockquote>
 
 <p>Now that we have a snazzy SMART app, it&rsquo;s time to test it. First, commit to master any changes and deploy the site again.</p>
 
