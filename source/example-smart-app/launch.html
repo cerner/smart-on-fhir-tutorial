@@ -4,14 +4,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'>
-    <title>Example-SMART-App</title>
+    <title>npdarsini-SMART-App</title>
   </head>
   <body>
     <script src='./lib/fhir-client.js'></script>
     <script>
       FHIR.oauth2.authorize({
         'client_id': '85666fcf-90c5-4072-9f23-0fbd2fb2c2f8',
-        'scope':  'patient/*.read patient/*.write user/*.read user/*.write launch online_access openid profile'
+        'scope':  'patient/Patient.read patient/Observation.read launch online_access openid profile'
       });
     </script>
     <div class="spinner">
