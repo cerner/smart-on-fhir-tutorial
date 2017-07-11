@@ -7,7 +7,11 @@
     <title>Example-SMART-App</title>
   </head>
   <body>
-    <script src='./lib/fhir-client.js'></script>
+    <script src='./lib/fhir-client.min.js'></script>
+
+    <!-- Prevent session bleed caused by single threaded embedded browser and sessionStorage API -->
+    <!-- https://github.com/cerner/fhir-client-cerner-additions -->
+    <script src='./lib/fhir-client-cerner-additions-1.0.0.min.js'></script>
     <script>
       FHIR.oauth2.authorize({
         'client_id': 'df7c5a17-52dd-4c88-8a32-cdfb557ba758',
