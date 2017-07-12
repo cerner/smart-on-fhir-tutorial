@@ -305,7 +305,10 @@ After initially registering your SMART app, it can take up to 10 minutes for you
   <span class="nt">&lt;/head&gt;</span>
   Loading...
   <span class="nt">&lt;body&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'./lib/fhir-client.min.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'./lib/fhir-client-v0.1.11.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="c">&lt;!-- Prevent session bleed caused by single threaded embedded browser and sessionStorage API --&gt;</span>
+    <span class="c">&lt;!-- https://github.com/cerner/fhir-client-cerner-additions --&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'./lib/fhir-client-cerner-additions-1.0.0.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
     <span class="nt">&lt;script&gt;</span>
       <span class="nx">FHIR</span><span class="p">.</span><span class="nx">oauth2</span><span class="p">.</span><span class="nx">authorize</span><span class="p">({</span>
         <span class="s1">'client_id'</span><span class="p">:</span> <span class="s1">'&lt;enter your client id here&gt;'</span><span class="p">,</span>
@@ -388,8 +391,13 @@ The OAuth 2 client id is an identifier, not a secret. As such, it does not need 
 <p>index.html</p>
 </blockquote>
 <pre class="highlight html"><code>...
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'./lib/es6-shim-0.35.1.min.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
 <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'./src/js/example-smart-app.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'./lib/fhir-client.min.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'./lib/fhir-client-v0.1.11.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+<span class="c">&lt;!-- Prevent session bleed caused by single threaded embedded browser and sessionStorage API --&gt;</span>
+<span class="c">&lt;!-- https://github.com/cerner/fhir-client-cerner-additions --&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'./lib/fhir-client-cerner-additions-1.0.0.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
 <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 <span class="nt">&lt;script&gt;</span>
   <span class="nx">extractData</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span>
