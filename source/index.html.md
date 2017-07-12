@@ -159,7 +159,10 @@ Post-authentication, index.html exchanges the returned authorization token for a
   </head>
   Loading...
   <body>
-    <script src='./lib/fhir-client.min.js'></script>
+    <script src='./lib/fhir-client-v0.1.11.js'></script>
+    <!-- Prevent session bleed caused by single threaded embedded browser and sessionStorage API -->
+    <!-- https://github.com/cerner/fhir-client-cerner-additions -->
+    <script src='./lib/fhir-client-cerner-additions-1.0.0.js'></script>
     <script>
       FHIR.oauth2.authorize({
         'client_id': '<enter your client id here>',
@@ -217,8 +220,13 @@ The OAuth 2 client id is an identifier, not a secret. As such, it does not need 
 
 ```html
 ...
+<script src='./lib/es6-shim-0.35.1.min.js'></script>
 <script src='./src/js/example-smart-app.js'></script>
-<script src='./lib/fhir-client.min.js'></script>
+<script src='./lib/fhir-client-v0.1.11.js'></script>
+
+<!-- Prevent session bleed caused by single threaded embedded browser and sessionStorage API -->
+<!-- https://github.com/cerner/fhir-client-cerner-additions -->
+<script src='./lib/fhir-client-cerner-additions-1.0.0.js'></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
   extractData().then(
