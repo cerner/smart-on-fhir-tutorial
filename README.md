@@ -14,21 +14,4 @@ Getting Started
 
 You're going to need:
 
- - Ruby
-
-### Getting Set Up
-
-To run this tutorial locally:
-
-```bash
-$ bundle install
-```
-
-```bash
-$ bundle exec middleman server
-```
-To deploy changes to the gh-pages branch:
-
-```bash
-$ ./deploy.sh
-```
+ - GitHub account
