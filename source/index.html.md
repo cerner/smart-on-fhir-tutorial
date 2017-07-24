@@ -64,7 +64,7 @@ The other content you see in the source folder is the site for this tutorial. We
     ...
 ```
 
-> Go to your GitHub account, select Repositories tab and select smart-on-fhir-tutorial repo. Select Branch button and switch to gh-pages branch. Directly edit /example-smart-app/index.html by clicking on the pencil icon.  Once done with the change, commit directly to gh-pages branch.
+> Go to your GitHub account, select Repositories tab and select smart-on-fhir-tutorial repo. Select Branch button and switch to gh-pages branch. Directly edit `/example-smart-app/index.html` by clicking on the pencil icon.  Once done with the change, commit directly to gh-pages branch.
 
 >The SMART app will be available at:
 
@@ -81,7 +81,7 @@ For the purposes of this tutorial we will be hosting our SMART app through <a hr
 
 Setting up GitHub pages is easy, so easy in fact that it's already done for you. GitHub pages works by hosting content from a gh-pages branch. Since you forked the tutorial, the gh-pages branch has already been created, however GitHub won't publish your site until you make a change to the gh-pages branch, so let's make a change. Modify the index.html page to include your GitHub user-name in the title, and commit directly to gh-pages branch.
 
-Use GitHub UI to directly edit "index.html". Simply switch the branch to gh-pages, navigate to /example-smart-app/index.html and click the pencil icon. Commit your changes to deploy.
+Use GitHub UI to directly edit `index.html`. Simply switch the branch to gh-pages, navigate to `/example-smart-app/index.html` and click the pencil icon. Commit your changes to deploy.
 
 Once the app has been redeployed go to ```https://<your-username>.github.io/smart-on-fhir-tutorial/example-smart-app/health``` to ensure your app is available.
 
@@ -185,7 +185,7 @@ Through an EHR launch, launch.html will be supplied with two query params ```iss
 ```iss``` is the EHR's FHIR end point and ```launch``` is an identifier that will be passed along to the authorization server.
 
 ```FHIR.oauth2.authorize``` queries the FHIR endpoint to find the URI for authorization.
-It then simply redirects to that endpoint, filling out the required api which includes the supplied client id, scopes and the launch parameter passed in from the EHR. (There are a few more params that can be read about <a href='http://docs.smarthealthit.org/authorization/)'>here</a>). Additionally the function generates an appropriate ```state``` parameter that will then be checked after redirecting to the index page.
+It then simply redirects to that endpoint, filling out the required API which includes the supplied client_id, scopes and the launch parameter passed in from the EHR. (There are a few more params that can be read about <a href='http://docs.smarthealthit.org/authorization/)'>here</a>). Additionally the function generates an appropriate ```state``` parameter that will then be checked after redirecting to the index page.
 
 Following the ```FHIR.oauth2.authorize```, the app will redirect to the authorization server, which, on a successful authorization, will redirect back to the ```Redirect URI```, in this case, index.html
 
@@ -236,11 +236,11 @@ window.extractData = function() {
   };
 ```
 
-Now that the app has successfully been authenticated, it's time to call a FHIR resource, but first we need to obtain an OAuth 2 access token. We have an authorization code that was passed as a query param to the redirect URI (index.html) by the authorization server. The authorization code is exchanged for a access token through POST to the authorization server. Again fhir-client.js makes this easy for us.
+Now that the app has successfully been authenticated, it's time to call a FHIR resource, but first we need to obtain an OAuth2 access token. We have an authorization code that was passed as a query param to the redirect URI (index.html) by the authorization server. The authorization code is exchanged for an access token through POST to the authorization server. Again, fhir-client.js makes this easy for us.
 
-The "index.html" file includes a script which calls into the ```extractData``` function in example-smart-app.js.
+The `index.html` file includes a script which calls into the ```extractData``` function in `example-smart-app.js`.
 
-```extractData``` uses the ```FHIR.oauth2.ready()``` function to exchange the authorization code for the access token and store it in session storage for later use.
+```extractData``` uses the ```FHIR.oauth2.ready()``` function to exchange the authorization code for the access token and stores it in session storage for later use.
 
 # Access FHIR Resource
 > example-smart-app.js - onReady
@@ -423,14 +423,14 @@ window.drawVisualization = function(p) {
 ...
 ```
 
-The last remaining task for our application is displaying the resource information we've retrieved. In "index.html" we define a table with several id place holders. On a success from ```extractData``` we'll call ```drawVisualization``` which will show the table div as well as filling out the relevant sections.
+The last remaining task for our application is displaying the resource information we've retrieved. In `index.html` we define a table with several id place holders. On a success from ```extractData``` we'll call ```drawVisualization``` which will show the table div as well as filling out the relevant sections.
 
 # Test your App
 > To re-deploy the GitHub Pages site, commit your changes and make sure your gh-pages branch is up to date.
 
 Now that we have a snazzy SMART app, it's time to test it.
 
-Next log back into the <a href="https://code.cerner.com/developer/smart-on-fhir/apps" target="_blank">code console</a> and click on the app you've registered (My amazing SMART app). To launch your app through the code console click the "Begin Testing" button. The console will ask if the app you're launching requires a patient in context. Our app requires a patient, so select yes and choose a patient. Please note the millennium user-name and password, you'll need this credential when prompted. Finally, click launch and the console will redirect to your application.
+Next log back into the <a href="https://code.cerner.com/developer/smart-on-fhir/apps" target="_blank">code console</a> and click on the app you've registered (My amazing SMART app). To launch your app through the code console click the "Begin Testing" button. The console will ask if the app you're launching requires a patient in context. Our app requires a patient, so select yes and choose a patient. Please note the millennium username and password, you'll need this credential when prompted. Finally, click launch and the console will redirect to your application.
 
 
 # Run your app against SMART Health IT Sandbox
@@ -445,7 +445,7 @@ One of the reasons why SMART on FHIR app is amazing is because of the interopera
  * Fill in relevant details just as you did for the Cerner sandbox (App name, launch URI, redirect URI)
  * Keep “Allow Offline Access” checkbox unchecked and the Patient Scoped App checked as well (these are defaults)
 
-> Update client id in launch.html
+> Update client ID in launch.html
 
 ```
 <script>
@@ -456,9 +456,9 @@ One of the reasons why SMART on FHIR app is amazing is because of the interopera
 </script>
 ```
 
-* Another modal will appear with your new client ID. Copy this ID and paste it in your "launch.html" client ID section (just as you did when you received your Cerner Sandbox client ID). Commit this change in gh-pages branch.
-* In your "launch.html", copy the scopes for your application.
-* In the SMART Health IT Sandbox, you can now “edit” your application under your registered sandbox apps. Click that, then a side menu will appear with the config for the app. Under “Scopes”, paste over your scopes you copied from the "launch.html" (overwriting what is default configured for the app).
+* Another modal will appear with your new client ID. Copy this ID and paste it in your `launch.html` client ID section (just as you did when you received your Cerner Sandbox client ID). Commit this change in gh-pages branch.
+* In your `launch.html`, copy the scopes for your application.
+* In the SMART Health IT Sandbox, you can now “edit” your application under your registered sandbox apps. Click that, then a side menu will appear with the config for the app. Under “Scopes”, paste over your scopes you copied from the `launch.html` (overwriting what is default configured for the app).
 * At the top, click “Save” to save your app configuration
 * You can now launch the application by clicking “launch”, and choose a patient in context (some patients with Observations include: [Allen, Carol G. | Adams, Daniel X. | Coleman, Lisa P.])
 * You will be re-directed to the OpenID connect authorization server – similar to the Cerner Millenium login screen. All you have to do is at the bottom of the screen, click “Authorize” when it asks “Do you authorize [insert app name here]”.
