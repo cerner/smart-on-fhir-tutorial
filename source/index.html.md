@@ -435,11 +435,12 @@ Next log back into the <a href="https://code.cerner.com/developer/smart-on-fhir/
 
 # Run your app against SMART Health IT Sandbox
 
-One of the reasons why SMART on FHIR app is amazing is because of the interoperability factor!  If an EHR follows the SMART and FHIR specifications, your application will work with that EHR's SMART on FHIR implemenmtation.  Let's see if the app that you've built will work with <a href="https://sandbox.smarthealthit.org" target="_blank">SMART Health IT Sandbox</a>.  The following steps will walk you through setting up your app at SMART Health IT Sandbox.
+One of the reasons why SMART on FHIR is awesome is because of the interoperability factor!  If an EHR follows the SMART and FHIR specifications, your application will work with that EHR's SMART on FHIR implemenmtation.  Let's see if the app that you've built will work with <a href="https://sandbox.smarthealthit.org" target="_blank">SMART Health IT Sandbox</a>.  The following steps will walk you through setting up your app at SMART Health IT Sandbox.
 
 * Go to <a href="https://sandbox.smarthealthit.org" target="_blank">https://sandbox.smarthealthit.org</a> (create an account or sign in)
 * Under My Sandboxes, select SMART DSTU2 Sandbox
-* You will come to a list of your Registered Sandbox Apps. There are 3 SMART apps automatically configured on your account (BP Centiles, Cardiac Risk, and Growth Chart). Add your SMART app tutorial by clicking “Register Manually” under the “Registered Sandbox Apps” title
+* You will come to a list of your Registered Sandbox Apps. There are 3 SMART apps automatically configured on your account (BP Centiles, Cardiac Risk, and Growth Chart).
+* Add your SMART example app by clicking “Register Manually” under the “Registered Sandbox Apps” title
 * You will see a modal popup that allows you to configure your application details, then hit save.
  * Keep the default App Type: Public Client
  * Fill in relevant details just as you did for the Cerner sandbox (App name, launch URI, redirect URI)
