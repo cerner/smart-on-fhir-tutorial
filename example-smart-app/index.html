@@ -66,6 +66,12 @@
         </tr>
       </table>
     </div>
+    <script>
+      FHIR.oauth2.authorize({
+        'client_id': '1df9a077-ce54-42f8-8214-abf0206038a7',
+        'scope':  'patient/Patient.read patient/Observation.read launch online_access openid profile'
+      });
+    </script>
     <script src='./lib/es6-shim-0.35.1.min.js'></script>
     <script src='./src/js/example-smart-app.js'></script>
     <script src='./lib/fhir-client-v0.1.11.js'></script>
