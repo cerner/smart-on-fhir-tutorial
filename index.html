@@ -615,6 +615,43 @@ The OAuth 2 client id is an identifier, not a secret. As such, it does not need 
 
 <p>Next log back into the <a href="https://code.cerner.com/developer/smart-on-fhir/apps" target="_blank">code console</a> and click on the app you&rsquo;ve registered (My amazing SMART app). To launch your app through the code console click the &ldquo;Begin Testing&rdquo; button. The console will ask if the app you&rsquo;re launching requires a patient in context. Our app requires a patient, so select yes and choose a patient. Please note the millennium username and password, you&rsquo;ll need this credential when prompted. Finally, click launch and the console will redirect to your application.</p>
 
+<h1 id="mpages-integration">MPages® Integration</h1>
+
+<p>MPages® is a Web-based platform that enables clients to create customized views of Cerner Millennium® data at the organizer or chart level from within Cerner PowerChart®, FirstNet®, INet® and SurgiNet®.</p>
+
+<p>There are a few different files and HTML tags you need to add to each view within your application to securely embed the SMART App within 
+an MPage® view. We&rsquo;ve already 
+set this up in the example app, so there&rsquo;s no work needed in this step.</p>
+
+<blockquote>
+<p>index.html - launch.html - health.html</p>
+</blockquote>
+<pre class="highlight html"><code><span class="nt">&lt;html</span> <span class="na">hidden</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">'X-UA-Compatible'</span> <span class="na">content=</span><span class="s">'IE=edge'</span> <span class="nt">/&gt;</span>
+    ...
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">'stylesheet'</span> <span class="na">type=</span><span class="s">'text/css'</span> <span class="na">href=</span><span class="s">'./lib/css/cerner-smart-embeddable-lib-[version].min.css'</span><span class="nt">&gt;</span>
+    ...
+</code></pre>
+<pre class="highlight html"><code>  <span class="nt">&lt;body&gt;</span>
+    ...
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'./lib/js/cerner-smart-embeddable-lib-[version].min.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
+    ...
+</code></pre>
+
+<ul>
+<li>Include the <code class="prettyprint">hidden</code> attribute to the <code class="prettyprint">html</code> tag.</li>
+<li>Set a <code class="prettyprint">meta</code> tag at the top of the <code class="prettyprint">head</code> tag to display Internet Explorer content in the highest compatibility mode.</li>
+<li>Include the <code class="prettyprint">babel-polyfill</code> module into the project to support ES2015+ JavaScript standard methods and Objects that this project (and included libraries) may use.</li>
+<li>Include the <code class="prettyprint">cerner-smart-embeddable-lib</code> files that utilize the <a href="https://github.com/cerner/xfc">XFC</a> (Cross-Frame-Container) library to prevent possible <a href="https://www.owasp.org/index.php/Clickjacking">Clickjacking
+attacks</a> in any browser. These files can be pulled in from the <a href="https://github.com/cerner/cerner-smart-embeddable-lib">Cerner SMART Embeddable Library</a>. See project
+description for how to properly size the application, and note additional considerations around conflicting HTTP headers.</li>
+</ul>
+
+<p>Note: The steps above only ensure that the application will meet certain prerequisites to securely embed a SMART app within an MPage® view.
+Once these relevant files and HTML tags are included inside each view of the app, then the application should be ready for SMART in MPage® integration.  </p>
+
 <h1 id="run-your-app-against-smart-health-it-sandbox">Run your app against SMART Health IT Sandbox</h1>
 
 <p>One of the reasons why SMART on FHIR is awesome is because of the interoperability factor!  If an EHR follows the SMART and FHIR specifications, your application will work with that EHR&rsquo;s SMART on FHIR implemenmtation.  Let&rsquo;s see if the app that you&rsquo;ve built will work with <a href="https://sandbox.smarthealthit.org" target="_blank">SMART Health IT Sandbox</a>.  The following steps will walk you through setting up your app at SMART Health IT Sandbox.</p>
