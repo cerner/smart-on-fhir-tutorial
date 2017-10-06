@@ -436,8 +436,8 @@ Next log back into the <a href="https://code.cerner.com/developer/smart-on-fhir/
 
 MPages® is a Web-based platform that enables clients to create customized views of Cerner Millennium® data at the organizer or chart level from within Cerner PowerChart®, FirstNet®, INet® and SurgiNet®.
 
-There are a few different files and HTML tags you need to add to each view within your application to securely embed the SMART App within 
-an MPage® view. We've already 
+There are a few different files and HTML tags you need to add to each view within your application to securely embed the SMART App within
+an MPage® view. We've already
 set this up in the example app, so there's no work needed in this step.
 
 >index.html - launch.html - health.html
@@ -468,7 +468,7 @@ attacks](https://www.owasp.org/index.php/Clickjacking) in any browser. These fil
 description for how to properly size the application, and note additional considerations around conflicting HTTP headers.
 
 Note: The steps above only ensure that the application will meet certain prerequisites to securely embed a SMART app within an MPage® view.
-Once these relevant files and HTML tags are included inside each view of the app, then the application should be ready for SMART in MPage® integration.  
+Once these relevant files and HTML tags are included inside each view of the app, then the application should be ready for SMART in MPage® integration.
 
 # Run your app against SMART Health IT Sandbox
 
@@ -480,10 +480,12 @@ One of the reasons why SMART on FHIR is awesome is because of the interoperabili
 * Add your SMART example app by clicking “Register Manually” under the “Registered Sandbox Apps” title
 * You will see a modal popup that allows you to configure your application details, then hit save.
  * Keep the default App Type: Public Client
- * Fill in relevant details just as you did for the Cerner sandbox (App name, launch URI, redirect URI)
+ * Fill in relevant details just as you did for the Cerner sandbox (App name, redirect URI)
+ * For launch URI, use the following value but replace `<your-username>` with your GitHub username:
+  * ```https://<your-username>.github.io/smart-on-fhir-tutorial/example-smart-app/launch-smart-sandbox.html```
  * Keep “Allow Offline Access” checkbox unchecked and the Patient Scoped App checked as well (these are defaults)
 
-> Update client ID in launch.html
+> Update client ID in launch-smart-sandbox.html
 
 ```
 <script>
@@ -494,9 +496,9 @@ One of the reasons why SMART on FHIR is awesome is because of the interoperabili
 </script>
 ```
 
-* Another modal will appear with your new client ID. Copy this ID and paste it in your `launch.html` client ID section (just as you did when you received your Cerner Sandbox client ID). Commit this change in gh-pages branch.
-* In your `launch.html`, copy the scopes for your application.
-* In the SMART Health IT Sandbox, you can now “edit” your application under your registered sandbox apps. Click that, then a side menu will appear with the config for the app. Under “Scopes”, paste over your scopes you copied from the `launch.html` (overwriting what is default configured for the app).
+* Another modal will appear with your new client ID. Copy this ID and paste it in your `launch-smart-sandbox.html` client ID section (just as you did when you received your Cerner Sandbox client ID). Commit this change in gh-pages branch.
+* In your `launch-smart-sandbox.html`, copy the scopes for your application.
+* In the SMART Health IT Sandbox, you can now “edit” your application under your registered sandbox apps. Click that, then a side menu will appear with the config for the app. Under “Scopes”, paste over your scopes you copied from the `launch-smart-sandbox.html` (overwriting what is default configured for the app).
 * At the top, click “Save” to save your app configuration
 * You can now launch the application by clicking “launch”, and choose a patient in context (some patients with Observations include: [Allen, Carol G. | Adams, Daniel X. | Coleman, Lisa P.])
 * You will be re-directed to the OpenID connect authorization server – similar to the Cerner Millenium login screen. All you have to do is at the bottom of the screen, click “Authorize” when it asks “Do you authorize [insert app name here]”.
