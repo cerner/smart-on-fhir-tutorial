@@ -503,6 +503,59 @@ One of the reasons why SMART on FHIR is awesome is because of the interoperabili
 * You can now launch the application by clicking “launch”, and choose a patient in context (some patients with Observations include: [Allen, Carol G. | Adams, Daniel X. | Coleman, Lisa P.])
 * You will be re-directed to the OpenID connect authorization server – similar to the Cerner Millenium login screen. All you have to do is at the bottom of the screen, click “Authorize” when it asks “Do you authorize [insert app name here]”.
 
+# Patient Access (Standalone launch)
+
+The standalone launch for patient access workflow is different from an EHR launch workflow.  The standalone application does not need to be launched by an EHR.  The app can launch and access FHIR data on its own, provided the app is authorized and given the iss URL.
+
+You can find out more about standalone launch on the <a href="http://docs.smarthealthit.org/authorization/" target="_blank">SMART Health IT site</a> under the "Standalone launch sequence" header.
+
+Since patient access is specifically for patient workflow, we need to create another app in <a href="https://code.cerner.com/developer/smart-on-fhir/apps" target="_blank">code Console</a>.  Below, you can follow the instruction to perform this registration.
+
+## Registration
+Navigate to our <a href="https://code.cerner.com/developer/smart-on-fhir/apps" target="_blank">code console</a>. Once logged into the console, click on the "+ New App" button in the top right toolbar and fill in the following details:
+
+Field | Description
+--------- | -----------
+App Name | ```My amazing SMART Patient App``` Any name will do.
+SMART Launch URI | Leave this field blank since this is a standalone app.
+Redirect URI | ```https://<your-username>.github.io/smart-on-fhir-tutorial/example-smart-app/```
+App Type | ```Patient```
+FHIR Spec | ```dstu2_provider``` The latest spec version supported by Cerner.
+Authorized | ```Yes``` Authorized App will go through secured OAuth 2 login.
+Standard Scopes | These scopes are required to launch the SMART app.
+User Scopes | None
+Patient Scopes | Select the Patient and Observation scopes
+
+Click "Register" to complete the process. This will add the app to your account and create a client id for app authorization.
+
+The new OAuth 2 client id will be displayed in a banner at the top of the page and can be viewed at any time by clicking on the application icon to view more details.
+
+## Request Authorization
+
+> launch-patient.html
+
+```html
+  <script>
+    FHIR.oauth2.authorize({
+      'client_id': '<enter your client id here>',
+      'scope':  'patient/Patient.read patient/Observation.read launch/patient online_access openid profile'
+    });
+  </script>
+```
+
+> Make sure to replace CLIENT_ID with the client id provided in code console.
+
+## Launching Standalone App
+
+Since Patient Access app is a standalone app, it does not need to be launched by the EHR (code Console). You can launch the app by looking at the URL below.
+
+> https://<your-username>.github.io/smart-on-fhir-tutorial/example-smart-app/launch-patient.html?iss=https://fhir-myrecord.sandboxcerner.com/dstu2/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca
+
+The `iss` value in the query parameter represents the URL for our Sandbox Patient Access endpoint.
+
+Replace `<your-username>` with your username. Then, enter the URL above into the browser, the browser should redirect to the login page. You can use patients' credentials listed in the first post in this <a href="https://groups.google.com/forum/#!topic/cerner-fhir-developers/edPUbVPIag0" target="_blank">discussion</a>.
+
+
 # Next Steps
 Through this tutorial we have:
 
