@@ -18,6 +18,7 @@ After completing this tutorial you will know how to:
 * Run an app in Cerner's SMART on FHIR sandbox.
 * Self register an app with SMART Health IT.
 * Run an app in SMART Health IT Sandbox.
+* Setup a standalone patient access app.
 
 # Prerequisites
   * A public <a href="http://www.github.com" target="_blank">GitHub</a> account
@@ -503,16 +504,16 @@ One of the reasons why SMART on FHIR is awesome is because of the interoperabili
 * You can now launch the application by clicking “launch”, and choose a patient in context (some patients with Observations include: [Allen, Carol G. | Adams, Daniel X. | Coleman, Lisa P.])
 * You will be re-directed to the OpenID connect authorization server – similar to the Cerner Millenium login screen. All you have to do is at the bottom of the screen, click “Authorize” when it asks “Do you authorize [insert app name here]”.
 
-# Patient Access (Standalone launch)
+# Standalone App Launch for Patient Access Workflow
 
-The standalone launch for patient access workflow is different from an EHR launch workflow.  The standalone application does not need to be launched by an EHR.  The app can launch and access FHIR data on its own, provided the app is authorized and given the iss URL.
+SMART supports EHR launch and standalone launch. However, Cerner currently only supports standalone launch for patient access workflow. The standalone application does not need to be launched by an EHR.  The app can launch and access FHIR data on its own, provided the app is authorized and given the iss URL.
 
 You can find out more about standalone launch on the <a href="http://docs.smarthealthit.org/authorization/" target="_blank">SMART Health IT site</a> under the "Standalone launch sequence" header.
 
 Since patient access is specifically for patient workflow, we need to create another app in <a href="https://code.cerner.com/developer/smart-on-fhir/apps" target="_blank">code Console</a>.  Below, you can follow the instruction to perform this registration.
 
 ## Registration
-Navigate to our <a href="https://code.cerner.com/developer/smart-on-fhir/apps" target="_blank">code console</a>. Once logged into the console, click on the "+ New App" button in the top right toolbar and fill in the following details:
+Navigate to our <a href="https://code.cerner.com/developer/smart-on-fhir/apps" target="_blank">code Console</a>. Once logged in, click on the "+ New App" button in the top right toolbar and fill in the following details:
 
 Field | Description
 --------- | -----------
@@ -532,6 +533,8 @@ The new OAuth 2 client id will be displayed in a banner at the top of the page a
 
 ## Request Authorization
 
+The `launch-patient.html` file had been created for you already.  You'll need to update the client id with the new one you've just gotten. This file shows what your app will use to request authorization with the Authorization server.
+
 > launch-patient.html
 
 ```html
@@ -543,18 +546,29 @@ The new OAuth 2 client id will be displayed in a banner at the top of the page a
   </script>
 ```
 
-> Make sure to replace CLIENT_ID with the client id provided in code console.
+> Make sure to replace CLIENT_ID with the new client id provided in code Console. Notice that `launch/patient` is used here instead of `launch`.  This is because during a standalone launch the app does not have access to the patient in context and thereby it would need to request acces to the patient.
 
-## Launching Standalone App
+## Launch a Standalone App
 
-Since Patient Access app is a standalone app, it does not need to be launched by the EHR (code Console). You can launch the app by looking at the URL below.
+Since this app is a standalone app, it does not need to be launched by the EHR (code Console). You can launch the app by copy/paste the URL below into your favorite browser.
 
-> https://<your-username>.github.io/smart-on-fhir-tutorial/example-smart-app/launch-patient.html?iss=https://fhir-myrecord.sandboxcerner.com/dstu2/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca
+> Cerner's Sandbox Patient Access Endpoint:
 
-The `iss` value in the query parameter represents the URL for our Sandbox Patient Access endpoint.
+```
+https://fhir-myrecord.sandboxcerner.com/dstu2/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca
+```
 
-Replace `<your-username>` with your username. Then, enter the URL above into the browser, the browser should redirect to the login page. You can use patients' credentials listed in the first post in this <a href="https://groups.google.com/forum/#!topic/cerner-fhir-developers/edPUbVPIag0" target="_blank">discussion</a>.
+The `iss` value in the query parameter represents the URL for our Sandbox Patient Access endpoint.  This value tells the app where to look for the `metadata` endpoint, which contains the authorization endpoints that the app needs to call.
 
+> Launch URL:
+
+```
+  https://<your-username>.github.io/smart-on-fhir-tutorial/example-smart-app/launch-patient.html?iss=https://fhir-myrecord.sandboxcerner.com/dstu2/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca
+```
+
+Replace `<your-username>` with your GitHub's username. Then, enter the URL above into the browser, the browser should redirect to the login page. You can use patients' credentials listed in the first post in this <a href="https://groups.google.com/forum/#!topic/cerner-fhir-developers/edPUbVPIag0" target="_blank">discussion</a>.
+
+Once you authenticated and authorized the app, the app should load with patient and observation data.
 
 # Next Steps
 Through this tutorial we have:
@@ -564,6 +578,7 @@ Through this tutorial we have:
 * Run the app in Cerner's SMART on FHIR sandbox.
 * Registered that app with SMART Health IT Sandbox.
 * Run the app in SMART Health IT Sandbox.
+* Setup a standalone patient access app.
 
 We've created a very basic application that meets the base requirements of being a SMART app. This application would require a fair amount of polish before being ready to be deployed in a production environment. A couple of next steps you could look at are:
 
