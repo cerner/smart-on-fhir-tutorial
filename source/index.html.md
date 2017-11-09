@@ -197,7 +197,7 @@ patient/Patient.read | Permission to read Patient resource for the current patie
 patient/Observation.read | Permission to read Observation resource for the current patient.
 openid, profile | Permission to retrieve information about the current logged-in user. Required for EHR launch.
 launch | Permission to obtain launch context when app is launched from an EHR. Required for EHR launch.
-launch/patient | When launching outside the EHR, ask for a patient to be selected at launch time. Required ONLY for patient standalone launch.  See this section: [Standalone App Launch for Patient Access Workflow](#standalone-app-launch-for-patient-access-workflow).
+launch/patient | Permission to have a patient be selected when performing a patient facing standalone launch. Required ONLY for patient standalone launch. Apps can choose to use user/Patient.read or user/Observation.read scopes and wouldn't need launch scope at all. See this section: [Standalone App Launch for Patient Access Workflow](#standalone-app-launch-for-patient-access-workflow).
 online_access | Request a refresh_token that can be used to obtain a new access token to replace an expired one, and that will be usable for as long as the end-user remains online. Required for EHR launch.
 
 For our app we will use Patient.read, Observation.read.
