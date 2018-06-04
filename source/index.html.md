@@ -499,38 +499,36 @@ description for how to properly size the application, and note additional consid
 Note: The steps above only ensure that the application will meet certain prerequisites to securely embed a SMART app within an MPage® view.
 Once these relevant files and HTML tags are included inside each view of the app, then the application should be ready for SMART in MPage® integration.
 
-# Run your app against SMART Health IT Sandbox
+# Run your app against SMART Health IT
 
-One of the reasons why SMART on FHIR is awesome is because of the interoperability factor!  If an EHR follows the SMART and FHIR specifications, your application will work with that EHR's SMART on FHIR implemenmtation.  Let's see if the app that you've built will work with [SMART Health IT Sandbox](https://sandbox.smarthealthit.org).  The following steps will walk you through setting up your app at SMART Health IT Sandbox.
+One of the reasons why SMART on FHIR is awesome is because of the interoperability factor!  If an EHR follows the SMART and FHIR specifications, your application will work with that EHR's SMART on FHIR implemenmtation.  Let's see if the app that you've built will work with [SMART Launcher](https://launch.smarthealthit.org).  The following steps will walk you through setting up your app at SMART Health IT site.
 
-* Go to [https://sandbox.smarthealthit.org](https://sandbox.smarthealthit.org) (create an account or sign in)
-* Under My Sandboxes, select SMART DSTU2 Sandbox
-* You will come to a list of your Registered Sandbox Apps. There are 3 SMART apps automatically configured on your account (BP Centiles, Cardiac Risk, and Growth Chart).
-* Add your SMART example app by clicking “Register Manually” under the “Registered Sandbox Apps” title
-* You will see a modal popup that allows you to configure your application details, then hit save.
- * Keep the default App Type: Public Client
- * Fill in relevant details just as you did for the Cerner sandbox (App name, redirect URI)
- * For launch URI, use the following value but replace `<gh-username>` with your GitHub username:
-  * ```https://<gh-username>.github.io/smart-on-fhir-tutorial/example-smart-app/launch-smart-sandbox.html```
- * Keep “Allow Offline Access” checkbox unchecked and the Patient Scoped App checked as well (these are defaults)
+* Go to [https://launch.smarthealthit.org](https://launch.smarthealthit.org)
+* In the **App Launch Options** select **Launch Type** as 'Provider EHR Launch' with 'Simulate launch within the EHR user interface' box checked. This is the default.
+* Under **FHIR Version**, select 'R2 (DSTU2)'
+* In the **Patient(s)** section, click the drop down button to open a list of patients in a new pop up window. Select any patient and click 'OK'. This should populate the patient ID in the field.
+* In the **Provider(s)** section, click the drop down button to open a list of providers. Select any provider to populate the Provider ID in the field.
+* For the purpose of this tutorial we will leave the **Advanced** options as is.
+* In the **Launch** section, use the following value but replace `<gh-username>` with your GitHub username for **App Launch URL**:
+https://`<gh-username>`.github.io/smart-on-fhir-tutorial/example-smart-app/launch-smart-sandbox.html
+* Note: Currently, the [SMART App Launcher](https://launch.smarthealthit.org) does not check/validate the `client_id` field. So, any value for `client_id` is fine. If/when this changes, or when working with other authorization servers, please update the `client_id` field in `launch-smart-sandbox.html` file.
+* Now launch the app by clicking on the green 'Launch App!' button to see your app opened in the simulated EHR with the patient data.
 
-> Update client ID in launch-smart-sandbox.html
+
+> launch-smart-sandbox.html
 
 ```
+...
+<!-- Currently, the SMART App Launcher (https://launch.smarthealthit.org) does not check/validate the client_id field.
+        If/when this changes, or when working with other authorization servers, please update the client_id field here. -->
 <script>
   FHIR.oauth2.authorize({
     'client_id': 'YOUR-SMART-HEALTH-IT-CLIENT-ID-HERE',
     'scope':  'patient/Patient.read patient/Observation.read launch online_access openid profile'
   });
 </script>
+...
 ```
-
-* Another modal will appear with your new client ID. Copy this ID and paste it in your `launch-smart-sandbox.html` client ID section (just as you did when you received your Cerner Sandbox client ID). Commit this change in gh-pages branch.
-* In your `launch-smart-sandbox.html`, copy the scopes for your application.
-* In the SMART Health IT Sandbox, you can now “edit” your application under your registered sandbox apps. Click that, then a side menu will appear with the config for the app. Under “Scopes”, paste over your scopes you copied from the `launch-smart-sandbox.html` (overwriting what is default configured for the app).
-* At the top, click “Save” to save your app configuration
-* You can now launch the application by clicking “launch”, and choose a patient in context (some patients with Observations include: [Allen, Carol G. | Adams, Daniel X. | Coleman, Lisa P.])
-* You will be re-directed to the OpenID connect authorization server – similar to the Cerner Millenium login screen. All you have to do is at the bottom of the screen, click “Authorize” when it asks “Do you authorize [insert app name here]”.
 
 # Standalone App Launch for Patient Access Workflow
 
