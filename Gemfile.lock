@@ -11,12 +11,6 @@ GEM
     autoprefixer-rails (9.5.1.1)
       execjs
     backports (3.18.1)
-    capybara (2.5.0)
-      mime-types (>= 1.16)
-      nokogiri (>= 1.3.3)
-      rack (>= 1.0.0)
-      rack-test (>= 0.5.4)
-      xpath (~> 2.0)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
@@ -39,7 +33,6 @@ GEM
     hashie (3.6.0)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
-    json (2.1.0)
     kramdown (2.3.0)
       rexml
     listen (3.0.8)
@@ -81,16 +74,15 @@ GEM
       servolux
       tilt (~> 2.0.9)
       uglifier (~> 3.0)
+    middleman-gh-pages (0.3.1)
+      rake (> 0.9.3)
     middleman-sprockets (4.1.1)
       middleman-core (~> 4.0)
       sprockets (>= 3.0)
     middleman-syntax (3.2.0)
       middleman-core (>= 3.2)
       rouge (~> 3.2)
-    mini_portile2 (2.4.0)
     minitest (5.14.1)
-    nokogiri (1.10.9)
-      mini_portile2 (~> 2.4.0)
     padrino-helpers (0.13.3.4)
       i18n (~> 0.6, >= 0.6.7)
       padrino-support (= 0.13.3.4)
@@ -100,8 +92,6 @@ GEM
     parallel (1.19.2)
     public_suffix (4.0.5)
     rack (2.2.3)
-    rack-test (0.8.3)
-      rack (>= 1.0, < 3)
     rake (12.3.0)
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
@@ -129,8 +119,6 @@ GEM
       thread_safe (~> 0.1)
     uglifier (3.2.0)
       execjs (>= 0.3.0, < 3)
-    xpath (2.1.0)
-      nokogiri (~> 1.3)
 
 PLATFORMS
   ruby
