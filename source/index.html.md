@@ -511,8 +511,24 @@ One of the reasons why SMART on FHIR is awesome is because of the interoperabili
 * For the purpose of this tutorial we will leave the **Advanced** options as is.
 * In the **Launch** section, use the following value but replace `<gh-username>` with your GitHub username for **App Launch URL**:
 https://`<gh-username>`.github.io/smart-on-fhir-tutorial/example-smart-app/launch-smart-sandbox.html
+* Note: Currently, the [SMART App Launcher](https://launch.smarthealthit.org) does not check/validate the `client_id` field. So, any value for `client_id` is fine. If/when this changes, or when working with other authorization servers, please update the `client_id` field in `launch-smart-sandbox.html` file.
 * Now launch the app by clicking on the green 'Launch App!' button to see your app opened in the simulated EHR with the patient data.
 
+
+> launch-smart-sandbox.html
+
+```
+...
+<!-- Currently, the SMART App Launcher (https://launch.smarthealthit.org) does not check/validate the client_id field.
+        If/when this changes, or when working with other authorization servers, please update the client_id field here. -->
+<script>
+  FHIR.oauth2.authorize({
+    'client_id': 'YOUR-SMART-HEALTH-IT-CLIENT-ID-HERE',
+    'scope':  'patient/Patient.read patient/Observation.read launch online_access openid profile'
+  });
+</script>
+...
+```
 
 # Standalone App Launch for Patient Access Workflow
 
