@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" hidden>
+<html lang="en">
   <head>
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
     <title>Example-SMART-App</title>
 
     <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'>
-    <link rel='stylesheet' type='text/css' href='./lib/css/cerner-smart-embeddable-lib-1.0.0.min.css'>
+    <!--
+      Temporarily disable cerner-smart-embeddable-lib
+      <link rel='stylesheet' type='text/css' href='./lib/css/cerner-smart-embeddable-lib-1.0.0.min.css'>
+    -->
   </head>
   <body>
     <div id='errors'>
@@ -68,8 +71,11 @@
       </table>
     </div>
     <!-- Required JS files to enable this page to embed within an MPage -->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js'></script>
-    <script src='./lib/js/cerner-smart-embeddable-lib-1.0.0.min.js'></script>
+    <!--
+      Temporarily disable cerner-smart-embeddable-lib
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js'></script>
+      <script src='./lib/js/cerner-smart-embeddable-lib-1.0.0.min.js'></script>
+    -->
 
     <!-- Application-level javascript-->
     <script src='./src/js/example-smart-app.js'></script>
