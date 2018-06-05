@@ -170,6 +170,7 @@ figure {
  * Address differences between Firefox and other browsers.
  */
 hr {
+  -webkit-box-sizing: content-box;
   box-sizing: content-box;
   height: 0; }
 
@@ -276,6 +277,7 @@ input {
  */
 input[type="checkbox"],
 input[type="radio"] {
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   /* 1 */
   padding: 0;
@@ -298,6 +300,7 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="search"] {
   -webkit-appearance: textfield;
   /* 1 */
+  -webkit-box-sizing: content-box;
   /* 2 */
   box-sizing: content-box; }
 
@@ -384,14 +387,13 @@ under the License.
 .content pre, .content code {
   word-break: break-all;
   -webkit-hyphens: auto;
-  -moz-hyphens: auto;
   -ms-hyphens: auto;
   hyphens: auto; }
 
 @font-face {
   font-family: 'slate';
-  src: url(../fonts/slate.eot?-syv14m);
-  src: url(../fonts/slate.eot?#iefix-syv14m) format("embedded-opentype"), url(../fonts/slate.woff2?-syv14m) format("woff2"), url(../fonts/slate.woff?-syv14m) format("woff"), url(../fonts/slate.ttf?-syv14m) format("truetype"), url(../fonts/slate.svg?-syv14m#slate) format("svg");
+  src: url("../fonts/slate.eot?-syv14m");
+  src: url("../fonts/slate.eot?#iefix-syv14m") format("embedded-opentype"), url("../fonts/slate.woff2?-syv14m") format("woff2"), url("../fonts/slate.woff?-syv14m") format("woff"), url("../fonts/slate.ttf?-syv14m") format("truetype"), url("../fonts/slate.svg?-syv14m#slate") format("svg");
   font-weight: normal;
   font-style: normal; }
 .content aside.warning:before, .content aside.notice:before, .content aside.success:before {
