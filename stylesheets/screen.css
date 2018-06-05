@@ -170,7 +170,6 @@ figure {
  * Address differences between Firefox and other browsers.
  */
 hr {
-  -webkit-box-sizing: content-box;
   box-sizing: content-box;
   height: 0; }
 
@@ -277,7 +276,6 @@ input {
  */
 input[type="checkbox"],
 input[type="radio"] {
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   /* 1 */
   padding: 0;
@@ -300,7 +298,6 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="search"] {
   -webkit-appearance: textfield;
   /* 1 */
-  -webkit-box-sizing: content-box;
   /* 2 */
   box-sizing: content-box; }
 
@@ -387,13 +384,14 @@ under the License.
 .content code {
   word-break: break-all;
   -webkit-hyphens: auto;
+  -moz-hyphens: auto;
   -ms-hyphens: auto;
   hyphens: auto; }
 
 @font-face {
   font-family: 'slate';
-  src: url("../fonts/slate.eot?-syv14m");
-  src: url("../fonts/slate.eot?#iefix-syv14m") format("embedded-opentype"), url("../fonts/slate.woff2?-syv14m") format("woff2"), url("../fonts/slate.woff?-syv14m") format("woff"), url("../fonts/slate.ttf?-syv14m") format("truetype"), url("../fonts/slate.svg?-syv14m#slate") format("svg");
+  src: url(../fonts/slate.eot?-syv14m);
+  src: url(../fonts/slate.eot?#iefix-syv14m) format("embedded-opentype"), url(../fonts/slate.woff2?-syv14m) format("woff2"), url(../fonts/slate.woff?-syv14m) format("woff"), url(../fonts/slate.ttf?-syv14m) format("truetype"), url(../fonts/slate.svg?-syv14m#slate) format("svg");
   font-weight: normal;
   font-style: normal; }
 .content aside.warning:before, .content aside.notice:before, .content aside.success:before, .tocify-wrapper > .search:before {
@@ -450,7 +448,6 @@ html, body {
   width: 20px; }
 
 .tocify-wrapper {
-  -webkit-transition: left 0.3s ease-in-out;
   transition: left 0.3s ease-in-out;
   overflow-y: auto;
   overflow-x: hidden;
@@ -478,7 +475,6 @@ html, body {
       border-width: 0 0 1px 0;
       border-color: #666;
       padding: 6px 0 6px 20px;
-      -webkit-box-sizing: border-box;
       box-sizing: border-box;
       margin: 10px 15px;
       width: 200px;
@@ -495,16 +491,12 @@ html, body {
     margin-top: 20px; }
   .tocify-wrapper .search-results {
     margin-top: 0;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     height: 0;
     overflow-y: auto;
     overflow-x: hidden;
-    -webkit-transition-property: height, margin;
     transition-property: height, margin;
-    -webkit-transition-duration: 180ms;
     transition-duration: 180ms;
-    -webkit-transition-timing-function: ease-in-out;
     transition-timing-function: ease-in-out;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent 8px), linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent 8px), linear-gradient(to bottom, black, transparent 1.5px), linear-gradient(to top, #939393, rgba(147, 147, 147, 0) 1.5px), #262626; }
     .tocify-wrapper .search-results.visible {
@@ -531,14 +523,10 @@ html, body {
     line-height: 28px; }
   .tocify-wrapper li {
     color: #fff;
-    -webkit-transition-property: background;
     transition-property: background;
-    -webkit-transition-timing-function: linear;
     transition-timing-function: linear;
-    -webkit-transition-duration: 230ms;
     transition-duration: 230ms; }
   .tocify-wrapper .tocify-focus {
-    -webkit-box-shadow: 0px 1px 0px #000;
     box-shadow: 0px 1px 0px #000;
     background-color: #2467af;
     color: #fff; }
@@ -551,7 +539,6 @@ html, body {
       padding-left: 25px;
       font-size: 12px; }
     .tocify-wrapper .tocify-subheader > li:last-child {
-      -webkit-box-shadow: none;
       box-shadow: none; }
   .tocify-wrapper .toc-footer {
     padding: 1em 0;
@@ -579,7 +566,6 @@ html, body {
   font-weight: bold;
   opacity: 0.7;
   line-height: 16px;
-  -webkit-transition: left 0.3s ease-in-out;
   transition: left 0.3s ease-in-out; }
   #nav-button span {
     display: block;
@@ -650,7 +636,6 @@ html, body {
   .content > h1, .content > h2, .content > h3, .content > h4, .content > h5, .content > h6, .content > p, .content > table, .content > ul, .content > ol, .content > aside, .content > dl {
     margin-right: 50%;
     padding: 0 28px;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     display: block;
     text-shadow: 0px 1px 0px #fff; }
@@ -666,7 +651,6 @@ html, body {
     margin-bottom: 21px;
     margin-top: 2em;
     border-top: 1px solid #ddd;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f9f9f9));
     background-image: linear-gradient(to bottom, #fff, #f9f9f9); }
   .content h1:first-child, .content div:first-child + h1 {
     border-top-width: 0;
@@ -678,7 +662,6 @@ html, body {
     border-top: 1px solid #ccc;
     padding-top: 1.2em;
     padding-bottom: 1.2em;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.4)), to(rgba(255, 255, 255, 0)));
     background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0)); }
   .content h1 + h2, .content h1 + div + h2 {
     margin-top: -21px;
@@ -752,7 +735,6 @@ html, body {
     border-radius: 4px;
     border: 1px solid #F7E633;
     text-shadow: 1px 1px 0 #666;
-    background: -webkit-gradient(linear, right bottom, left top, from(#F7E633), to(#F1D32F));
     background: linear-gradient(to top left, #F7E633 0%, #F1D32F 100%); }
 
 .content pre, .content blockquote {
@@ -763,7 +745,6 @@ html, body {
   width: 50%;
   float: right;
   clear: right;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.4); }
   .content pre > p, .content blockquote > p {
