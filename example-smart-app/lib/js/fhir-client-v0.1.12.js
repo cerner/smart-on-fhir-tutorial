@@ -17246,6 +17246,12 @@ BBClient.ready = function(input, callback, errback){
     var ret = FhirClient(fhirClientParams);
     ret.state = JSON.parse(JSON.stringify(state));
     ret.tokenResponse = JSON.parse(JSON.stringify(tokenResponse));
+	  
+    if (tokenResponse.refresh_token
+        && tokenResponse.scope.indexOf('online_access') > -1) { // refresh token flow
+           window.setInterval(completeTokenRefreshFlow, (tokenResponse.expires_in * 1000) - 120000)
+    }
+	    
     args.callback(ret);
 
   }).fail(function(ret){
