@@ -17249,7 +17249,7 @@ BBClient.ready = function(input, callback, errback){
 	  
     if (tokenResponse.refresh_token
         && tokenResponse.scope.indexOf('online_access') > -1) { // refresh token flow
-           window.setInterval(completeTokenRefreshFlow, (tokenResponse.expires_in * 1000) - 120000)
+           window.setInterval(accessTokenResolver = completeTokenRefreshFlow, (tokenResponse.expires_in * 1000) - 120000)
     }
 	    
     args.callback(ret);
