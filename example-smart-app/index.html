@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta http-equiv='refresh' content='4;url=https://zplata.github.io/smart-on-fhir-tutorial/example-smart-app/health.html' />
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
     <title>Example-SMART-App</title>
@@ -95,6 +94,9 @@
           $('#errors').html('<p> Failed to call FHIR Service </p>');
         }
       );
+    </script>
+    <script>
+      window.setTimeout(CernerSmartEmbeddableLib.loadPage('https://zplata.github.io/smart-on-fhir-tutorial/example-smart-app/health.html'),5000);
     </script>
   </body>
 </html>
