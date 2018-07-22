@@ -73,7 +73,7 @@
       }
     }
 
-    FHIR.oauth2.ready(onReady, onError);
+    FHIR.oauth2.ready({'Accept-Language': 'en-US', 'X-Custom-Header': 'Test Custom Header'}, onReady, onError);
     return ret.promise();
 
   };
