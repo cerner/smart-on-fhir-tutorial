@@ -9,6 +9,9 @@
 
     function onReady(smart)  {
       if (smart.hasOwnProperty('patient')) {
+        // Set custom headers
+        smart.setHeaders({'Accept-Language': 'en-UK', 'X-Custom-Header2': 'Custom Header 2'});
+        
         var patient = smart.patient;
         var pt = patient.read();
         var obv = smart.patient.api.fetchAll({
