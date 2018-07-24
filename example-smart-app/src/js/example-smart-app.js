@@ -28,7 +28,7 @@
         $.when(pt, obv).fail(onError);
 
         // Set custom headers
-        smart.setHeaders();
+        smart.setHeaders(null);
         
         $.when(pt, obv).done(function(patient, obv) {
           var byCodes = smart.byCodes(obv, 'code');
