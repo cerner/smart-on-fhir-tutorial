@@ -14,6 +14,10 @@
         
         var patient = smart.patient;
         var pt = patient.read();
+        
+        // Set custom headers
+        smart.setHeaders(null);
+        
         var obv = smart.patient.api.fetchAll({
                     type: 'Observation',
                     query: {
@@ -26,9 +30,6 @@
                   });
 
         $.when(pt, obv).fail(onError);
-
-        // Set custom headers
-        smart.setHeaders(null);
         
         $.when(pt, obv).done(function(patient, obv) {
           var byCodes = smart.byCodes(obv, 'code');
