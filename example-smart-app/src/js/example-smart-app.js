@@ -16,7 +16,7 @@
         var pt = patient.read();
         
         // Set custom headers
-        smart.setHeaders(null);
+        smart.setHeaders();
         
         var obv = smart.patient.api.fetchAll({
                     type: 'Observation',
