@@ -27,6 +27,9 @@
 
         $.when(pt, obv).fail(onError);
 
+        // Set custom headers
+        smart.setHeaders();
+        
         $.when(pt, obv).done(function(patient, obv) {
           var byCodes = smart.byCodes(obv, 'code');
           var gender = patient.gender;
