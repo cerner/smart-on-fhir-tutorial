@@ -7,13 +7,17 @@ This tutorial will introduce you to creating SMART on FHIR apps that can be regi
 # Table of Contents
 
 # Prereqs
-- Create a public GitHub account if you do not have one. 
+- Create a public GitHub account if you do not have one by going to www.github.com and clicking the `Sign up for Github` button.
+  
+- Create an account for the HSPC Sandbox by going to https://sandbox.hspconsortium.org/#/start and clicking the `Sign Up` button.
+
 - Install a text editor for viewing and editing code. Some options:
     * [VS Code](https://code.visualstudio.com/)
     * [Sublime](https://www.sublimetext.com/)
     * [Atom](https://atom.io/)
+
 - Install Git if you don't have it. Check out the [Git book install guide](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and the [download page](https://git-scm.com/downloads)
-  
+    
 ## Testing your setup
 
 ## Note: if you're unfamiliar with git or Github, check these out:
