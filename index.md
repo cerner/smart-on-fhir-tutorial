@@ -69,6 +69,20 @@ This tutorial will introduce you to creating SMART on FHIR apps that can be regi
     - [ ] Stage all of your changes: `git add .`
     - [ ] Commit your changes and write a commit message describing your work: `git commit -m 
 
+3. Setup HSPC Sandbox
+    - [ ] Go to the [HSPC sandbox site](https://sandbox.hspconsortium.org/) (you should have an HSPC account)
+    - [ ] Sign In or Sign up
+    - [ ] Select the "Create Sandbox" button on the bottom of the left column.
+    - [ ] Name your Sandbox whatever you want (i.e. UW Tutorial)
+    - [ ] Select Sandbox Version "FHIR DSTU 2 (v1.0.2)"
+    - [ ] Make sure both the "Allow Open FHIR Endpoint" and the "Apply Default Data Set" options are selected.
+    - [ ] Add description (i.e. This is for the UW FHIR Tutorial)
+    - [ ] Create Sandbox
+
+4. Setup your Application
+    - [ ] Select the "Register Manually" button on the main dashboard
+    - [ ] 
+
 # Next Steps
 
 # Resources
