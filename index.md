@@ -109,7 +109,18 @@ This tutorial will introduce you to creating SMART on FHIR apps that can be regi
 # 8. Register Your App
 In order for us to be able to launch our app from the HSCP Sandbox and access the FHIR resources in this sandbox, we need to register our app. 
 
-1. 
+1. Setup the HSPC Sandbox
+    - [ ] Go to the [HSPC sandbox site](https://sandbox.hspconsortium.org/) (you should have an HSPC account)
+    - [ ] Sign In or Sign up
+    - [ ] Select the "Create Sandbox" button on the bottom of the left column.
+    - [ ] Name your Sandbox whatever you want (i.e. UW Tutorial)
+    - [ ] Select Sandbox Version "FHIR DSTU 2 (v1.0.2)"
+    - [ ] Make sure both the "Allow Open FHIR Endpoint" and the "Apply Default Data Set" options are selected.
+    - [ ] Add description (i.e. This is for the UW FHIR Tutorial)
+    - [ ] Create Sandbox
+2. Setup your Application
+    - [ ] Select the "Register Manually" button on the main dashboard
+    - [ ] 
 
 # 9. Launch Your App 
 SMART on FHIR apps can be launched in a variety of ways. 
