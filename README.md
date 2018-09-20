@@ -78,17 +78,24 @@ This tutorial is based on [this excellent tutorial](https://engineering.cerner.c
     - [ ] Find the project url by clicking the `Clone or download` green button on your Github project page and copying it to your clipboard.
     - [ ] Run the following command in the terminal to clone this project into the chosen folder: `git clone https://github.com/pmanko/smart-on-fhir-tutorial.git`    
     - [ ] When you open your chosen folder, you should see the project files in a directory called `smart-on-fhir-tutorial`.
+    - [ ] Make sure you're working off of the `gh-pages` branch by running `git checkout gh-pages`. You should get confirmation that you are on the `gh-pages` branch. 
+
+
 3. Open your project folder in your text editor for this tutorial to be able to view and change the files. We'll be using VS Code; so if you're also using that editor, go to `File/Open Folder...` to accomplish this. 
 
 # 6. Explore the Project Folder
-- `example-smart-app`: This is a simple client-side web application.
-- `lib/js/fhir-client.js`: The app uses uses the library to (1) communicate with our Sandbox using the FHIR API and (2) handle the SMART on FHIR authorization workflows. Check out more information about this client here: https://github.com/smart-on-fhir/client-js
-- `launch-hspc.html`: this webpage is the initial entry point into the SMART on FHIR application, called the `launch_url` in the SMART documentation. This page will be called by the HSPC sandbox when we launch our app. We'll cover the different launch patterns later in the tutorial.
-- `launch-smart-sandbox.html`: this page is similar to the previous launch, but will be used when we launch from the SMART on FHIR sandbox.
-- `launch-standalone.html`: this page is similar to the previous launch, but will demonstrate launching a stand-alone application - in this case from a patient context. 
-- `index.html`: this is the main web page for our application, and will be redirected to after Authorization succeeds.  
+Take a minute or two to explore the codebase. Here are some highlights:
+
+- `example-smart-app`: This directory contains a simple client-side web application.
+- `example-smart-app/lib/js/fhir-client.js`: The app uses uses the library to (1) communicate with our Sandbox using the FHIR API and (2) handle the SMART on FHIR authorization workflows. Check out more information about this client here: https://github.com/smart-on-fhir/client-js
+- `example-smart-app/launch-hspc.html`: this webpage is the initial entry point into the SMART on FHIR application, called the `launch_url` in the SMART documentation. This page will be called by the HSPC sandbox when we launch our app. We'll cover the different launch patterns later in the tutorial.
+- `example-smart-app/launch-smart-sandbox.html`: this page is similar to the previous launch, but will be used when we launch from the SMART on FHIR sandbox.
+- `example-smart-app/launch-standalone.html`: this page is similar to the previous launch, but will demonstrate launching a stand-alone application - in this case from a patient context. 
+- `example-smart-app/index.html`: this is the main web page for our application, and will be redirected to after Authorization succeeds.  
 
 # 7. Setup Github Pages
+You will be using [Github Pages](https://help.github.com/articles/what-is-github-pages/) as an easy way to host our app. Github pages can be used for static or client-side web applications. Your forked repo should have github pages set up, but you need to push an update to the code in order for them to be published. This is what you'll do in this step.
+
 1. Edit `example-smart-app/index.html`
    - [ ] Open the target file in your text editor. 
    - [ ] In the `<head>` section, find the `<title>` tag and replace the text inside with something like: `<title>[Your Name]'s SMART App</title>`.
@@ -111,6 +118,7 @@ In order for us to be able to launch our app from the HSCP Sandbox and access th
     - [ ] Make sure both the "Allow Open FHIR Endpoint" and the "Apply Default Data Set" options are selected.
     - [ ] Add description (i.e. This is for the UW FHIR Tutorial)
     - [ ] Create Sandbox
+
 2. Setup your Application
     - [ ] Select the "Register Manually" button on the main dashboard
     - [ ] 
@@ -160,7 +168,7 @@ This type of launch would be initiated by a Patient from a patient-facing EHR po
 A major goal of SMART on FHIR is interoperability. Any EHR that conforms to the SMART on FHIR standard should be able to launch our app with minimal modifications. To demonstrate interoperability, we'll try registering and launching our app in another popular sandbox made by [SMART Health IT](https://smarthealthit.org/) team. 
 
 ## 15.2 Launch App using a Stand-alone Launch
-We'll use the SMART Health IT Sandbox to demonstrate a third app launch flow where we want to launch a standalone app that, despite being launched outside of the EHR or Patient Portal context, authenticates with the EHR and has access to the available FHIR resources.
+You'll use the SMART Health IT Sandbox to demonstrate a third app launch flow where we want to launch a standalone app that, despite being launched outside of the EHR or Patient Portal context, authenticates with the EHR and has access to the available FHIR resources.
 
 ## 15.3 Develop Your App Further
 
