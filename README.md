@@ -106,24 +106,39 @@ You will be using [Github Pages](https://help.github.com/articles/what-is-github
     - [ ] Stage all of your changes: `git add .`
     - [ ] Commit your changes and write a commit message describing your work: `git commit -m "[some commit message]"`
 
+3. Test out your app
+    - [ ] Go to `https://<your-github-username>.github.io/smart-on-fhir-tutorial/example-smart-app/health`. 
+    - [ ] If you see a thumbs-up, good job!
+
 # 8. Register Your App
-In order for us to be able to launch our app from the HSCP Sandbox and access the FHIR resources in this sandbox, we need to register our app. 
+In order for us to be able to launch our app from the HSCP Sandbox and access the FHIR resources, we need to register our app with the sandbox. 
 
 1. Setup the HSPC Sandbox
-    - [ ] Go to the [HSPC sandbox site](https://sandbox.hspconsortium.org/) (you should have an HSPC account)
-    - [ ] Sign In or Sign up
-    - [ ] Select the "Create Sandbox" button on the bottom of the left column.
-    - [ ] Name your Sandbox whatever you want (i.e. UW Tutorial)
-    - [ ] Select Sandbox Version "FHIR DSTU 2 (v1.0.2)"
+    - [ ] Go to the [HSPC sandbox site](https://sandbox.hspconsortium.org/) 
+    - [ ] Sign in with the HSPC account you should have made already :)
+    - [ ] Select the "Create Sandbox" button on the bottom of the left column
+    - [ ] Name your Sandbox something cool (or just UW FHIR WORKSHOP)
+    - [ ] Select Sandbox Version "FHIR STU 3 (v3.0.1)"
     - [ ] Make sure both the "Allow Open FHIR Endpoint" and the "Apply Default Data Set" options are selected.
-    - [ ] Add description (i.e. This is for the UW FHIR Tutorial)
-    - [ ] Create Sandbox
-
+    - [ ] Add a description if you'd like. (i.e. This is for the UW FHIR Tutorial)
+    - [ ] Click the `Create Sandbox` button. 
+  
 2. Setup your Application
-    - [ ] Select the "Register Manually" button on the main dashboard
-    - [ ] 
+    - [ ] Click the "+ Register Manually" button on the main dashboard
+    - [ ] Fill out the following form fields:
+        * App Type: `Public Client`
+        * App Name: Anything your imagination desires!
+        * App Launch URI: https://<your-github-username>.github.io/smart-on-fhir-tutorial/example-smart-app/launch.html
+        * Redirect URI: https://<your-github-username>.github.io/smart-on-fhir-tutorial/example-smart-app/
+        * Allow Offline Access: Unchecked
+        * Patient Scoped App: Unchecked
+    - [ ] Note and jot down the `App Client Id` from the popup that should show up on your screen.
+
+We'll talk about what some of these configuration options mean later in the tutorial, but for now, congrats! Your app is now registered! You should see it show up on your Sandbox Dashboard. 
 
 # 9. Launch Your App 
+
+
 SMART on FHIR apps can be launched in a variety of ways. 
 
 See http://docs.smarthealthit.org/authorization/#ehr-launch-sequence and http://docs.smarthealthit.org/authorization/scopes-and-launch-context/#scopes-for-requesting-context-data for more information!
