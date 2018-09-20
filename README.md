@@ -137,12 +137,15 @@ In order for us to be able to launch our app from the HSCP Sandbox and access th
 We'll talk about what some of these configuration options mean later in the tutorial, but for now, congrats! Your app is now registered! You should see it show up on your Sandbox Dashboard. 
 
 # 9. Launch Your App 
+SMART on FHIR apps can be launched in a variety of ways. You can browse http://docs.smarthealthit.org/authorization/#ehr-launch-sequence and http://docs.smarthealthit.org/authorization/scopes-and-launch-context/#scopes-for-requesting-context-data for more information, but we'll presenta quick summary. 
 
+The SMART standard provides aims to provide an "App Platform for Healthcare", and as a result SMART on FHIR defines a couple of different launch patterns based on [four use cases](http://www.hl7.org/fhir/smart-app-launch/) defined by the [Argonaut Project](http://argonautwiki.hl7.org/index.php?title=Main_Page). We'll try out two of these in the main tutorial, and another one in the **Extra Credit** section. These are the scenarios we'll focus on:
 
-SMART on FHIR apps can be launched in a variety of ways. 
+1. A provider launches the app from inside the EHR. You'll explore this scenario in section 9.1.
 
-See http://docs.smarthealthit.org/authorization/#ehr-launch-sequence and http://docs.smarthealthit.org/authorization/scopes-and-launch-context/#scopes-for-requesting-context-data for more information!
-
+2. A patient launches the app from inside their patient portal. You'll take this approach in section 9.2. 
+   
+3. A stand-alone app is launched externally by either a patient or provider, but uses SMART on FHIR to authorize with the EHR and access relevant data using FHIR resources. You'll see this type of launch in the extra credit section if you're the ambitious type =)
 
 ## 9.1 Provider-facing EHR Launch
 This type of launch would happen from inside of a provider-facing EHR UI. For example, a provider might be examining a patient's chart in Epic Hyperspace, and click a link on the chart to launch this application in the current EHR context. 
