@@ -68,6 +68,8 @@
           p.gender = gender;
           p.fname = fname;
           p.lname = lname;
+
+          // Observations
           p.lymph = getQuantityValueAndUnit(lymph[0]);
 
 

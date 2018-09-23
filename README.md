@@ -17,22 +17,22 @@ This tutorial is based on [this excellent tutorial](https://engineering.cerner.c
 - [7. Setup Github Pages](#7-setup-github-pages)
 - [8. Register Your App](#8-register-your-app)
 - [9. Launch Your App](#9-launch-your-app)
-    - [9.1 Provider-facing EHR Launch](#91-provider-facing-ehr-launch)
-    - [9.2 Patient Portal Launch](#92-patient-portal-launch)
+    - [9.1 Create Launch Scenarios](#91-create-launch-scenarios)
+    - [9.2 App Launch Flow Overview](#92-app-launch-flow-overview)
 - [10. Authorize Your App](#10-authorize-your-app)
-- [11. Retrieve the Access Token](#11-retrieve-the-access-token)
-- [12. Get Patient Data using FHIR](#12-get-patient-data-using-fhir)
-- [13. Display the Retrieved Data](#13-display-the-retrieved-data)
-- [14. Test Your Application!](#14-test-your-application)
-    - [14.1 Provider Launch](#141-provider-launch)
-    - [14.2 Patient Launch](#142-patient-launch)
-- [15. Extra Credit](#15-extra-credit)
-    - [15.1 Launch App from the SMART Sandbox](#151-launch-app-from-the-smart-sandbox)
-    - [15.2 Launch App using a Stand-alone Launch](#152-launch-app-using-a-stand-alone-launch)
-    - [15.3 Develop Your App Further](#153-develop-your-app-further)
-- [16. Next Steps](#16-next-steps)
-- [17. Useful Resources](#17-useful-resources)
-        - [TODO:](#todo)
+    - [10.1 A Quick Intro to Scopes](#101-a-quick-intro-to-scopes)
+- [11. Get Patient Data using FHIR](#11-get-patient-data-using-fhir)
+    - [11.1 Modify `example-smart-app.js` to grab desired data](#111-modify-example-smart-appjs-to-grab-desired-data)
+- [12. Test Your Application!](#12-test-your-application)
+    - [12.1 Provider Launch](#121-provider-launch)
+    - [12.2 Patient Launch](#122-patient-launch)
+    - [12.3 Embedded Launch](#123-embedded-launch)
+    - [12.4 EHR Simulator Launch](#124-ehr-simulator-launch)
+- [13. Extra Credit](#13-extra-credit)
+    - [13.1 Launch App from the SMART Sandbox (Easy)](#131-launch-app-from-the-smart-sandbox-easy)
+    - [13.2 Launch App using a Stand-alone Launch (Advanced)](#132-launch-app-using-a-stand-alone-launch-advanced)
+    - [13.3 Create a Confidential Client App using the SMART Python Client (Incredibly Advanced)](#133-create-a-confidential-client-app-using-the-smart-python-client-incredibly-advanced)
+- [14. Next Steps](#14-next-steps)
 
 # 3. Prereqs
 - [ ] Create a public GitHub account if you do not have one by going to www.github.com and clicking the `Sign up for Github` button.
@@ -146,164 +146,240 @@ SMART on FHIR apps can be launched in a variety of ways. You can browse http://d
 
 The SMART standard provides aims to provide an "App Platform for Healthcare", and as a result SMART on FHIR defines a couple of different launch patterns based on [four use cases](http://www.hl7.org/fhir/smart-app-launch/) defined by the [Argonaut Project](http://argonautwiki.hl7.org/index.php?title=Main_Page). You'll try out two of these in the main tutorial, and another one in the **Extra Credit** section. These are the scenarios you'll focus on:
 
-1. A provider launches the app from inside the EHR. You'll explore this scenario in [section 9.1](#91-provider-facing-ehr-launch).
+1. A Provider-facing EHR Launch: This type of launch would happen from inside of a provider-facing EHR UI. For example, a provider might be examining a patient's chart in Epic Hyperspace, and click a link on the chart to launch this application in the current EHR context. 
 
-2. A patient launches the app from inside their patient portal. You'll take this approach in [section 9.2](#92-patient-portal-launch). 
+2. A Patient Portal Launch: This type of launch would be initiated by a Patient from a patient-facing EHR portal like Epic MyChart. A patient would be logged into their portal, and click a link or button that would launch this app in their Patient context.
    
-3. A stand-alone app is launched externally by either a patient or provider, but uses SMART on FHIR to authorize with the EHR and access relevant data using FHIR resources. You'll see this type of launch in the [extra credit section]((#152-launch-app-using-a-stand-alone-launch) if you're the ambitious type =)
+3. A stand-alone app is launched externally by either a patient or provider, but uses SMART on FHIR to authorize with the EHR and access relevant data using FHIR resources. You'll see this type of launch in the [extra credit section](#152-launch-app-using-a-stand-alone-launch) if you're the ambitious type =)
 
+## 9.1 Create Launch Scenarios
 You'll create scenarios for the first two types of launches in the HSPC sandbox. [Click here](https://healthservices.atlassian.net/wiki/spaces/HSPC/pages/65011892/Sandbox+Launch+Scenarios) for more detail. 
 
-First, we need to create a couple of personas:
+First, we need to create a couple of personas for the providers and patients that we will be simulating in this scenario:
 - [ ] Click the `Personas` link on the left side of your sandbox dashboard.
 
 You'll create one provider persona by clicking the `For Provider` button and one patient persona by clicking the `For Patient` button. Follow these steps for each:
 - [ ] Click the appropriate button 
-- [ ] Find an interesting patient or provider you'd like to use and click on them. 
+
+- [ ] Find or create an interesting patient or provider you'd like to use and click on them. 
+*Note: Use the `Open Patient Data Manager` button to dive deeper into the patients and their associated resources*
+
 - [ ] Confirm the patient details in the right-hand column, and click `Select this Patient` when done. 
+
 - [ ] Chose any user id and password and jot them down. 
+
 - [ ] Click the `Save` button. 
 
 Now on to the scenarios, which you'll build two of. 
 - [ ] Click the `Launch Scenarios` link on the left side of your sandbox dashboard
+
 - [ ] Choose your provider persona for one scenario, and patient persona for the 2nd
 
 For the provider scenario, you'll need to provide the patient context. In the `Select the Patient Context` screen:  
 - [ ] Find your patient by name using the search function
+
 - [ ] Click the `Select this Patient` button
 
 Now, we need to select the app that will be launched:
 - [ ] Click on the blue gear button on your app's tile
+
 - [ ] Write a clever description for your launch scenario
+
 - [ ] Check the `Launch Embedded` box
+
 - [ ] Click the `Save` button
 
 If you did most things right, you should see two new launch scenarios listed on the `Launch Scenario` dashboard. Yay!
 
-## 9.1 Provider-facing EHR Launch
-This type of launch would happen from inside of a provider-facing EHR UI. For example, a provider might be examining a patient's chart in Epic Hyperspace, and click a link on the chart to launch this application in the current EHR context. 
+## 9.2 App Launch Flow Overview
 
-**App Launch Flow Overview**
+![alt-text][smart-ehr-sequence]
+
+<figcaption>source: <a href='http://docs.smarthealthit.org/authorization/'>http://docs.smarthealthit.org/authorization/</a></figcaption>
+
 ![alt-text][ehr-flow]
-
 <figcaption>source: <a href='https://engineering.cerner.com/smart-on-fhir-tutorial/images/ehr_launch_seq.png'>https://engineering.cerner.com/smart-on-fhir-tutorial/images/ehr_launch_seq.png</a></figcaption>
 
- 
-## 9.2 Patient Portal Launch
-This type of launch would be initiated by a Patient from a patient-facing EHR portal like Epic MyChart. A patient would be logged into their portal, and click a link or button that would launch this app in their Patient context.
+<br />
 
-**App Launch Flow Overview**
-![alt-text][patient-flow]
+The EHR or Patient Portal sends request to `launch.html` with the following parameters:
+- `iss`: Identifies the EHR's FHIR endpoint, which the app can use to obtain additional details about the EHR, including its authorization URL.
+- `launch`: Identifies this specific launch and the associated EHR context. This identifier has to be communicated back to the EHR with the authorization request. 
 
-<figcaption>source: <a href='https://engineering.cerner.com/smart-on-fhir-tutorial/images/patient_launch_seq.png'>https://engineering.cerner.com/smart-on-fhir-tutorial/images/patient_launch_seq.png</a></figcaption>
+The SMART on FHIR javascript client library (`fhir-client.js`) takes care of all of the heavy lifting. This bit of code  makes our job pretty easy. All we have to do is call FHIR.oauth2.authorize and supply the client_id generated by the code console during registration and the scopes we registered.
 
 # 10. Authorize Your App
 Now that we have our launch scenarios created and app registered, let's talk about how SMART apps authorize with the EHR Authorization Server. 
-
-When an app is launched, 
 
 ![alt-text][authorization-flow]
 
 <figcaption>source: <a href='http://www.hl7.org/fhir/smart-app-launch/'>http://www.hl7.org/fhir/smart-app-launch/</a></figcaption>
 
-The responsibility of launch.html is to redirect to the appropriate FHIR authorization server. As you can see in the code, fhir-client makes our job pretty easy. All we have to do is call FHIR.oauth2.authorize and supply the client_id generated by the code console during registration and the scopes we registered.
+1. Your app accesses the conformance statement using the server url sent with the `iss` parameter and recieves an url for the authorization server.
 
-The client_id is found in the app details page that can be accessed by clicking on the application icon in the code console. Copy the client_id into the authorize call in launch.html, commit the changes back to your repo and redeploy your site.
+2. Your app sends a request to the authorization server that includes a couple of parameters that you can look over here: http://docs.smarthealthit.org/authorization/#1-app-asks-for-authorization
 
-For the purposed of this tutorial you don’t need to modify the scopes. This list should match the scopes that you registered the application with.
+3. If authorization succeeds, the App recieves an authorization code from the authorization server. 
 
-Below is some additional information about the scopes we’ve selected for our app.
+4. The app exchanges this code for an access token by sending a request back to the server. 
 
-Scope	Grants
-patient/Patient.read	Permission to read Patient resource for the current patient.
-patient/Observation.read	Permission to read Observation resource for the current patient.
-openid, profile	Permission to retrieve information about the current logged-in user. Required for EHR launch.
-launch	Permission to obtain launch context when app is launched from an EHR. Required for EHR launch.
-launch/patient	Permission to have a patient be selected when performing a patient facing standalone launch. Required ONLY for patient standalone launch. Apps can choose to use user/Patient.read or user/Observation.read scopes and wouldn’t need launch scope at all. See this section: Standalone App Launch for Patient Access Workflow.
-online_access	Request a refresh_token that can be used to obtain a new access token to replace an expired one, and that will be usable for as long as the end-user remains online. Required for EHR launch.
+5. This access token is stored by the app and used to retrieve protected FHIR resources allowed by the scopes. 
 
-# 11. Retrieve the Access Token
-** USE DIAGRAM!**
-Now that the app has successfully been authenticated, it’s time to call a FHIR resource, but first we need to obtain an OAuth2 access token. We have an authorization code that was passed as a query param to the redirect URI (index.html) by the authorization server. The authorization code is exchanged for an access token through POST to the authorization server. Again, fhir-client.js makes this easy for us.
+The `index.html` file includes a script which calls into the `extractData()` function in `example-smart-app.js`. `extractData()` uses the `FHIR.oauth2.ready()` function to exchange the authorization code for the access token and stores it in session storage for later use.
 
-The index.html file includes a script which calls into the extractData function in example-smart-app.js.
+Again of these exchanges are facilitated by `fhir-client.js` - which is much easier for us!
 
-extractData uses the FHIR.oauth2.ready() function to exchange the authorization code for the access token and stores it in session storage for later use.
+## 10.1 A Quick Intro to Scopes
+http://docs.smarthealthit.org/authorization/scopes-and-launch-context/
+
+`launch.html` is configured by default with a very basic set of scopes. For now, leave this set of scopes as is, but make sure to update your app registration to match:
+
+- [ ] In the HSPC Sandbox - App Dashboard, click on the blue gear button on your app's tile. 
+- [ ] Fill out the `Scopes` section with the same contents as the `scope` field in launch.html
+
+# 11. Get Patient Data using FHIR
+We now have a valid access token, and can use it to send requests to the FHIR endpoint to retrieve our patient's data. See http://docs.smarthealthit.org/authorization/#4-app-accesses-clinical-data-via-fhir-api
+
+We will depend on the `fhir-client.js` library to retrieve these resources using some available APIs:
+
+- `smart.patient.read()`: This returns the context for the patient the app was launched for.
+- `smart.patient.api.fetchAll()`: This will use the fhir.js API to retrieve a complete set of resources for the patient in context.
+- `smart.byCodes()`: 
+
+Here's the relevant code in `example-smart-app.js`:
+
+```javascript
+// Starts at Line 12
+var patient = smart.patient;
+var pt = patient.read();
+var obv = smart.patient.api.fetchAll({
+            type: 'Observation',
+            query: {
+                code: {
+                $or: ['http://loinc.org|8302-2', 'http://loinc.org|8462-4',
+                        'http://loinc.org|8480-6', 'http://loinc.org|2085-9',
+                        'http://loinc.org|2089-1', 'http://loinc.org|55284-4']
+                }
+            }
+            });
+
+```
+
+We'll walk through the code first, and then modify it to retrieve the data you require for your specific patient. 
+
+Also, the `fhir-client.js` library defines several more API’s that will come in handy while developing smart app. Check them out here:
+
+http://docs.smarthealthit.org/clients/javascript/
 
 
+## 11.1 Modify `example-smart-app.js` to grab desired data
+- [ ] Open up the `Patient Data Manager` for the patient you chose for you scenarios and click on the `Observation` tab in the left column. 
 
+- [ ] Find an observation or set of observations that you'd like to access and display in your app and note their observation codes.  
 
+- [ ] Update the FHIR query in `example-smart-app.js` to match this code or list of codes by updating the following section: 
+    ```javascript
+    query: {
+                code: {
+                $or: ['http://loinc.org|8302-2', 'http://loinc.org|8462-4',
+                        'http://loinc.org|8480-6', 'http://loinc.org|2085-9',
+                        'http://loinc.org|2089-1', 'http://loinc.org|55284-4']
+                }
+            }
+    ```
+- [ ] Check if your Observation(s) are being correctly fetched by updating this code block with the codes you're using and inspecting the output in the Chrome javascript console:
+    ```javascript
+    console.log("byCodes:");
+    console.log(byCodes('26478-8'));
+    console.log(byCodes('2345-7'));
 
-# 12. Get Patient Data using FHIR
-With access token in hand we’re ready to request a FHIR resource and again, we will be using fhir-client.js.
+    ```
+- [ ] Read and parse the fetched Observation(s) to access their values and units by modifying the following code block:
+    ```javascript
+    // Observations
+    yourObservation = byCodes('<your-observation-loinc-code>');
+    ```
 
-For the purposes of this tutorial we’ll be retrieving basic information about the patient and a couple of basic observations to display.
+- [ ] Modify the layout of `index.html` and the `deafault_patient()` function to display your observation values:
 
-The fhir-client.js library defines several useful API’s we can use to retrieve this information.
+    ```javascript
+    function defaultPatient(){
+        return {
+        fname: {value: ''},
+        lname: {value: ''},
+        gender: {value: ''},
+        birthdate: {value: ''},
+        <new-label-for-your-observation>: {value: ''}
+        
+        };
+    }
+    ```
+    ```html
+    <h2>Observation Resource</h2>
+      <table>
+        <tr>
+          <th>[readable-text-describing-your-observation]</th>
+          <td id='<new-label-for-your-observation>'></td>
+        </tr>
+      </table>
+    ```
 
-smart.patient.read()
-This will return the context for the patient the app was launched for.
-smart.patient.api
-fetchAll()
-This will use the fhir.js API to retrieve a complete set of resources for the patient in context.
-Both of these functions will return a jQuery deferred object which we unpack on success.
+- [ ] Add a new attribute to the patient object `p` that is used to update the `index.html` page content by modifying the following code block:
+    ```javascript
+    // Observations
+    p.<new-label-for-your-observation> = getQuantityValueAndUnit(yourObservation[0]);
+    ```
 
-Unpacking is fairly straight forward. We’re taking the response from the patient and observation resources and placing it into a “patient” data structure.
+- [ ] Inspect the patient object `p` in the Chrome javascript console to make sure the data is showing up correctly
 
-The last function from fhir-client.js is the byCodes utility function that returns a function to search a given resource for specific codes returned from that response.
+# 12. Test Your Application!
 
-The fhir-client.js library defines several more API’s that will come in handy while developing smart app. Read about them here.
+## 12.1 Provider Launch
+- [ ] Go to `Launch Scenarios` and launch using the corresponding scenario
 
+## 12.2 Patient Launch
+- [ ] Go to `Launch Scenarios` and launch using the corresponding scenario
 
+## 12.3 Embedded Launch
+- [ ] Go to `Launch Scenarios` and click on the row of the scenario you want to launch in the EHR simulator
+- [ ] Click the `Launch Embedded` checkbox
+- [ ] Launch the Scenario!
 
+## 12.4 EHR Simulator Launch
+- [ ] Click on the `EHR Simulator` in the left-hand column
+- [ ] Select a provider and patient for the context of your EHR session
+- [ ] Click on your app's tile to launch the app inside the EHR session
 
+# 13. Extra Credit
 
-# 13. Display the Retrieved Data
-
-The last remaining task for our application is displaying the resource information we’ve retrieved. In index.html we define a table with several id place holders. On a success from extractData we’ll call drawVisualization which will show the table div as well as filling out the relevant sections.
-
-# 14. Test Your Application!
-
-## 14.1 Provider Launch
-Use the first launch scenario...
-
-## 14.2 Patient Launch
-Use the 2nd launch scenario...
-
-# 15. Extra Credit
-
-## 15.1 Launch App from the SMART Sandbox
+## 13.1 Launch App from the SMART Sandbox (Easy)
 A major goal of SMART on FHIR is interoperability. Any EHR that conforms to the SMART on FHIR standard should be able to launch our app with minimal modifications. To demonstrate interoperability, you'll try registering and launching our app in another popular sandbox made by [SMART Health IT](https://smarthealthit.org/) team. 
 
-## 15.2 Launch App using a Stand-alone Launch
+Think about what settings were specific to the HSPC Sandbox, figure out if you need to change anything in launch-smart-sandbox.html to make it work with the [SMART Health IT Launcher](http://docs.smarthealthit.org/sandbox/) sandbox, and test your app out!
+
+## 13.2 Launch App using a Stand-alone Launch (Advanced)
 You'll use the SMART Health IT Sandbox to demonstrate a third app launch flow where we want to launch a standalone app that, despite being launched outside of the EHR or Patient Portal context, authenticates with the EHR and has access to the available FHIR resources.
 
-## 15.3 Develop Your App Further
-You can make anything you wan!
+Check out the documentation for the [Standalone Launch Sequence](http://docs.smarthealthit.org/authorization/#standalone-launch-sequence) and think through how this flow 
 
-**App Launch Flow Overview**
-![alt-text][standalone-flow]
+## 13.3 Create a Confidential Client App using the SMART Python Client (Incredibly Advanced)
+If you've got tons of time and motivation - or just want to write a Python web application that uses SMART on FHIR - check out the documentation for [Confidential Clients](http://docs.smarthealthit.org/authorization/#support-for-public-and-confidential-apps) and for the [Python Client Library](https://github.com/smart-on-fhir/client-py). 
 
-<figcaption>source: <a href='http://www.hl7.org/fhir/smart-app-launch/'></a>http://www.hl7.org/fhir/smart-app-launch/</figcaption>
+Think about:
+1. Why you would want to develop a confidential app instead of a public one
+2. How would the ability to protect a `client_secret` increase authorization security
+3. Why a client-side web application is unable to protect a `client_secret`
+4. How including a `client_secret` affects the authorization sequence and subsequent access to FHIR resource
 
+# 14. Next Steps
+This is a very simple client-side web app that pulls in a patient and their observations only to... do basically nothing with it except displaying it on the screen. You can use this app as a starting point for anything you come up with - so use your imagination!
 
-# 16. Next Steps
-
-
-
-# 17. Useful Resources
-
-
-
-
-
-
-
-
-
+[smart-ehr-sequence]:
+images/smart-docs-ehr-launch.png "EHR Launch Sequence"
+   
 [ehr-flow]: https://engineering.cerner.com/smart-on-fhir-tutorial/images/ehr_launch_seq.png "EHR Launch Flow Diagram"
 
-[patient-flow]:https://engineering.cerner.com/smart-on-fhir-tutorial/images/patient_launch_seq.png "Patient Launch Flow Diagram"
+[patient-flow]: https://engineering.cerner.com/smart-on-fhir-tutorial/images/patient_launch_seq.png "Patient Launch Flow Diagram"
 
 [standalone-flow]:
 images/standalone_launch_sequence.png "Standalone Launch Flow Diagram"
@@ -311,8 +387,3 @@ images/standalone_launch_sequence.png "Standalone Launch Flow Diagram"
 [authorization-flow]:
 images/authorization_sequence.png "SMART Authorization Sequence Diagram"
 
-
-### TODO: 
-1. elaborate and update on text
-2. update figures and use them to allow people to follow along with the flow
-   
