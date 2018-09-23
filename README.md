@@ -240,11 +240,11 @@ http://docs.smarthealthit.org/authorization/scopes-and-launch-context/
 # 11. Get Patient Data using FHIR
 We now have a valid access token, and can use it to send requests to the FHIR endpoint to retrieve our patient's data. See http://docs.smarthealthit.org/authorization/#4-app-accesses-clinical-data-via-fhir-api
 
-We will depend on the `fhir-client.js` library to retrieve these resources using some available APIs:
+We will depend on the `fhir-client.js` library to retrieve these resources using a couple of the available APIs:
 
 - `smart.patient.read()`: This returns the context for the patient the app was launched for.
 - `smart.patient.api.fetchAll()`: This will use the fhir.js API to retrieve a complete set of resources for the patient in context.
-- `smart.byCodes()`: 
+- `smart.byCodes()`: A utility function that returns a function to search a given resource for specific codes returned from that response.
 
 Here's the relevant code in `example-smart-app.js`:
 
@@ -261,15 +261,18 @@ var obv = smart.patient.api.fetchAll({
                         'http://loinc.org|2089-1', 'http://loinc.org|55284-4']
                 }
             }
-            });
+        });
 
+...
+
+$.when(pt, obv).done(function(patient, obv) {
+    var byCodes = smart.byCodes(obv, 'code');
+    ...
 ```
 
 We'll walk through the code first, and then modify it to retrieve the data you require for your specific patient. 
 
-Also, the `fhir-client.js` library defines several more API’s that will come in handy while developing smart app. Check them out here:
-
-http://docs.smarthealthit.org/clients/javascript/
+As an aside, the `fhir-client.js` library defines several more API’s that will come in handy while developing smart app. Check them out here: http://docs.smarthealthit.org/clients/javascript/
 
 
 ## 11.1 Modify `example-smart-app.js` to grab desired data
