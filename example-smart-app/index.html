@@ -95,6 +95,8 @@
           $('#errors').html('<p> Failed to call FHIR Service </p>');
         }
       );
+      
+      window.alert("In MPages Context: " + (typeof(CERN_Platform) !== 'undefined'));
     </script>
   </body>
 </html>
