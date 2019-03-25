@@ -97,7 +97,13 @@
       );
       
       // window.alert("In MPages Context: " + (typeof(CERN_Platform) !== 'undefined'));
-      window.alert("In MPages Context: " + window.CERN_Platform !== 'undefined');
+      // window.alert("In MPages Context: " + window.CERN_Platform !== 'undefined');
+        if (typeof(CERN_Platform) !== "undefined" && CERN_Platform.inMillenniumContext()) {
+	        window.alert('CERN_Platform is defined && in Mill context');
+        }
+        else {
+	        window.alert('CERN_Platform is not available');
+        }
     </script>
   </body>
 </html>
