@@ -9,8 +9,22 @@
     <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'>
     <link rel='stylesheet' type='text/css' href='./lib/css/cerner-smart-embeddable-lib-1.0.0.min.css'>
     <!--<link rel='stylesheet' type='text/css' href='./lib/css/output.css'>-->
+  
+  <script>
+  	function SendMessage(id, value)
+	{
+	    messageId = parseInt(id)
+
+	    obj= new Object();
+	    obj.dateTime = new Date();
+	    obj.value = value;
+
+	    window.external.PCSendMessage(messageId, obj);
+	}
+
+  </script>
   </head>
-  <body>
+  <body onload="SendMessage(111111, 'hello?')">
     <div id='errors'>
     </div>
     <div id="loading" class="spinner">
@@ -109,6 +123,8 @@
 //         else {
 // 	        window.alert('CERN_Platform is not available');
 //         }
+	
+
     </script>
   </body>
 </html>
