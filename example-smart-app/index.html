@@ -8,24 +8,16 @@
 
     <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'>
     <link rel='stylesheet' type='text/css' href='./lib/css/cerner-smart-embeddable-lib-1.0.0.min.css'>
-    <!--<link rel='stylesheet' type='text/css' href='./lib/css/output.css'>-->
+    <!-- FHIR Client JS Library -->
+    <script src='./lib/js/fhir-client-v0.1.15.js'></script>
+
+    <!-- Prevent session bleed caused by single threaded embedded browser and sessionStorage API -->
+    <!-- https://github.com/cerner/fhir-client-cerner-additions -->
+    <script src='./lib/js/fhir-client-cerner-additions-1.0.0.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   
-  <script>
-  	function SendMessage(id, value)
-	{
-	    messageId = parseInt(id)
-
-	    obj= new Object();
-	    obj.dateTime = new Date();
-	    obj.value = value;
-
-	    window.external.PCSendMessage(messageId, obj);
-	    window.alert(JSON.stringify(obj, null, 2));
-	}
-
-  </script>
   </head>
-  <body onload="SendMessage(111111, 'hello?')">
+  <body>
     <div id='errors'>
     </div>
     <div id="loading" class="spinner">
@@ -86,21 +78,11 @@
     </div>
     <!-- Required JS files to enable this page to embed within an MPage -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js'></script>
-    <!--<script src='./lib/js/output.js'></script>-->
     <script src='./lib/js/cerner-smart-embeddable-lib-1.1.0.min.js'></script>
-    <!--<script>
-      new FTwelve();
-    </script>-->
+
     <!-- Application-level javascript-->
     <script src='./src/js/example-smart-app.js'></script>
 
-    <!-- FHIR Client JS Library -->
-    <script src='./lib/js/fhir-client-v0.1.15.js'></script>
-
-    <!-- Prevent session bleed caused by single threaded embedded browser and sessionStorage API -->
-    <!-- https://github.com/cerner/fhir-client-cerner-additions -->
-    <script src='./lib/js/fhir-client-cerner-additions-1.0.0.js'></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>
       extractData().then(
         //Display Patient Demographics and Observations if extractData was success
@@ -115,17 +97,6 @@
         }
       );
       
-      // window.alert("In MPages Context: " + (typeof(CERN_Platform) !== 'undefined'));
-      // window.alert("In MPages Context: " + window.CERN_Platform !== 'undefined');
-	    //typeof(CERN_Platform) !== "undefined" && 
-//         if (window.CERN_Platform.inMillenniumContext()) {
-// 	        window.alert('CERN_Platform is defined && in Mill context');
-//         }
-//         else {
-// 	        window.alert('CERN_Platform is not available');
-//         }
-	
-
     </script>
   </body>
 </html>
