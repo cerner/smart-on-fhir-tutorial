@@ -10,13 +10,13 @@
     function onReady(smart)  {
       if (smart.hasOwnProperty('patient')) {
         // Set custom headers
-        smart.setHeaders({'Accept-Language': 'en-UK', 'X-Custom-Header2': 'Custom Header 2'});
+        //smart.setHeaders({'Accept-Language': 'en-UK', 'X-Custom-Header2': 'Custom Header 2'});
         
         var patient = smart.patient;
         var pt = patient.read();
         
         // Set custom headers
-        smart.setHeaders();
+        //smart.setHeaders();
         
         var obv = smart.patient.api.fetchAll({
                     type: 'Observation',
@@ -80,7 +80,7 @@
       }
     }
 
-    FHIR.oauth2.ready({ 'headers': {'Accept-Language': 'en-US', 'X-Custom-Header': 'Test Custom Header'} }, onReady, onError);
+    FHIR.oauth2.ready(onReady, onError);
     return ret.promise();
 
   };
