@@ -72,7 +72,8 @@
       <script src='https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js'></script>
       <script src='./lib/js/cerner-smart-embeddable-lib-1.0.0.min.js'></script>
     -->
-
+    <script src='./lib/es6-shim-0.35.1.min.js'></script>
+    
     <!-- Application-level javascript-->
     <script src='./src/js/example-smart-app.js'></script>
 
@@ -92,7 +93,6 @@
 
         //Display 'Failed to call FHIR Service' if extractData failed
         function() {
-          $('#loading').hide();
           $('#errors').html('<p> Failed to call FHIR Service </p>');
         }
       );
