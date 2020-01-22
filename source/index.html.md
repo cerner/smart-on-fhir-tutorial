@@ -25,11 +25,11 @@ After completing this tutorial you will know how to:
 
 # Project Setup
 
-First, you'll want to fork this tutorial from [smart-on-fhir-tutorial](https://github.com/cerner/smart-on-fhir-tutorial) to your GitHub account. The branch you are going to work on in gh-pages.
+First, you'll want to fork this tutorial from [smart-on-fhir-tutorial](https://github.com/cerner/smart-on-fhir-tutorial) to your GitHub account. The branch you are going to work on is gh-pages.
 
 The `smart-on-fhir-tutorial/example-smart-app` folder contains the example SMART app which you'll be using throughout this tutorial. Let's take a look at some of the notable files contained within:
 
-**fhir-client-<version>.js**
+**fhir-client-&ltversion>.js**
 
 Located in the lib folder, this is a version of [fhir-client.js](https://github.com/smart-on-fhir/client-js) which is an open source library designed to assist with calling a FHIR API and handling the SMART on FHIR authorization workflow. This tutorial uses this library when walking you through building your first SMART app.
 
@@ -352,11 +352,11 @@ function onReady(smart)  {
 }
 ...
 ```
-With access token in hand we're ready to request a FHIR resource and again, we will be using fhir-client-<version>.js.
+With access token in hand we're ready to request a FHIR resource and again, we will be using fhir-client-&ltversion>.js.
 
 For the purposes of this tutorial we'll be retrieving basic information about the patient and a couple of basic observations to display.
 
-The fhir-client-<version>.js library defines several useful API's we can use to retrieve this information.
+The fhir-client-&ltversion>.js library defines several useful API's we can use to retrieve this information.
 
 * ```smart.patient.read()```
   * This will return the context for the patient the app was launched for.
@@ -368,9 +368,9 @@ Both of these functions will return a jQuery deferred object which we unpack on 
 
 Unpacking is fairly straight forward. We're taking the response from the patient and observation resources and placing it into a "patient" data structure.
 
-The last function from fhir-client-<version>.js is the ```byCodes``` utility function that returns a function to search a given resource for specific codes returned from that response.
+The last function from fhir-client-&ltversion>.js is the ```byCodes``` utility function that returns a function to search a given resource for specific codes returned from that response.
 
-The fhir-client-<version>.js library defines several more API's that will come in handy while developing smart app. Read about them [here](http://docs.smarthealthit.org/client-js/).
+The fhir-client-&ltversion>.js library defines several more API's that will come in handy while developing smart app. Read about them [here](http://docs.smarthealthit.org/client-js/).
 
 # Displaying the Resource
 
