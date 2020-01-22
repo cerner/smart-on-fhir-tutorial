@@ -25,18 +25,18 @@ After completing this tutorial you will know how to:
 
 # Project Setup
 
-First, you'll want to fork this tutorial from [smart-on-fhir-tutorial](https://github.com/cerner/smart-on-fhir-tutorial) to your GitHub account.
+First, you'll want to fork this tutorial from [smart-on-fhir-tutorial](https://github.com/cerner/smart-on-fhir-tutorial) to your GitHub account. The branch you are going to work on in gh-pages.
 
-The `smart-on-fhir-tutorial/source/example-smart-app` folder contains the example SMART app which you'll be using throughout this tutorial. Let's take a look at some of the notable files contained within:
+The `smart-on-fhir-tutorial/example-smart-app` folder contains the example SMART app which you'll be using throughout this tutorial. Let's take a look at some of the notable files contained within:
 
-**fhir-client.js**
+**fhir-client-<version>.js**
 
 Located in the lib folder, this is a version of [fhir-client.js](https://github.com/smart-on-fhir/client-js) which is an open source library designed to assist with calling a FHIR API and handling the SMART on FHIR authorization workflow. This tutorial uses this library when walking you through building your first SMART app.
 
-Additional documentation on fhir-client.js can be found [here](http://docs.smarthealthit.org/clients/javascript/).
+Additional documentation on fhir-client.js can be found [here](http://docs.smarthealthit.org/client-js/).
 
 <aside class="notice">
-This tutorial is designed to have a minimal footprint so we made the decision to directly include fhir-client.js for simplicity. For your production applications we'd recommend pulling in fhir-client.js using npm or some other package manager to easily keep your application up to date.
+This tutorial is designed to have a minimal footprint so we made the decision to directly include a version of fhir-client.js for simplicity. For your production applications we'd recommend pulling in the appropriate version of fhir-client.js using npm or some other package manager to easily keep your application up to date.
 </aside>
 
 **launch.html**
@@ -57,7 +57,7 @@ This is a clone of the launch.html above. This file was created for convenience 
 
 This page will be invoked via redirect from the Authorization server at the conclusion of the SMART authorization workflow. When this page is invoked, your SMART app will have everything it needs to run and access the FHIR API.
 
-The other content you see in the source folder is the site for this tutorial. We used [Slate](https://github.com/lord/slate) to create the documentation for this tutorial.
+The other content you see in the folder is the site for this tutorial. We used [Slate](https://github.com/lord/slate) to create the documentation for this tutorial.
 
 # GitHub Pages
 
@@ -73,7 +73,7 @@ The other content you see in the source folder is the site for this tutorial. We
     ...
 ```
 
-> Go to your GitHub account, select Repositories tab and select smart-on-fhir-tutorial repo. Select Branch button and switch to gh-pages branch. Directly edit `/example-smart-app/index.html` by clicking on the pencil icon.  Once done with the change, commit directly to gh-pages branch.
+> Go to your GitHub account, select Repositories tab and select smart-on-fhir-tutorial repo. Select Branch button and switch to gh-pages branch if it is not already selected. Directly edit `/example-smart-app/index.html` by clicking on the pencil icon.  Once done with the change, commit directly to gh-pages branch.
 
 >The SMART app will be available at:
 
@@ -99,7 +99,7 @@ GitHub Pages sites have a limit of 10 builds per hour, so if your page isn't upd
 </aside>
 
 # Registration
-Now that we have a deployed SMART app, let's register it to access Cerner's FHIR resources. We have created a self registration console to allow any developer to be able run a SMART app against our development environment. Navigate to our [code console](https://code.cerner.com/developer/smart-on-fhir/apps), if you don't have a Cerner Care Account, go ahead and sign up for one (it's free!). Once logged into the console, click on the "+ New App" button in the top right toolbar and fill in the following details:
+Now that we have a deployed SMART app, let's register it to access Cerner's FHIR resources. We have created a self registration console to allow any developer to be able to run a SMART app against our development environment. Navigate to our [code console](https://code.cerner.com/developer/smart-on-fhir/apps), if you don't have a Cerner Care Account, go ahead and sign up for one (it's free!). Once logged into the console, click on the "+ New App" button in the top right toolbar and fill in the following details:
 
 Field | Description
 --------- | -----------
@@ -110,8 +110,10 @@ App Type | ```Provider``` Provider facing app
 FHIR Spec | ```dstu2``` The latest spec version supported by Cerner.
 Authorized | ```Yes``` Authorized App will go through secured OAuth 2 login.
 Standard Scopes | These scopes are required to launch the SMART app.
-User Scopes | None
+User Scopes | None 
 Patient Scopes | Locate the ***Patient Scopes*** table and select the ***Patient*** read and ***Observation*** read scopes.
+
+Specifying user scopes or patient scopes will result a slightly different testing workflow. See this section: [Test your App](#test-your-app).
 
 Click "Register" to complete the process. This will add the app to your account and create a client id for app authorization.
 
@@ -350,11 +352,11 @@ function onReady(smart)  {
 }
 ...
 ```
-With access token in hand we're ready to request a FHIR resource and again, we will be using fhir-client.js.
+With access token in hand we're ready to request a FHIR resource and again, we will be using fhir-client-<version>.js.
 
 For the purposes of this tutorial we'll be retrieving basic information about the patient and a couple of basic observations to display.
 
-The fhir-client.js library defines several useful API's we can use to retrieve this information.
+The fhir-client-<version>.js library defines several useful API's we can use to retrieve this information.
 
 * ```smart.patient.read()```
   * This will return the context for the patient the app was launched for.
@@ -366,9 +368,9 @@ Both of these functions will return a jQuery deferred object which we unpack on 
 
 Unpacking is fairly straight forward. We're taking the response from the patient and observation resources and placing it into a "patient" data structure.
 
-The last function from fhir-client.js is the ```byCodes``` utility function that returns a function to search a given resource for specific codes returned from that response.
+The last function from fhir-client-<version>.js is the ```byCodes``` utility function that returns a function to search a given resource for specific codes returned from that response.
 
-The fhir-client.js library defines several more API's that will come in handy while developing smart app. Read about them [here](http://docs.smarthealthit.org/clients/javascript/).
+The fhir-client-<version>.js library defines several more API's that will come in handy while developing smart app. Read about them [here](http://docs.smarthealthit.org/client-js/).
 
 # Displaying the Resource
 
@@ -459,20 +461,19 @@ The last remaining task for our application is displaying the resource informati
 
 Now that we have a snazzy SMART app, it's time to test it.
 
-Next log back into the [code console](https://code.cerner.com/developer/smart-on-fhir/apps) and click on the app you've registered (My amazing SMART app). To launch your app through the code console click the "Begin Testing" button. The console will ask if the app you're launching requires a patient in context. Our app requires a patient, so select yes and choose a patient. Please note the millennium username and password, you'll need this credential when prompted. Finally, click launch and the console will redirect to your application.
+Next log back into the [code console](https://code.cerner.com/developer/smart-on-fhir/apps) and click on the app you've registered (My amazing SMART app). To launch your app through the code console click the "Begin Testing" button. If the app has a user scope, the console will ask if the app you're launching requires a patient in context. If it requires a patient, select yes and choose a patient. If the app has a patient scope like ours,  the console will skip the question and you have to choose a patient to continue. You can choose whether to display a demographics banner with the result. Please note the millennium username and password, you'll need this credential when prompted. Finally, click launch and the console will redirect to your application.
 
 # MPages® Integration
 
 MPages® is a Web-based platform that enables clients to create customized views of Cerner Millennium® data at the organizer or chart level from within Cerner PowerChart®, FirstNet®, INet® and SurgiNet®.
 
 There are a few different files and HTML tags you need to add to each view within your application to securely embed the SMART App within
-an MPage® view. We've already
-set this up in the example app, so there's no work needed in this step.
+an MPage® view. 
 
 >index.html - launch.html - health.html
 
 ```html
-<html hidden>
+<html lang="en"  hidden>
   <head>
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />
     ...
@@ -612,7 +613,7 @@ We've created a very basic application that meets the base requirements of being
 
 * Try calling another resource.
 * Write unit tests for the application.
-* Pull in fhir-client.js through a package manager like webpack.
+* Pull in the appropriate version of fhir-client.js through a package manager like webpack.
 * Localize and Internationalize your application.
 
 We're excited to see what you'll build next!
