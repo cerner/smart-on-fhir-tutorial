@@ -114,7 +114,7 @@ User Scopes | None
 Patient Scopes | Locate the ***Patient Scopes*** table and select the ***Patient*** read and ***Observation*** read scopes.
 
 Specifying user scopes or patient scopes will result in a slightly different testing workflow. See this section: [Test your App](#test-your-app). 
-More information about the patient level scope vs. user level scope can be found in this [spec](http://hl7.org/fhir/smart-app-launch/scopes-and-launch-context/index.html#scopes-for-requesting-clinical-data). 
+More information about Patient-specific scopes vs. User-level scopes can be found in this [spec](http://hl7.org/fhir/smart-app-launch/scopes-and-launch-context/index.html#scopes-for-requesting-clinical-data). 
 
 Click "Register" to complete the process. This will add the app to your account and create a client id for app authorization.
 
