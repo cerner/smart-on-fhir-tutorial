@@ -113,7 +113,8 @@ Standard Scopes | These scopes are required to launch the SMART app.
 User Scopes | None 
 Patient Scopes | Locate the ***Patient Scopes*** table and select the ***Patient*** read and ***Observation*** read scopes.
 
-Specifying user scopes or patient scopes will result a slightly different testing workflow. See this section: [Test your App](#test-your-app).
+Specifying user scopes or patient scopes will result in a slightly different testing workflow. See this section: [Test your App](#test-your-app). 
+More information about the patient level scope vs. user level scope can be found in this [spec](http://hl7.org/fhir/smart-app-launch/scopes-and-launch-context/index.html#scopes-for-requesting-clinical-data). 
 
 Click "Register" to complete the process. This will add the app to your account and create a client id for app authorization.
 
@@ -461,7 +462,7 @@ The last remaining task for our application is displaying the resource informati
 
 Now that we have a snazzy SMART app, it's time to test it.
 
-Next log back into the [code console](https://code.cerner.com/developer/smart-on-fhir/apps) and click on the app you've registered (My amazing SMART app). To launch your app through the code console click the "Begin Testing" button. If the app has a user scope, the console will ask if the app you're launching requires a patient in context. Because our app only has patient scopes, the question will be skipped and you just need to choose a patient to continue. You can choose whether to display a demographics banner for the patient. This need_patient_banner flag will be part of the launch parameters. However, our app currently does not utilize this flag when displaying the result.  Once click Next to open a "Ready to launch" popup, please note the testing username and password, you'll need this credential when prompted. Finally, click launch and the console will redirect to your application.
+Next log back into the [code console](https://code.cerner.com/developer/smart-on-fhir/apps) and click on the app you've registered (My amazing SMART app). To launch your app through the code console click the "Begin Testing" button. If the app has a user scope, the console will ask if the app you're launching requires a patient in context. Because our app only has patient scopes, the question will be skipped and you just need to choose a patient to continue. You can choose whether to display a demographics banner for the patient. This need_patient_banner flag will be part of the launch parameters. However, this tutorial app currently does not utilize this flag when displaying the result.  Once click Next to open a "Ready to launch" popup, please note the testing username and password, you'll need this credential when prompted. Finally, click launch and the console will redirect to your application.
 
 # MPages® Integration
 
