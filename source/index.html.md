@@ -73,7 +73,7 @@ The other content you see in the folder is the site for this tutorial. We used [
     ...
 ```
 
-> Go to your GitHub account, select Repositories tab and select smart-on-fhir-tutorial repo. Select Branch button and switch to gh-pages branch if it is not already selected. Directly edit `/example-smart-app/index.html` by clicking on the pencil icon.  Once done with the change, commit directly to gh-pages branch.
+> Go to your GitHub account, select Repositories tab and select smart-on-fhir-tutorial repo. Select Branch button and switch to gh-pages branch if it is not already selected. Directly edit `/example-smart-app/index.html` by clicking on the pencil icon.  Once done with the change, commit directly to gh-pages branch, this will ensure your changes are auto deployed by GitHub.
 
 >The SMART app will be available at:
 
@@ -462,7 +462,12 @@ The last remaining task for our application is displaying the resource informati
 
 Now that we have a snazzy SMART app, it's time to test it.
 
-Next log back into the [code console](https://code.cerner.com/developer/smart-on-fhir/apps) and click on the app you've registered (My amazing SMART app). To launch your app through the code console click the "Begin Testing" button. If the app has a user scope, the console will ask if the app you're launching requires a patient in context. Because our app only has patient scopes, the question will be skipped and you just need to choose a patient to continue. You can choose whether to display a demographics banner for the patient. This need_patient_banner flag will be part of the launch parameters. However, this tutorial app currently does not utilize this flag when displaying the result.  Once click Next to open a "Ready to launch" popup, please note the testing username and password, you'll need this credential when prompted. Finally, click launch and the console will redirect to your application.
+* First, log back into the [code console](https://code.cerner.com/developer/smart-on-fhir/apps) and click on the app you've registered (My amazing SMART app). 
+* To launch your app through the code console click the "Begin Testing" button. 
+  * If the app has a user scope, the console will ask if the app you're launching requires a patient in context. Because our app only has patient scopes, the question will be skipped and you just need to choose a patient to continue. 
+  * You can choose whether to display a demographics banner for the patient. This need_patient_banner flag will be part of the launch parameters. However, this tutorial app currently does not utilize this flag when displaying the result.  
+* Click "Next" to open a "Ready to launch" popup. <span style="color: red;">Take a note of the testing username and password</span>, you'll need this credential when prompted. 
+* Finally, click "Launch" and the console will redirect to your application.
 
 # MPages® Integration
 
