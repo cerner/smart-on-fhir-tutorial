@@ -142,7 +142,7 @@ EHR App Launch Flow - Full size image [here](images/ehr_launch_seq.png)
 
 ## Patient App
 
-Unlike the EHR app launch flow above, a standalone app does not need to be launched by an EHR or a patient portal. Cerner currently supports the special "launch/patient" scope that can be used during a standalone launch to request that the user must select a patient during authorization. However, this scope is currently only supported for patient launches. If you do a standalone launch for provider, your application will be responsible for presenting a patient search in order for a provider  to select a chart. You can learn more about the standalone launch at [SMART Health IT site](http://docs.smarthealthit.org/authorization/).
+Unlike the EHR app launch flow above, a standalone app does not need to be launched by an EHR or a patient portal. Cerner currently supports the special "launch/patient" scope that can be used during a standalone launch to request that the user must select a patient during authorization. However, this scope is currently only supported for patient launches. If you do a standalone launch for provider, your application will be responsible for presenting a patient search in order for a provider to select a patient's chart. You can learn more about the standalone launch at [SMART Health IT site](http://docs.smarthealthit.org/authorization/).
 
 There are a few minor differences:
 
