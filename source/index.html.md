@@ -142,13 +142,13 @@ EHR App Launch Flow - Full size image [here](images/ehr_launch_seq.png)
 
 ## Patient App
 
-Unlike the EHR app launch flow above, the standalone patient app does not need to be launched by an EHR. Cerner currently supports only the patient standalone launch at the moment.  You can learn more about the standalone launch at [SMART Health IT site](http://docs.smarthealthit.org/authorization/).
+Unlike the EHR app launch flow above, a standalone app does not need to be launched by an EHR or a patient portal. Cerner currently supports the special "launch/patient" scope that can be used during a standalone launch to request that the user must select a patient during authorization. However, this scope is currently only supported for patient launches. If you do a standalone launch for provider, your application will be responsible for presenting a patient search in order for a provider to select a patient's chart. You can learn more about the standalone launch at [SMART Health IT site](http://docs.smarthealthit.org/authorization/).
 
 There are a few minor differences:
 
 * Patients can launch any standalone app
 * App provides the iss param of the FHIR server
-* App can request launch/patient scope to obtain a patient in context
+* App can request launch/patient scope to obtain a patient in context, if the application is using any SMART patient/* launch scopes
 
 More information on how to configure a patient standalone app can be found in [Standalone App Launch for Patient Access Workflow](#standalone-app-launch-for-patient-access-workflow) section below.
 
@@ -200,7 +200,7 @@ patient/Patient.read | Permission to read Patient resource for the current patie
 patient/Observation.read | Permission to read Observation resource for the current patient.
 openid, profile | Permission to retrieve information about the current logged-in user. Required for EHR launch.
 launch | Permission to obtain launch context when app is launched from an EHR. Required for EHR launch.
-launch/patient | Permission to have a patient be selected when performing a patient facing standalone launch. Required ONLY for patient standalone launch. Apps can choose to use user/Patient.read or user/Observation.read scopes and wouldn't need launch scope at all. See this section: [Standalone App Launch for Patient Access Workflow](#standalone-app-launch-for-patient-access-workflow).
+launch/patient | Permission to have a patient be selected when performing a standalone launch. Currently supported only for Patient standalone launch. Required for a standalone launch if the application attempts to use patient/* type SMART scopes. For example, if an app uses only user/Patient.read or user/Observation.read scopes it wouldn't use launch/patient scope. See this section: [Standalone App Launch for Patient Access Workflow](#standalone-app-launch-for-patient-access-workflow).
 online_access | Request a refresh_token that can be used to obtain a new access token to replace an expired one, and that will be usable for as long as the end-user remains online. Required for EHR launch.
 
 For our app we will use Patient.read, Observation.read.
@@ -539,7 +539,7 @@ https://`<gh-username>`.github.io/smart-on-fhir-tutorial/example-smart-app/launc
 
 # Standalone App Launch for Patient Access Workflow
 
-SMART supports EHR launch and standalone launch. However, Cerner currently only supports standalone launch for patient access workflow. The standalone application does not need to be launched by an EHR.  The app can launch and access FHIR data on its own, provided the app is authorized and given the iss URL.
+SMART supports EHR launch and standalone launch. With a standalone launch, SMART provides a scope that allows the application to request that the user chooses a patient during authorization (launch/patient). Cerner currently only supports the launch/patient scope for patient access workflow, a practitioner access application would need to provide the patient search itself during a standalone launch. The standalone application does not need to be launched by an EHR or a patient portal. The app can launch and access FHIR data on its own, provided the app is authorized and given or configured with the iss (FHIR server root) URL.
 
 You can find out more about standalone launch on the [SMART Health IT site](http://docs.smarthealthit.org/authorization/) under the "Standalone launch sequence" header.
 
@@ -579,7 +579,7 @@ The `launch-patient.html` file had been created for you already.  You'll need to
   </script>
 ```
 
-> Make sure to replace CLIENT_ID with the new client id provided in code console. Notice that `launch/patient` is used here instead of `launch`.  This is because during a standalone launch the app does not have access to the patient in context and thereby it would need to request permission to access patient information.
+> Make sure to replace CLIENT_ID with the new client id provided in code console. Notice that `launch/patient` is used here instead of `launch`.  This is because during our standalone launch we want the authorization server to prompt the user to select a patient, in order to be able to use the patient/Patient.read and patient/Observation.read scopes above, which require a patient in context.
 
 Finally, save `launch-patient.html` file in `gh-pages` branch.
 
@@ -599,7 +599,7 @@ The `iss` value in the query parameter represents the URL for our Sandbox Patien
   https://<gh-username>.github.io/smart-on-fhir-tutorial/example-smart-app/launch-patient.html?iss=https://fhir-myrecord.sandboxcerner.com/dstu2/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca
 ```
 
-Since this app is a standalone app, it does not need to be launched by the EHR (code console).
+Since this app is a standalone app, it does not need to be launched by the EHR or patient portal (code console).
 
 Replace `<gh-username>` with your GitHub's username. Then, enter the URL above into the browser, the browser should redirect to the login page. You can use patients' credentials listed in the first post in this [discussion](https://groups.google.com/forum/#!topic/cerner-fhir-developers/edPUbVPIag0).
 
