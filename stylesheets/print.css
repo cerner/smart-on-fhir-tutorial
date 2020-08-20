@@ -170,7 +170,8 @@ figure {
  * Address differences between Firefox and other browsers.
  */
 hr {
-  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
   height: 0; }
 
 /**
@@ -276,7 +277,8 @@ input {
  */
 input[type="checkbox"],
 input[type="radio"] {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   /* 1 */
   padding: 0;
   /* 2 */ }
@@ -298,6 +300,7 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="search"] {
   -webkit-appearance: textfield;
   /* 1 */
+  -webkit-box-sizing: content-box;
   /* 2 */
   box-sizing: content-box; }
 
@@ -369,11 +372,11 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations
 under the License.
 */
-.content h1, .content h2, .content h3, .content h4, body {
+body, .content h3, .content h4, .content h2, .content h1 {
   font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei","微软雅黑", STXihei, "华文细黑", sans-serif;
   font-size: 13px; }
 
-.content h1, .content h2, .content h3, .content h4 {
+.content h3, .content h4, .content h2, .content h1 {
   font-weight: bold; }
 
 .content pre, .content code {
@@ -384,17 +387,17 @@ under the License.
 .content pre, .content code {
   word-break: break-all;
   -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-  hyphens: auto; }
+      -ms-hyphens: auto;
+          hyphens: auto; }
 
 @font-face {
   font-family: 'slate';
-  src: url(../fonts/slate.eot?-syv14m);
-  src: url(../fonts/slate.eot?#iefix-syv14m) format("embedded-opentype"), url(../fonts/slate.woff2?-syv14m) format("woff2"), url(../fonts/slate.woff?-syv14m) format("woff"), url(../fonts/slate.ttf?-syv14m) format("truetype"), url(../fonts/slate.svg?-syv14m#slate) format("svg");
+  src: url("../fonts/slate.eot?-syv14m");
+  src: url("../fonts/slate.eot?#iefix-syv14m") format("embedded-opentype"), url("../fonts/slate.woff2?-syv14m") format("woff2"), url("../fonts/slate.woff?-syv14m") format("woff"), url("../fonts/slate.ttf?-syv14m") format("truetype"), url("../fonts/slate.svg?-syv14m#slate") format("svg");
   font-weight: normal;
   font-style: normal; }
-.content aside.warning:before, .content aside.notice:before, .content aside.success:before {
+
+.content aside.success:before, .content aside.notice:before, .content aside.warning:before {
   font-family: 'slate';
   speak: none;
   font-style: normal;
