@@ -588,7 +588,7 @@ Finally, save `launch-patient.html` file in `gh-pages` branch.
 > Cerner's Sandbox Patient Access Endpoint:
 
 ```
-https://fhir-myrecord.sandboxcerner.com/dstu2/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca
+https://fhir-myrecord.cerner.com/dstu2/ec2458f2-1e24-41c8-b71b-0e701af7583d
 ```
 
 The `iss` value in the query parameter represents the URL for our Sandbox Patient Access endpoint.  This value tells the app where to look for the `metadata` endpoint, which contains the authorization endpoints that the app needs to call.
@@ -596,7 +596,7 @@ The `iss` value in the query parameter represents the URL for our Sandbox Patien
 > Launch URL:
 
 ```
-  https://<gh-username>.github.io/smart-on-fhir-tutorial/example-smart-app/launch-patient.html?iss=https://fhir-myrecord.sandboxcerner.com/dstu2/0b8a0111-e8e6-4c26-a91c-5069cbc6b1ca
+  https://<gh-username>.github.io/smart-on-fhir-tutorial/example-smart-app/launch-patient.html?iss=https://fhir-myrecord.cerner.com/dstu2/ec2458f2-1e24-41c8-b71b-0e701af7583d
 ```
 
 Since this app is a standalone app, it does not need to be launched by the EHR or patient portal (code console).
