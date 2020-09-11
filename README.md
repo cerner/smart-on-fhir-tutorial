@@ -81,8 +81,8 @@ This tutorial is based on [this excellent tutorial](https://engineering.cerner.c
    - [ ] Open a terminal or Git Bash.
    - [ ] Navigate to a folder where you want to keep your project. For example:
          `cd C:/Users/Piotr/code`.
-   - [ ] Find the project url by clicking the `Clone or download` green button on your Github project page and copying it to your clipboard.
-   - [ ] Run the following command in the terminal to clone this project into the chosen folder: `git clone https://github.com/pmanko/smart-on-fhir-tutorial.git`.
+   - [ ] Find the project url by clicking the green `Code` button on your Github project page and copying it to your clipboard.
+   - [ ] Run the following command in the terminal to clone this project into the chosen folder: `git clone https://github.com/[YOUR-USER-NAME]/smart-on-fhir-tutorial.git`.
    - [ ] When you open your chosen folder, you should see the project files in a directory called `smart-on-fhir-tutorial`.
    - [ ] Make sure you're working off of the `gh-pages` branch by running `git checkout gh-pages`. You should get confirmation that you are on the `gh-pages` branch.
 
