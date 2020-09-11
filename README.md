@@ -1,6 +1,6 @@
 # 1. Overview
 
-This tutorial will introduce you to launching a SMART on FHIR app from a the HSPC Sandbox.
+This tutorial will introduce you to launching a SMART on FHIR app from a the logica Sandbox.
 
 The codebase you will use contains a basic client-side SMART on FHIR web application that uses the `client-js` javascript SMART on FHIR client library. Although the provided app mearly displays the retrieved FHIR resources, you can easily use it as a framework for developing a more interesting tool.
 
@@ -40,7 +40,7 @@ This tutorial is based on [this excellent tutorial](https://engineering.cerner.c
 
 - [ ] Create a public GitHub account if you do not have one by going to www.github.com and clicking the `Sign up for Github` button.
 
-- [ ] Create an account for the HSPC Sandbox by going to https://sandbox.hspconsortium.org/#/start and clicking the `Sign Up` button.
+- [ ] Create an account for the logica Sandbox by going to https://sandbox.logicahealth.org/#/start and clicking the `Register` button.
 
 - [ ] Install a text editor for viewing and editing code. Some options:
 
@@ -58,8 +58,8 @@ This tutorial is based on [this excellent tutorial](https://engineering.cerner.c
 
 ## 4.1 Main
 
-- **Create** and **Register** a SMART on FHIR App in the HSPC sandbox.
-- **Launch** app as a patient _and_ as a provider from the HSPC sandbox using the [SMART on FHIR Javascript Client](https://github.com/smart-on-fhir/client-js).
+- **Create** and **Register** a SMART on FHIR App in the logica sandbox.
+- **Launch** app as a patient _and_ as a provider from the logica sandbox using the [SMART on FHIR Javascript Client](https://github.com/smart-on-fhir/client-js).
 
 ## 4.2 Extra Credit
 
@@ -95,7 +95,7 @@ Take a minute or two to explore the codebase. Here are some highlights:
 - `example-smart-app`: This directory contains a simple client-side web application.
 - `example-smart-app/lib/js/fhir-client.js`: The app uses uses the library to (1) communicate with our Sandbox using the FHIR API and (2) handle the SMART on FHIR authorization workflows. Check out more information about this client here: https://github.com/smart-on-fhir/client-js.
 
-- `example-smart-app/launch.html`: this webpage is the initial entry point into the SMART on FHIR application, called the `launch_url` in the SMART documentation. This page will be called by the HSPC sandbox when we launch our app. We'll cover the different launch patterns later in the tutorial.
+- `example-smart-app/launch.html`: this webpage is the initial entry point into the SMART on FHIR application, called the `launch_url` in the SMART documentation. This page will be called by the logica sandbox when we launch our app. We'll cover the different launch patterns later in the tutorial.
 
 - `example-smart-app/launch-smart-sandbox.html`: this page is similar to the previous launch, but will be used when we launch from the SMART on FHIR sandbox.
 
@@ -127,23 +127,25 @@ You will be using [Github Pages](https://help.github.com/articles/what-is-github
 
 In order for us to be able to launch our app from the HSCP Sandbox and access the FHIR resources, we need to register our app with the sandbox.
 
-1. Setup the HSPC Sandbox.
+1. Setup the logica Sandbox.
 
-   - [ ] Go to the [HSPC sandbox site](https://sandbox.hspconsortium.org/).
-   - [ ] Sign in with the HSPC account you should have made already :)
+   - [ ] Go to the [logica sandbox site](https://sandbox.logicahealth.org/).
+   - [ ] Sign in with the logica account you should have made already :)
    - [ ] Select the "Create Sandbox" button on the bottom of the left column.
    - [ ] Name your Sandbox something cool (or just UW FHIR WORKSHOP).
    - [ ] Select Sandbox Version "FHIR STU 3 (v3.0.1)".
-   - [ ] Make sure both the "Allow Open FHIR Endpoint" and the "Apply Default Data Set" options are selected.
+   - [ ] Make sure the "Allow Open FHIR Endpoint" option is selected ("Import sample patients and practitioners" and "Import sample applications" options are optional).  
    - [ ] Add a description if you'd like. (i.e. This is for the UW FHIR Tutorial).
    - [ ] Click the `Create Sandbox` button.
 
 2. Setup your Application.
 
-   - [ ] Click the "+ Register Manually" button on the main dashboard.
+   - [ ] Click your newly created sandbox on the main dashboard.
+   - [ ] Select `Apps` on the left hand side.
+   - [ ] Click the `+` button and select `Manually`
    - [ ] Fill out the following form fields:
+     - App Name: Anything your imagination desires! 
      - App Type: `Public Client`
-     - App Name: Anything your imagination desires!
      - App Launch URI: https://\<your-github-username>.github.io/smart-on-fhir-tutorial/example-smart-app/launch.html
      - Redirect URI: https://\<your-github-username>.github.io/smart-on-fhir-tutorial/example-smart-app/
      - Allow Offline Access: Unchecked
@@ -166,46 +168,36 @@ The SMART standard provides aims to provide an "App Platform for Healthcare", an
 
 ## 9.1 Create Launch Scenarios
 
-You'll create scenarios for the first two types of launches in the HSPC sandbox. [Click here](https://healthservices.atlassian.net/wiki/spaces/HSPC/pages/65011892/Sandbox+Launch+Scenarios) for more detail.
+You'll create scenarios for the first two types of launches in the logica sandbox. [Click here](https://healthservices.atlassian.net/wiki/spaces/HSPC/pages/65011892/Sandbox+Launch+Scenarios) for more detail.
 
 First, we need to create a couple of personas for the providers and patients that we will be simulating in this scenario:
 
 - [ ] Click the `Personas` link on the left side of your sandbox dashboard.
 
-You'll create one provider persona by clicking the `For Provider` button and one patient persona by clicking the `For Patient` button. Follow these steps for each:
+You'll create or select one provider persona by clicking the darker blue `Practitioner` button and one patient persona by clicking the lighter blue `Patient` button. Follow these steps for each:
 
 - [ ] Click the appropriate button.
 
 - [ ] Find or create an interesting patient or provider you'd like to use and click on them.
-      _Note: Use the `Open Patient Data Manager` button to dive deeper into the patients and their associated resources_.
-
-- [ ] Confirm the patient details in the right-hand column, and click `Select this Patient` when done.
+      _Note: If you would like to create a patient or provider, navigate to the `Practitioners` and `Patients` sections on the lefthand side. Clicking on a patient will allow you to dive deeper into the patients and their associated resources_.
 
 - [ ] Chose any user id and password and jot them down.
 
-- [ ] Click the `Save` button.
 
 Now on to the scenarios, which you'll build two of.
 
 - [ ] Click the `Launch Scenarios` link on the left side of your sandbox dashboard.
 
+- [ ] Click the `+` button on the right side of the dashboard. 
+
+- [ ] Select your app
+
 - [ ] Choose your provider persona for one scenario, and patient persona for the 2nd.
 
-For the provider scenario, you'll need to provide the patient context. In the `Select the Patient Context` screen:
+For the provider scenario, you'll need to provide the patient context. In the `Additional launch context` screen:
 
-- [ ] Find your patient by name using the search function.
+- [ ] Find your patient by name using the search function and select them.
 
-- [ ] Click the `Select this Patient` button.
-
-Now, we need to select the app that will be launched:
-
-- [ ] Click on the blue gear button on your app's tile.
-
-- [ ] Write a clever description for your launch scenario.
-
-- [ ] Check the `Launch Embedded` box.
-
-- [ ] Click the `Save` button.
 
 If you did most things right, you should see two new launch scenarios listed on the `Launch Scenario` dashboard. Yay!
 
@@ -256,7 +248,7 @@ http://docs.smarthealthit.org/authorization/scopes-and-launch-context/
 
 `launch.html` is configured by default with a very basic set of scopes. For now, leave this set of scopes as is, but make sure to update your app registration to match:
 
-- [ ] In the HSPC Sandbox - App Dashboard, click on the blue gear button on your app's tile.
+- [ ] In the logica Sandbox - App Dashboard, over over your app and click on the settings button on your app's tile.
 - [ ] Fill out the `Scopes` section with the same contents as the `scope` field in launch.html
 
 # 11. Get Patient Data using FHIR
@@ -318,12 +310,12 @@ As an aside, the `fhir-client.js` library defines several more API’s that will
     }
   }
   ```
-- [ ] Check if your Observation(s) are being correctly fetched by updating this code block with the codes you're using and inspecting the output in the Chrome javascript console:
+- [ ] Check if your Observation(s) are being correctly fetched by updating this code block _with the codes you're using_ and inspecting the output in the Chrome javascript console:
 
   ```javascript
   console.log("byCodes:");
-  console.log(byCodes("26478-8"));
-  console.log(byCodes("2345-7"));
+  console.log(byCodes("8480-6"));
+  console.log(byCodes("8462-4"));
   ```
 
 - [ ] Read and parse the fetched Observation(s) to access their values and units by modifying the following code block:
@@ -395,7 +387,7 @@ As an aside, the `fhir-client.js` library defines several more API’s that will
 
 A major goal of SMART on FHIR is interoperability. Any EHR that conforms to the SMART on FHIR standard should be able to launch our app with minimal modifications. To demonstrate interoperability, you'll try registering and launching our app in another popular sandbox made by [SMART Health IT](https://smarthealthit.org/) team.
 
-Think about what settings were specific to the HSPC Sandbox, figure out if you need to change anything in launch-smart-sandbox.html to make it work with the [SMART Health IT Launcher](http://docs.smarthealthit.org/sandbox/) sandbox, and test your app out!
+Think about what settings were specific to the logica Sandbox, figure out if you need to change anything in launch-smart-sandbox.html to make it work with the [SMART Health IT Launcher](http://docs.smarthealthit.org/sandbox/) sandbox, and test your app out!
 
 ## 13.2 Launch App using a Stand-alone Launch (Advanced)
 
