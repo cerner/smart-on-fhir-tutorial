@@ -1,0 +1,18 @@
+title EHR App Launch Flow
+
+EHR->App/launch.html: Provider launches the app
+App/launch.html->+FHIR Server: App gets {iss}/metadata endpoint
+FHIR Server-->-App/launch.html:
+note right of App/launch.html
+App discovers the Authorization server
+endpoint in the response
+end note
+App/launch.html->Authorization Server: App requests authoirzation w/ launch + others
+Authorization Server->App/index.html: On Approval, redirect to App/index.html
+App/index.html->+Authorization Server: App exchanges authorization token with access token
+Authorization Server-->-App/index.html: Access token granted
+App/index.html->+FHIR Server: App accesses FHIR resources using access token obtained
+FHIR Server-->-App/index.html: FHIR data retrieved
+note left of App/index.html
+App displays data
+end note
