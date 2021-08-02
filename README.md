@@ -7,7 +7,7 @@ Description
 ------------
 The SMART tutorial is intended to help developers quickly create an example smart app, register it with Cerner's code console, and test it against Cerner's sandbox. It is a [Slate](https://github.com/lord/slate) site hosted through GitHub Pages and includes a small example app in the source folder.
 
-Note: This tutorial is in the process of being updated for the newer version of FHIR - R4. Outside of this tutorial, the use of R4 over DSTU2 is encouraged.
+Note: This tutorial is in the process of being updated for the newer version of FHIR - [R4](http://fhir.cerner.com/millennium/r4/). Outside of this tutorial, the use of R4 over DSTU2 is encouraged.
 
 Getting Started
 ------------------------------
