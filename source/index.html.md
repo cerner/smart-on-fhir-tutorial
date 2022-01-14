@@ -20,6 +20,8 @@ After completing this tutorial you will know how to:
 * Run an app in SMART Health IT Sandbox.
 * Setup a standalone patient access app.
 
+Note: This tutorial is in the process of being updated for the newer version of FHIR - [R4](http://fhir.cerner.com/millennium/r4/). Outside of this tutorial, the use of R4 over DSTU2 is encouraged.
+
 # Prerequisites
   * A public [GitHub](http://www.github.com) account
 
