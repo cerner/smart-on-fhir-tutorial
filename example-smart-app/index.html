@@ -84,18 +84,18 @@
     <script src='./lib/js/fhir-client-cerner-additions-1.0.0.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>
-      extractData().then(
-        //Display Patient Demographics and Observations if extractData was success
-        function(p) {
-          drawVisualization(p);
-        },
+      //extractData().then(
+      //  //Display Patient Demographics and Observations if extractData was success
+      //  function(p) {
+      //    drawVisualization(p);
+      //  },
 
-        //Display 'Failed to call FHIR Service' if extractData failed
-        function() {
-          $('#loading').hide();
-          $('#errors').html('<p> Failed to call FHIR Service </p>');
-        }
-      );
+      //  //Display 'Failed to call FHIR Service' if extractData failed
+      //  function() {
+      //    $('#loading').hide();
+      //    $('#errors').html('<p> Failed to call FHIR Service </p>');
+      //  }
+      //);
     </script>
   </body>
 </html>
