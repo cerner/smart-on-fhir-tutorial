@@ -28,7 +28,8 @@
     <script>
       FHIR.oauth2.authorize({
         'client_id': 'a4366438-5b4c-44c8-8f27-629f072e2182',
-        'scope':  'patient/Patient.read patient/Observation.read launch online_access openid profile'
+          'scope': 'patient/Patient.read patient/Observation.read launch online_access openid profile',
+          'redirect_uri': 'https://bvcsss.github.io/smart-on-fhir-tutorial/example-smart-app/launch.html'
       });
     </script>
     <div class="spinner">
