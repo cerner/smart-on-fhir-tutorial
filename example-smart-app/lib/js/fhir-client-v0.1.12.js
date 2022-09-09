@@ -17363,7 +17363,7 @@ BBClient.authorize = function(params, errback){
   }
 
   if (!params.client.redirect_uri.match(/:\/\//)){
-    params.client.redirect_uri = relative(params.client.redirect_uri);
+    params.client.redirect_uri = params.client.redirect_uri;
   }
 
   var launch = urlParam("launch");
