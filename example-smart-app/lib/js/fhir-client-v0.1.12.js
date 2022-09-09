@@ -17323,7 +17323,8 @@ var noAuthFhirProvider = function(serviceUrl){
 };
 
 function relative(url){
-  return (window.location.protocol + "//" + window.location.host + window.location.pathname).match(/(.*\/)[^\/]*/)[1] + url;
+ // return (window.location.protocol + "//" + window.location.host + window.location.pathname).match(/(.*\/)[^\/]*/)[1] + url;
+	 return (window.location.protocol + "//" + window.location.host + window.location.pathname);
 }
 
 function isBypassOAuth(){
