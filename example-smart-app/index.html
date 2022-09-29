@@ -20,7 +20,7 @@
       <div class="bounce3"></div>
     </div>
     <div id='holder' >
-      <h2>Level60Warlock Example-SMART-App</h2>
+      <h2>Public-SMART-App</h2>
 
       <h2>Patient Resource</h2>
       <table>
@@ -66,6 +66,27 @@
         </tr>
       </table>
     </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card-deck">
+          <div class="info-box card">
+            <div class="card-header">
+              <h4 class="float-left">Alva Coding Data</h4>
+              <button id="get-coding-reactor-btn" class="btn btn-primary float-right mr-3">Get coding reactor</button>
+            </div>
+            <div id='alva-save-ok' class='alert alert-success d-none'>Successfully saved codes</div>
+            <div id="cloud-next-data" class="d-none">
+              <textarea id="json-input1" class="form-control" rows="15"></textarea>
+            </div>
+            <div id="cloud-next-loading" class="spinner-border m-auto d-none" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Required JS files to enable this page to embed within an MPage -->
     <!--
       Temporarily disable cerner-smart-embeddable-lib
@@ -97,5 +118,8 @@
         }
       );
     </script>
+
+    <!-- Application-level javascript-->
+    <script src='./lib/js/smart-app.js'></script>
   </body>
 </html>
