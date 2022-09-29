@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
-    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-    <title>vkg007 public-SMART-optum-test</title>
+<head>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+  <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+  <title>vkg007 public-SMART-optum-test</title>
 
     <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'>
-    <!--
-      Temporarily disable cerner-smart-embeddable-lib
-    <link rel='stylesheet' type='text/css' href='./lib/css/cerner-smart-embeddable-lib-1.0.0.min.css'>
-    -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <!--
+    Temporarily disable cerner-smart-embeddable-lib
+  <link rel='stylesheet' type='text/css' href='./lib/css/cerner-smart-embeddable-lib-1.0.0.min.css'>
+  -->
   </head>
   <body>
     <div id='errors'>
@@ -66,7 +68,6 @@
         </tr>
       </table>
     </div>
-
     <div class="row">
       <div class="col-12">
         <div class="card-deck">
@@ -75,7 +76,6 @@
               <h4 class="float-left">Alva Coding Data</h4>
               <button id="get-coding-reactor-btn" class="btn btn-primary float-right mr-3">Get coding reactor</button>
             </div>
-            <div id='alva-save-ok' class='alert alert-success d-none'>Successfully saved codes</div>
             <div id="cloud-next-data" class="d-none">
               <textarea id="json-input1" class="form-control" rows="15"></textarea>
             </div>
@@ -96,7 +96,10 @@
 
     <!-- Application-level javascript-->
     <script src='./src/js/example-smart-app.js'></script>
-
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src='./src/js/smart-app.js'></script>
     <!-- FHIR Client JS Library -->
     <script src='./lib/js/fhir-client-v0.1.12.js'></script>
 
@@ -118,8 +121,5 @@
         }
       );
     </script>
-
-    <!-- Application-level javascript-->
-    <script src='./lib/js/smart-app.js'></script>
   </body>
 </html>
