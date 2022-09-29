@@ -1,85 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta http-equiv='X-UA-Compatible' content='IE=edge' />
   <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-  <title>vkg007 public-SMART-optum-test</title>
+  <title>SMART App Spike</title>
 
-    <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
+  <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'>
+  <!-- <link rel='stylesheet' type='text/css' href='./lib/css/json-viewer.css'> -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <!--
     Temporarily disable cerner-smart-embeddable-lib
-  <link rel='stylesheet' type='text/css' href='./lib/css/cerner-smart-embeddable-lib-1.0.0.min.css'>
+    <link rel='stylesheet' type='text/css' href='./lib/css/cerner-smart-embeddable-lib-1.0.0.min.css'>
   -->
-  </head>
-  <body>
-    <div id='errors'>
-    </div>
-    <div id="loading" class="spinner">
-      <div class="bounce1"></div>
-      <div class="bounce2"></div>
-      <div class="bounce3"></div>
-    </div>
-    <div id='holder' >
-      <h2>Public-SMART-App</h2>
-
-      <h2>Patient Resource</h2>
-      <table>
-        <tr>
-          <th>First Name:</th>
-          <td id='fname'></td>
-        </tr>
-        <tr>
-          <th>Last Name:</th>
-          <td id='lname'></td>
-        </tr>
-        <tr>
-          <th>Gender:</th>
-          <td id='gender'></td>
-        </tr>
-        <tr>
-          <th>Date of Birth:</th>
-          <td id='birthdate'></td>
-        </tr>
-      </table>
-      <h2>Observation Resource</h2>
-      <table>
-        <tr>
-          <th>Height:</th>
-          <td id='height'></td>
-        </tr>
-        <tr>
-          <th>Systolic Blood Pressure:</th>
-          <td id='systolicbp'></td>
-
-        </tr>
-        <tr>
-          <th>Diastolic Blood Pressure:</th>
-          <td id='diastolicbp'></td>
-        </tr>
-        <tr>
-          <th>LDL:</th>
-          <td id='ldl'></td>
-        </tr>
-        <tr>
-          <th>HDL:</th>
-          <td id='hdl'></td>
-        </tr>
-      </table>
-    </div>
-    <div class="row">
+</head>
+<body>
+<div id='errors' class="container mt-3">
+</div>
+<div id="loading" class="spinner">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+</div>
+<div id='holder' >
+  <div class="container-fluid">
+    <h2>SMART App Spike <button id='refresh-btn' class='btn btn-primary float-right'>Refresh Auth Token</button></h2>
+    <div class="row mb-3">
       <div class="col-12">
         <div class="card-deck">
-          <div class="info-box card">
+          <div class="card">
             <div class="card-header">
-              <h4 class="float-left">Alva Coding Data</h4>
-              <button id="get-coding-reactor-btn" class="btn btn-primary float-right mr-3">Get coding reactor</button>
+              <h4>Patient Resource</h4>
             </div>
-            <div id="cloud-next-data" class="d-none">
-              <textarea id="json-input1" class="form-control" rows="15"></textarea>
+            <table id="patient-table" class="d-none">
+              <tr>
+                <th>First Name:</th>
+                <td id='patient-fname'></td>
+              </tr>
+              <tr>
+                <th>Last Name:</th>
+                <td id='patient-lname'></td>
+              </tr>
+              <tr>
+                <th>Gender:</th>
+                <td id='gender'></td>
+              </tr>
+              <tr>
+                <th>Date of Birth:</th>
+                <td id='birthdate'></td>
+              </tr>
+            </table>
+            <div id='patient-error' class="alert alert-danger d-none">Failed to load patient data.</div>
+            <div id="patient-loading" class="spinner-border m-auto" role="status">
+              <span class="sr-only">Loading...</span>
             </div>
-            <div id="cloud-next-loading" class="spinner-border m-auto d-none" role="status">
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h4>Practitioner Resource</h4>
+            </div>
+            <table id='user-table' class="d-none">
+              <tr>
+                <th>First Name:</th>
+                <td id="user-fname"></td>
+              </tr>
+              <tr>
+                <th>Last Name:</th>
+                <td id="user-lname"></td>
+              </tr>
+              <tr>
+                <th>Active:</td>
+                <td id="user-active"></td>
+              </tr>
+              <tr>
+                <th>ID:</th>
+                <td id='user-id'></td>
+              </tr>
+            </table>
+            <div id='user-error' class="alert alert-danger d-none">Failed to load practitioner data.</div>
+            <div id="user-loading" class="spinner-border m-auto" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h4>Encounter Resource</h4>
+            </div>
+            <table id='enct-table' class='d-none'>
+              <tr>
+                <th>Class:</th>
+                <td id="enct-class"></td>
+              </tr>
+              <tr>
+                <th>Location:</th>
+                <td id="location"></td>
+              </tr>
+              <tr>
+                <th>Start Period:</td>
+                <td id="start"></td>
+              </tr>
+              <tr>
+                <th>End Period:</td>
+                <td id="end"></td>
+              </tr>
+            </table>
+            <div id='enct-error' class="alert alert-danger d-none">Failed to load encounter data.</div>
+            <div id="enct-loading" class="spinner-border m-auto" role="status">
               <span class="sr-only">Loading...</span>
             </div>
           </div>
@@ -87,39 +114,62 @@
       </div>
     </div>
 
-    <!-- Required JS files to enable this page to embed within an MPage -->
-    <!--
-      Temporarily disable cerner-smart-embeddable-lib
-      <script src='https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js'></script>
-      <script src='./lib/js/cerner-smart-embeddable-lib-1.0.0.min.js'></script>
-    -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card-deck">
+          <div class="info-box card">
+            <div class="card-header">
+              <h4 class="float-left">Alva Coding Data</h4>
+              <button id="get-codes-btn" class="btn btn-primary float-right">Get Codes</button>
+              <button id="save-codes-btn" class="btn btn-primary float-right mr-3">Save Codes</button>
+              <button id="get-coding-reactor-btn" class="btn btn-primary float-right mr-3">Get coding reactor</button>
+            </div>
+            <div id='alva-save-ok' class='alert alert-success d-none'>Successfully saved codes</div>
+            <div>
+              <label>Compare Date Time:</label>
+              <input type="checkbox" id="enable-compare-date-time">
+              <input type="datetime-local" id="date-time-input" disabled>
+            </div>
+            <div id="cloud-next-data" class="d-none">
+              <textarea id="json-input1" class="form-control" rows="15"></textarea>
+            </div>
+            <div id="cloud-next-loading" class="spinner-border m-auto d-none" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <div id="encounter-data" class="d-none">
+              <textarea id="json-input" autocomplete="off"></textarea>
+            </div>
+            <div id="alva-loading" class="spinner-border m-auto" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <div id='alva-error' class="alert alert-danger d-none">Failed to load Alva coding data.</div>
+            <div id='alva-save-error' class="alert alert-danger d-none">Failed to save Alva coding data.</div>
+            <div id='json-parse-error' class="alert alert-danger d-none">Invalid JSON, failed to parse.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Required JS files to enable this page to embed within an MPage -->
+<!--
+  Temporarily disable cerner-smart-embeddable-lib
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js'></script>
+  <script src='./lib/js/cerner-smart-embeddable-lib-1.0.0.min.js'></script>
+-->
 
-    <!-- Application-level javascript-->
-    <script src='./src/js/example-smart-app.js'></script>
+<!-- FHIR Client JS Library -->
+<script src='./lib/js/fhir-client.js'></script>
+
+<!-- Prevent session bleed caused by single threaded embedded browser and sessionStorage API -->
+<!-- https://github.com/cerner/fhir-client-cerner-additions -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
-<script src='./src/js/smart-app.js'></script>
-    <!-- FHIR Client JS Library -->
-    <script src='./lib/js/fhir-client-v0.1.12.js'></script>
+<script src='./lib/js/fhir-client-cerner-additions-1.0.0.js'></script>
 
-    <!-- Prevent session bleed caused by single threaded embedded browser and sessionStorage API -->
-    <!-- https://github.com/cerner/fhir-client-cerner-additions -->
-    <script src='./lib/js/fhir-client-cerner-additions-1.0.0.js'></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>
-      extractData().then(
-        //Display Patient Demographics and Observations if extractData was success
-        function(p) {
-          drawVisualization(p);
-        },
 
-        //Display 'Failed to call FHIR Service' if extractData failed
-        function() {
-          $('#loading').hide();
-          $('#errors').html('<p> Failed to call FHIR Service </p>');
-        }
-      );
-    </script>
-  </body>
+<!-- Application-level javascript-->
+<script src='./lib/js/smart-app.js'></script>
+</body>
 </html>
