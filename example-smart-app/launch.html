@@ -12,7 +12,7 @@
     <title>Launch FHIR AUTH-SMART-App</title>
   </head>
   <body>
-  <h1>Cleint ID is: c6361fba-3f1d-4133-884f-520f3f746b8b</h1>
+  <h1>Cleint ID is: b8e53c6d-2da1-42b9-8500-cb61857a4761</h1>
     <!-- Required JS files to enable this page to embed within an MPage -->
     <!--
       Temporarily disable cerner-smart-embeddable-lib
@@ -21,15 +21,15 @@
     -->        
 
     <!-- FHIR Client JS Library -->
-    <script src='./lib/js/fhir-client-v0.1.12.js'></script>
+    <script src='./lib/js/fhir-client.js'></script>
 
     <!-- Prevent session bleed caused by single threaded embedded browser and sessionStorage API -->
     <!-- https://github.com/cerner/fhir-client-cerner-additions -->
     <script src='./lib/js/fhir-client-cerner-additions-1.0.0.js'></script>
     <script>
       FHIR.oauth2.authorize({
-        'client_id': 'c6361fba-3f1d-4133-884f-520f3f746b8b',
-        'scope':  'patient/Patient.read patient/Observation.read launch online_access openid profile'
+        'client_id': 'b8e53c6d-2da1-42b9-8500-cb61857a4761',
+        'scope':  'patient/Patient.read patient/Encounter.read user/Practitioner.read launch online_access openid profile'
       });
     </script>
     <div class="spinner">
