@@ -130,11 +130,11 @@ console.log("Checking fhir.");
         $('#cloud-next-loading').removeClass('d-none');
         $('#cloud-next-loading').show();
         $('#cloud-next-data').hide();
-        fetch("https://rcc-gateway-rcdevgf.devgf.revcycle-cloud.net/services/coding-service/v1/optum/encounters/".concat(client.encounter.id).concat("/codings"), {
+        fetch("https://rcc-gateway-rcdevgf.devgf.revcycle-cloud.net/services/coding-service/v1/optum/encounters/100223648/codings"), {
             headers: {
                 'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36',
-                'Authorization': 'Bearer ' + client.state.tokenResponse.access_token,
-                'tenantId': client.state.tokenResponse.tenant
+                'Authorization': 'Bearer eyJhbGciOiJub25lIn0.eyJpc3MiOiJodHRwczpcL1wvYXV0aG9yaXphdGlvbi5pbnRlZ3JhdGlvbmNlcm5lci5jb21cL2ludHJvc3BlY3Rpb24iLCJpYXQiOjE2MDUxODgwMDAsInVybjpjZXJuZXI6YXV0aG9yaXphdGlvbjpzeXN0ZW0tYWNjb3VudC1jcmVkZW50aWFsLXRva2VuOnZlcnNpb246MSI6eyJ2ZXIiOiIxLjAiLCJzZWNyZXQiOiJHeWprV0tyRld2Nmd5b1RxN3U2QVp6R3ZqcHA5dlhyZCIsImtleSI6IjAyNmI4NTFjLTUyNjYtNDIzYS1iNjg2LTU2NDJiNjEzYzk1YSJ9LCJqdGkiOiJmNDc5OTQ3Mi1jMDIxLTQ5MTEtODg5OS02ZjVkZDU2MTdhZWIifQ.',
+                'tenantId': '2e3bfff6-5b5b-4474-9058-caff792dbefa'
             }
         }).then(function(getCodingData) {
             return getCodingData.json();
