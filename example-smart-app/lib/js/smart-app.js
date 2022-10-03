@@ -66,21 +66,6 @@ console.log("Checking fhir.");
       $('#user-loading').hide();
       $('#user-error').removeClass('d-none');
     });
-    fetch("service/get-codes?domain=".concat(domainMap[client.state.tokenResponse.tenant], "&encounter=").concat(client.encounter.id), {
-      headers: {
-        'consumer-key': 'com.cerner.icdplus',
-        'Accept': "application/json"
-      }
-    }).then(function (alvaData) {
-      return alvaData.json();
-    }).then(function (parsedAlvaData) {
-      $('#json-input').val(JSON.stringify(parsedAlvaData, null, 4));
-      $('#alva-loading').hide();
-      $('#encounter-data').removeClass('d-none');
-    }).catch(function (err) {
-      $('#alva-loading').hide();
-      $('#alva-error').removeClass('d-none');
-    });
     $('#save-codes-btn').click(function () {
       var saveBody;
       $('#alva-loading').show();
@@ -130,7 +115,7 @@ console.log("Checking fhir.");
         $('#cloud-next-loading').removeClass('d-none');
         $('#cloud-next-loading').show();
         $('#cloud-next-data').hide();
-        fetch("https://rcc-gateway-rcdevgf.devgf.revcycle-cloud.net/services/coding-service/v1/optum/encounters/".concat(client.encounter.id).concat("/codings"), {
+        fetch("https://rcc-gateway-rcdevgf.devgf.revcycle-cloud.net/services/coding-service/v1/optum/patients/".concat(client.tokenResponse.patient).concat("/encounters/").concat(client.encounter.id).concat("/codings"), {
             headers: {
                 'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36',
                 'Authorization': 'Bearer ' + client.state.tokenResponse.access_token,
