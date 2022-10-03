@@ -26,4 +26,5 @@ console.log("Checking fhir.");
             $('#cloud-next-data').show();
         }).catch(function(err) {});
     });
+  });
 });
