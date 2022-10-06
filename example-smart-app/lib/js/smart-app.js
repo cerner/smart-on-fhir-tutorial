@@ -10,7 +10,7 @@ console.log("Checking fhir.");
         $('#cloud-next-loading').removeClass('d-none');
         $('#cloud-next-loading').show();
         $('#cloud-next-data').hide();
-        fetch("https://rcc-gateway-rcdevgf.devgf.revcycle-cloud.net/services/coding-service/v1/optum/patients/".concat(client.state.tokenResponse.patient).concat("/encounters/").concat(client.encounter.id).concat("/codings"), {
+        fetch("https://rcc-gateway-rcdevgf.devgf.revcycle-cloud.net/services/coding-service/v1/optum/mock/encounters/").concat(client.encounter.id).concat("/codings"), {
             headers: {
                 'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36',
                 'Authorization': 'Bearer ' + client.state.tokenResponse.access_token,
