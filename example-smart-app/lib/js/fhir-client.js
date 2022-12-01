@@ -13607,7 +13607,7 @@ function buildTokenRequest(env, code, state) {
     throw new Error("Missing state.redirectUri");
   }
 
-  if (!tokenUri) {
+  if (!tokenUri) {  a
     throw new Error("Missing state.tokenUri");
   }
 
