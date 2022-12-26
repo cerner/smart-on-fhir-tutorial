@@ -40,8 +40,11 @@ console.log("Checking fhir.");
                     'Access-Control-Allow-Origin' : '*'
                 }
             }).then(function(getCodingData) {
-                console.log(xmlToJSON.parseString(getCodingData));
-                return xmlToJSON.parseString(getCodingData);
+                var x2js = new X2JS();
+                console.log("Converting xml into json");
+                var jsonObj = x2js.xml2json(xmlText);
+                console.log(jsonObj);
+                return jsonObj;
             }).then(function(parsedGetCodingData) {
                 $('#json-input1').val(JSON.stringify(parsedGetCodingData, null, 4));
                 $('#cloud-next-data').removeClass('d-none');
