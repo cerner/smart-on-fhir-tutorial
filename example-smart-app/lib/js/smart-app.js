@@ -43,7 +43,7 @@ console.log("Checking fhir.");
             .then(function(getCodingData) {
                 console.log("Converting xml into json");
                 var x2js = new X2JS();
-                var jsonObj = x2js.xml2json(xmlText);
+                var jsonObj = x2js.xml2json(getCodingData);
                 console.log(jsonObj);
                 return jsonObj;
             }).then(function(parsedGetCodingData) {
