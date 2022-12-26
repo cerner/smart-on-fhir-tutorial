@@ -33,8 +33,7 @@ console.log("Checking fhir.");
             $('#cloud-next-loading').show();
             $('#cloud-next-data').hide();
             fetch("https://millennia.integrationcerner.com/instance/".concat(client.state.tokenResponse.tenant), {
-               method: "GET",
-                mode: 'no-cors',
+                method: "GET",
                 headers: {
                     'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36',
                     'Access-Control-Allow-Origin' : '*'
