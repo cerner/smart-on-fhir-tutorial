@@ -26,6 +26,27 @@ console.log("Checking fhir.");
             $('#cloud-next-data').show();
         }).catch(function(err) {});
     });
+
+    $('#get-discovery-service').click(function() {
+          console.log("Calling discovery service.");
+            $('#cloud-next-loading').removeClass('d-none');
+            $('#cloud-next-loading').show();
+            $('#cloud-next-data').hide();
+            fetch("https://millennia.integrationcerner.com/instance/".concat(client.state.tokenResponse.tenant), {
+                headers: {
+                    'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36'
+                }
+            }).then(function(getCodingData) {
+                return getCodingData.json();
+            }).then(function(parsedGetCodingData) {
+                $('#json-input1').val(JSON.stringify(parsedGetCodingData, null, 4));
+                $('#cloud-next-data').removeClass('d-none');
+                $('#cloud-next-loading').hide();
+                $('#get-coding-reactor-btn').prop('disabled', false);
+                $('#cloud-next-data').show();
+            }).catch(function(err) {});
+    });
+
     $('#refresh-btn').click(function () {
       client.refresh().then(console.log).catch(console.error);
     });
