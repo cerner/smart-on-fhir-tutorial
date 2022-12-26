@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bd2e6d28-afdc-4c3d-b59a-c6e36fe41637" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example-smart-app/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/example-smart-app/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example-smart-app/lib/js/smart-app.js" beforeDir="false" afterPath="$PROJECT_DIR$/example-smart-app/lib/js/smart-app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
