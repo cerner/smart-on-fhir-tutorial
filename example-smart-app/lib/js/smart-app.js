@@ -41,7 +41,9 @@ console.log("Checking fhir.");
                 }
             })
             .then(function(getCodingData) {
+                var getCodingDataText = getCodingData.text();
                 console.log("Converting xml into json");
+                console.log(getCodingDataText);
                 var x2js = new X2JS();
                 var jsonObj = x2js.xml2json(getCodingData);
                 console.log(jsonObj);
