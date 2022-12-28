@@ -42,14 +42,12 @@ console.log("Checking fhir.");
                 }
             })
             .then(response => response.text())
+            .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+            .then(data => console.log(data));
             .then(function(getCodingData) {
-                console.log(getCodingData);
-                console.log("Converting xml into json");
-                var x2js = new X2JS();
-                var jsonObj = x2js.xml2json(getCodingData);
-                console.log(jsonObj);
-                return jsonObj;
+                return getCodingData;
             }).then(function(parsedGetCodingData) {
+            console.log(parsedGetCodingData);
                 $('#json-input1').val(JSON.stringify(parsedGetCodingData, null, 4));
                 $('#cloud-next-data').removeClass('d-none');
                 $('#cloud-next-loading').hide();
