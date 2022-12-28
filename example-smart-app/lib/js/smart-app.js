@@ -42,8 +42,12 @@ console.log("Checking fhir.");
                 }
             })
             .then(response => response.text())
-            .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-            .then(data => console.log(data))
+             .then(data => {
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(data, "application/xml");
+                console.log("converted xml");
+                console.log(xml);
+              })
             .then(function(getCodingData) {
                 return getCodingData;
             }).then(function(parsedGetCodingData) {
