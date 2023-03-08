@@ -48,6 +48,8 @@
           p.fname = fname;
           p.lname = lname;
           p.height = getQuantityValueAndUnit(height[0]);
+          
+           document.write('firstname: ' + p.fname);
 
           if (typeof systolicbp != 'undefined')  {
             p.systolicbp = systolicbp;
