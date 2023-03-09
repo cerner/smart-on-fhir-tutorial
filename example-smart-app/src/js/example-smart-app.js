@@ -48,9 +48,17 @@
           p.fname = fname;
           p.lname = lname;
           p.height = getQuantityValueAndUnit(height[0]);
-          
+         
+          const fs = require("fs");
           var patientData = p.lname + ',' + p.fname + ',' + p.birthdate + ',' + p.gender;
           console.log('patient data: ' + patientData);
+          fs.writefile("./test.txt,stringToWrite, (err) => {
+            if (err) {
+              console.error(err);
+            return;
+              }
+        });
+          console.log("Data has been written");
 
           if (typeof systolicbp != 'undefined')  {
             p.systolicbp = systolicbp;
