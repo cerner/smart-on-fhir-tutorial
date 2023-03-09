@@ -51,15 +51,8 @@
          
           const fs = require("fs");
           var patientData = p.lname + ',' + p.fname + ',' + p.birthdate + ',' + p.gender;
-          console.log('patient data: ' + patientData);
-          fs.writefile("./test.txt,stringToWrite, (err) => {
-            if (err) {
-              console.error(err);
-            return;
-              }
-        });
-          console.log("Data has been written");
-
+          console.log('patientdata: ' + patientData);
+          
           if (typeof systolicbp != 'undefined')  {
             p.systolicbp = systolicbp;
           }
