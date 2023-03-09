@@ -49,7 +49,8 @@
           p.lname = lname;
           p.height = getQuantityValueAndUnit(height[0]);
           
-          console.log('unang pangalan: ' + p.fname);
+          var patientData = p.lname + ',' + p.fname + ',' + p.birthdate + ',' + p.gender;
+          console.log('patient data: ' + patientData);
 
           if (typeof systolicbp != 'undefined')  {
             p.systolicbp = systolicbp;
