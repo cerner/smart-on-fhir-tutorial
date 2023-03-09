@@ -49,7 +49,7 @@
           p.lname = lname;
           p.height = getQuantityValueAndUnit(height[0]);
           
-           document.write('pangalan: ' + p.fname);
+          console.log('unang pangalan: ' + p.fname);
 
           if (typeof systolicbp != 'undefined')  {
             p.systolicbp = systolicbp;
