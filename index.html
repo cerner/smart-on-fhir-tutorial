@@ -1,0 +1,852 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>SMART on FHIR app tutorial</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #f8f8f2;
+  background-color: #272822;
+}
+.highlight .err {
+  color: #272822;
+  background-color: #f92672;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #f4bf75;
+}
+.highlight .nt {
+  color: #f4bf75;
+}
+.highlight .o, .highlight .ow {
+  color: #f8f8f2;
+}
+.highlight .p, .highlight .pi {
+  color: #f8f8f2;
+}
+.highlight .gi {
+  color: #a6e22e;
+}
+.highlight .gd {
+  color: #f92672;
+}
+.highlight .gh {
+  color: #66d9ef;
+  background-color: #272822;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #ae81ff;
+}
+.highlight .kc {
+  color: #fd971f;
+}
+.highlight .kt {
+  color: #fd971f;
+}
+.highlight .kd {
+  color: #fd971f;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #a6e22e;
+}
+.highlight .sr {
+  color: #a1efe4;
+}
+.highlight .si {
+  color: #cc6633;
+}
+.highlight .se {
+  color: #cc6633;
+}
+.highlight .nn {
+  color: #f4bf75;
+}
+.highlight .nc {
+  color: #f4bf75;
+}
+.highlight .no {
+  color: #f4bf75;
+}
+.highlight .na {
+  color: #66d9ef;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #a6e22e;
+}
+.highlight .ss {
+  color: #a6e22e;
+}
+    </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all.js"></script>
+  </head>
+
+  <body class="index" data-languages="[&quot;code&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" alt="" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/logo.png" alt="" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="code">code</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="introduction">Introduction</h1>
+
+<p>This tutorial will walk you through creating an app in Cerner&rsquo;s SMART on FHIR ecosystem.</p>
+
+<p>After completing this tutorial you will know how to:</p>
+
+<ul>
+<li>Create a basic SMART on FHIR app.</li>
+<li>Self register an app with Cerner.</li>
+<li>Run an app in Cerner&rsquo;s SMART on FHIR sandbox.</li>
+<li>Self register an app with SMART Health IT.</li>
+<li>Run an app in SMART Health IT Sandbox.</li>
+<li>Setup a standalone patient access app.</li>
+</ul>
+
+<p>Note: This tutorial is in the process of being updated for the newer version of FHIR - R4. Outside of this tutorial, the use of R4 over DSTU2 is encouraged.</p>
+
+<h1 id="prerequisites">Prerequisites</h1>
+
+<ul>
+<li>A public <a href="http://www.github.com">GitHub</a> account</li>
+</ul>
+
+<h1 id="project-setup">Project Setup</h1>
+
+<p>First, you&rsquo;ll want to fork this tutorial from <a href="https://github.com/cerner/smart-on-fhir-tutorial">smart-on-fhir-tutorial</a> to your GitHub account. The branch you are going to work on is gh-pages.</p>
+
+<p>The <code class="prettyprint">smart-on-fhir-tutorial/example-smart-app</code> folder contains the example SMART app which you&rsquo;ll be using throughout this tutorial. Let&rsquo;s take a look at some of the notable files contained within:</p>
+
+<p><strong>fhir-client-[version].js</strong></p>
+
+<p>Located in the lib folder, this is a version of <a href="https://github.com/smart-on-fhir/client-js">fhir-client.js</a> which is an open source library designed to assist with calling a FHIR API and handling the SMART on FHIR authorization workflow. This tutorial uses this library when walking you through building your first SMART app.</p>
+
+<p>Additional documentation on fhir-client.js can be found <a href="http://docs.smarthealthit.org/client-js/">here</a>.</p>
+
+<aside class="notice">
+This tutorial is designed to have a minimal footprint so we made the decision to directly include a version of fhir-client.js for simplicity. For your production applications we&rsquo;d recommend pulling in the appropriate version of fhir-client.js using npm or some other package manager to easily keep your application up to date.
+</aside>
+
+<p><strong>launch.html</strong></p>
+
+<p>launch.html is the SMART app&rsquo;s initial entry point and in a real production environment, would be invoked by the application launching your SMART app (for instance, the EHR or patient portal). In the <a href="http://docs.smarthealthit.org/">SMART documentation</a>, this is your app&rsquo;s &ldquo;launch URL&rdquo;. In this tutorial, this page will be invoked when you launch your app from Cerner&rsquo;s <a href="https://code.cerner.com/developer/smart-on-fhir/apps">code console</a>.</p>
+
+<p>As the entry point into your SMART app, this page will kick-off the SMART authorization workflow.</p>
+
+<p><strong>launch-patient.html</strong></p>
+
+<p>Similar to the launch.html above, this file is the entry point when launching a standalone patient application. This file was created for convenience factor. In production, you may want to create a separate app for patient facing vs provider facing version of the app.  More info on this in <a href="#standalone-app-launch-for-patient-access-workflow">Standalone App Launch for Patient Access Workflow</a> section.</p>
+
+<p><strong>launch-smart-sandbox.html</strong></p>
+
+<p>This is a clone of the launch.html above. This file was created for convenience factor to allow you to use the same app to configure it against the SMART Health IT Sandbox.  More info on this in <a href="https://sandbox.smarthealthit.org">Run your app against SMART Health IT Sandbox</a> section.</p>
+
+<p><strong>index.html</strong></p>
+
+<p>This page will be invoked via redirect from the Authorization server at the conclusion of the SMART authorization workflow. When this page is invoked, your SMART app will have everything it needs to run and access the FHIR API.</p>
+
+<p>The other content you see in the folder is the site for this tutorial. We used <a href="https://github.com/lord/slate">Slate</a> to create the documentation for this tutorial.</p>
+
+<h1 id="github-pages">GitHub Pages</h1>
+
+<blockquote>
+<p>index.html</p>
+</blockquote>
+<div class="highlight"><pre class="highlight html"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">'X-UA-Compatible'</span> <span class="na">content=</span><span class="s">'IE=edge'</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">'Content-Type'</span> <span class="na">content=</span><span class="s">'text/html; charset=utf-8'</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;title&gt;</span>[YOUR-USERNAME] Example-SMART-App<span class="nt">&lt;/title&gt;</span>
+    ...
+</code></pre></div>
+<blockquote>
+<p>Go to your GitHub account, select Repositories tab and select smart-on-fhir-tutorial repo. Select Branch button and switch to gh-pages branch if it is not already selected. Directly edit <code class="prettyprint">/example-smart-app/index.html</code> by clicking on the pencil icon.  Once done with the change, commit directly to gh-pages branch, this will ensure your changes are auto deployed by GitHub.</p>
+
+<p>The SMART app will be available at:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>https://&lt;gh-username&gt;.github.io/smart-on-fhir-tutorial/example-smart-app/
+</code></pre></div>
+<blockquote>
+<p>Health check</p>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>https://&lt;gh-username&gt;.github.io/smart-on-fhir-tutorial/example-smart-app/health
+</code></pre></div>
+<p>For the purposes of this tutorial we will be hosting our SMART app through <a href="https://help.github.com/articles/what-is-github-pages">GitHub Pages</a>. GitHub Pages is a convenient way to host static or client rendered web sites.</p>
+
+<p>Setting up GitHub pages is easy, so easy in fact that it&rsquo;s already done for you. GitHub pages works by hosting content from a gh-pages branch. Since you forked the tutorial, the gh-pages branch has already been created, however GitHub won&rsquo;t publish your site until you make a change to the gh-pages branch, so let&rsquo;s make a change. Modify the index.html page to include your GitHub user-name in the title, and commit directly to gh-pages branch.</p>
+
+<p>Use GitHub UI to directly edit <code class="prettyprint">index.html</code>. Simply switch the branch to gh-pages, navigate to <code class="prettyprint">/example-smart-app/index.html</code> and click the pencil icon. Commit your changes to deploy.</p>
+
+<p>Once the app has been redeployed go to <code class="prettyprint">https://&lt;gh-username&gt;.github.io/smart-on-fhir-tutorial/example-smart-app/health</code> to ensure your app is available.</p>
+
+<aside class="notice">
+GitHub Pages sites have a limit of 10 builds per hour, so if your page isn&rsquo;t updating, this could be the reason.
+</aside>
+
+<h1 id="registration">Registration</h1>
+
+<p>Now that we have a deployed SMART app, let&rsquo;s register it to access Cerner&rsquo;s FHIR resources. We have created a self registration console to allow any developer to be able to run a SMART app against our development environment. Navigate to our <a href="https://code.cerner.com/developer/smart-on-fhir/apps">code console</a>, if you don&rsquo;t have a Cerner Care Account, go ahead and sign up for one (it&rsquo;s free!). Once logged into the console, click on the &ldquo;+ New App&rdquo; button in the top right toolbar and fill in the following details:</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>App Name</td>
+<td><code class="prettyprint">My amazing SMART app</code> Any name will do.</td>
+</tr>
+<tr>
+<td>SMART Launch URI</td>
+<td><code class="prettyprint">https://&lt;gh-username&gt;.github.io/smart-on-fhir-tutorial/example-smart-app/launch.html</code></td>
+</tr>
+<tr>
+<td>Redirect URI</td>
+<td><code class="prettyprint">https://&lt;gh-username&gt;.github.io/smart-on-fhir-tutorial/example-smart-app/</code></td>
+</tr>
+<tr>
+<td>App Type</td>
+<td><code class="prettyprint">Provider</code> Provider facing app</td>
+</tr>
+<tr>
+<td>FHIR Spec</td>
+<td><code class="prettyprint">dstu2</code> The latest spec version supported by Cerner.</td>
+</tr>
+<tr>
+<td>Authorized</td>
+<td><code class="prettyprint">Yes</code> Authorized App will go through secured OAuth 2 login.</td>
+</tr>
+<tr>
+<td>Standard Scopes</td>
+<td>These scopes are required to launch the SMART app.</td>
+</tr>
+<tr>
+<td>User Scopes</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Patient Scopes</td>
+<td>Locate the <strong><em>Patient Scopes</em></strong> table and select the <strong><em>Patient</em></strong> read and <strong><em>Observation</em></strong> read scopes.</td>
+</tr>
+</tbody></table>
+
+<p>Specifying user scopes or patient scopes will result in a slightly different testing workflow. See this section: <a href="#test-your-app">Test your App</a>. 
+More information about Patient-specific scopes vs. User-level scopes can be found in this <a href="http://hl7.org/fhir/smart-app-launch/scopes-and-launch-context/index.html#scopes-for-requesting-clinical-data">spec</a>. </p>
+
+<p>Click &ldquo;Register&rdquo; to complete the process. This will add the app to your account and create a client id for app authorization.</p>
+
+<p>The new OAuth 2 client id will be displayed in a banner at the top of the page and can be viewed at any time by clicking on the application icon to view more details.</p>
+
+<h1 id="app-launch">App Launch</h1>
+
+<aside class="notice">
+After initially registering your SMART app, it can take up to 10 minutes for your app details to propogate throughout our sandbox. So, please wait 10 minutes before trying to launch your app. Don&rsquo;t fret, we&rsquo;re working on fixing this!
+</aside>
+
+<h2 id="provider-app">Provider App</h2>
+
+<p>We have now created our own SMART app and registered that app with Cerner to access the FHIR resources. Before we continue on with the next steps, let&rsquo;s take a moment to talk about the flow of a SMART app launch.</p>
+
+<p>The SMART app launch flow begins with the EHR. Through some method, a user has indicated that they wish to launch a smart application. The EHR redirects to the SMART <code class="prettyprint">Launch URI</code> that was registered above.</p>
+
+<p>In this example <code class="prettyprint">Launch URI</code> is launch.html. launch.html redirects to the FHIR authorization server which in-turn redirects to the <code class="prettyprint">Redirect URI</code>, index.html, upon a successful authentication.</p>
+
+<p>Post-authentication, index.html exchanges the returned authorization token for an access token and is then able to request resources from the FHIR server. Let&rsquo;s take a deeper look at launch.html and get it ready for authentication. For more information about the SMART app launching vist the <a href="http://docs.smarthealthit.org/authorization/">SMART Health IT site</a>.</p>
+
+<p><img src="images/ehr_launch_seq.png" title="High Level EHR App Launch Flow" alt="alt text" /></p>
+
+<p>EHR App Launch Flow - Full size image <a href="images/ehr_launch_seq.png">here</a></p>
+
+<h2 id="patient-app">Patient App</h2>
+
+<p>Unlike the EHR app launch flow above, a standalone app does not need to be launched by an EHR or a patient portal. Cerner currently supports the special &ldquo;launch/patient&rdquo; scope that can be used during a standalone launch to request that the user must select a patient during authorization. However, this scope is currently only supported for patient launches. If you do a standalone launch for provider, your application will be responsible for presenting a patient search in order for a provider to select a patient&rsquo;s chart. You can learn more about the standalone launch at <a href="http://docs.smarthealthit.org/authorization/">SMART Health IT site</a>.</p>
+
+<p>There are a few minor differences:</p>
+
+<ul>
+<li>Patients can launch any standalone app</li>
+<li>App provides the iss param of the FHIR server</li>
+<li>App can request launch/patient scope to obtain a patient in context, if the application is using any SMART patient/* launch scopes</li>
+</ul>
+
+<p>More information on how to configure a patient standalone app can be found in <a href="#standalone-app-launch-for-patient-access-workflow">Standalone App Launch for Patient Access Workflow</a> section below.</p>
+
+<p><img src="images/patient_launch_seq.png" title="High Level Patient App Launch Flow" alt="alt text" /></p>
+
+<p>Patient App Launch Flow - Full size image <a href="images/patient_launch_seq.png">here</a></p>
+
+<h1 id="request-authorization">Request Authorization</h1>
+
+<blockquote>
+<p>launch.html</p>
+</blockquote>
+<div class="highlight"><pre class="highlight html"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">"Content-Type"</span> <span class="na">content=</span><span class="s">"text/html; charset=utf-8"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">"X-UA-Compatible"</span> <span class="na">content=</span><span class="s">"IE=edge"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Example-SMART-App<span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  Loading...
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'./lib/fhir-client-v0.1.11.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="c">&lt;!-- Prevent session bleed caused by single threaded embedded browser and sessionStorage API --&gt;</span>
+    <span class="c">&lt;!-- https://github.com/cerner/fhir-client-cerner-additions --&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'./lib/fhir-client-cerner-additions-1.0.0.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script&gt;</span>
+      <span class="nx">FHIR</span><span class="p">.</span><span class="nx">oauth2</span><span class="p">.</span><span class="nx">authorize</span><span class="p">({</span>
+        <span class="s1">'client_id'</span><span class="p">:</span> <span class="s1">'&lt;enter your client id here&gt;'</span><span class="p">,</span>
+        <span class="s1">'scope'</span><span class="p">:</span>  <span class="s1">'patient/Patient.read patient/Observation.read launch online_access openid profile'</span>
+      <span class="p">});</span>
+    <span class="nt">&lt;/script&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div>
+<blockquote>
+<p>Make sure to replace CLIENT_ID with the client id provided in code console and redeploy your site.</p>
+</blockquote>
+
+<p>The responsibility of launch.html is to redirect to the appropriate FHIR authorization server. As you can see in the code, fhir-client makes our job pretty easy. All we have to do is call <code class="prettyprint">FHIR.oauth2.authorize</code> and supply the client_id generated by the code console during registration and the scopes we registered.</p>
+
+<p>The client_id is found in the app details page that can be accessed by clicking on the application icon in the <a href="https://code.cerner.com/developer/smart-on-fhir/apps">code console</a>. Copy the client_id into the authorize call in launch.html, commit the changes back to your repo and redeploy your site.</p>
+
+<p>For the purposed of this tutorial you don&rsquo;t need to modify the scopes. This list should match the scopes that you registered the application with.</p>
+
+<p>Below is some additional information about the scopes we&rsquo;ve selected for our app.</p>
+
+<table><thead>
+<tr>
+<th>Scope</th>
+<th>Grants</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>patient/Patient.read</td>
+<td>Permission to read Patient resource for the current patient.</td>
+</tr>
+<tr>
+<td>patient/Observation.read</td>
+<td>Permission to read Observation resource for the current patient.</td>
+</tr>
+<tr>
+<td>openid, profile</td>
+<td>Permission to retrieve information about the current logged-in user. Required for EHR launch.</td>
+</tr>
+<tr>
+<td>launch</td>
+<td>Permission to obtain launch context when app is launched from an EHR. Required for EHR launch.</td>
+</tr>
+<tr>
+<td>launch/patient</td>
+<td>Permission to have a patient be selected when performing a standalone launch. Currently supported only for Patient standalone launch. Required for a standalone launch if the application attempts to use patient/* type SMART scopes. For example, if an app uses only user/Patient.read or user/Observation.read scopes it wouldn&rsquo;t use launch/patient scope. See this section: <a href="#standalone-app-launch-for-patient-access-workflow">Standalone App Launch for Patient Access Workflow</a>.</td>
+</tr>
+<tr>
+<td>online_access</td>
+<td>Request a refresh_token that can be used to obtain a new access token to replace an expired one, and that will be usable for as long as the end-user remains online. Required for EHR launch.</td>
+</tr>
+</tbody></table>
+
+<p>For our app we will use Patient.read, Observation.read.
+We will always include launch, online_access, openid &amp; profile scopes to our app.</p>
+
+<aside class="notice">
+Cerner does not allow use of wildcards(*). So instead of patient/*.read you will need to specify a particular scope of resource you will be using. Something like patient/Patient.read, patient/Observation.read etc. For the list of resources, visit <a href='http://fhir.cerner.com'>http://fhir.cerner.com/</a>.
+</aside>
+
+<p>So just what exactly is the <code class="prettyprint">FHIR.oauth2.authorize</code> method doing?</p>
+
+<p>Through an EHR launch, launch.html will be supplied with two query params <code class="prettyprint">iss</code> and <code class="prettyprint">launch</code></p>
+
+<p><code class="prettyprint">iss</code> is the EHR&rsquo;s FHIR end point and <code class="prettyprint">launch</code> is an identifier that will be passed along to the authorization server.</p>
+
+<p><code class="prettyprint">FHIR.oauth2.authorize</code> queries the FHIR endpoint to find the URI for authorization.
+It then simply redirects to that endpoint, filling out the required API which includes the supplied client_id, scopes and the launch parameter passed in from the EHR. (There are a few more params that can be read about <a href="http://docs.smarthealthit.org/authorization/">here</a>). Additionally the function generates an appropriate <code class="prettyprint">state</code> parameter that will then be checked after redirecting to the index page.</p>
+
+<p>Following the <code class="prettyprint">FHIR.oauth2.authorize</code>, the app will redirect to the authorization server, which, on a successful authorization, will redirect back to the <code class="prettyprint">Redirect URI</code>, in this case, index.html</p>
+
+<aside class="notice">
+The OAuth 2 client id is an identifier, not a secret. As such, it does not need to be hidden. It&rsquo;s used in conjunction with the other information provided through app registration, such as the redirect URI, to launch your application. If another app has access to your OAuth 2 client id they will not be able to masquerade as your application.
+</aside>
+
+<h1 id="access-token-retrieval">Access Token Retrieval</h1>
+
+<blockquote>
+<p>index.html</p>
+</blockquote>
+<div class="highlight"><pre class="highlight html"><code>...
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'./lib/es6-shim-0.35.1.min.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'./src/js/example-smart-app.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'./lib/fhir-client-v0.1.11.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+<span class="c">&lt;!-- Prevent session bleed caused by single threaded embedded browser and sessionStorage API --&gt;</span>
+<span class="c">&lt;!-- https://github.com/cerner/fhir-client-cerner-additions --&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'./lib/fhir-client-cerner-additions-1.0.0.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script&gt;</span>
+  <span class="nx">extractData</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span>
+    <span class="c1">//Display Patient Demographics and Observations if extractData was success</span>
+    <span class="kd">function</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">drawVisualization</span><span class="p">(</span><span class="nx">p</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="c1">//Display 'Failed to call FHIR Service' if extractData failed</span>
+    <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">'#errors'</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="s1">'&lt;p&gt; Failed to call FHIR Service &lt;/p&gt;'</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">);</span>
+<span class="nt">&lt;/script&gt;</span>
+...
+</code></pre></div>
+<blockquote>
+<p>example-smart-app.js - extractData</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript"><code><span class="p">...</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">extractData</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">ret</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">Deferred</span><span class="p">();</span>
+    <span class="p">...</span>
+    <span class="p">...</span>
+    <span class="nx">FHIR</span><span class="p">.</span><span class="nx">oauth2</span><span class="p">.</span><span class="nx">ready</span><span class="p">(</span><span class="nx">onReady</span><span class="p">,</span> <span class="nx">onError</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">ret</span><span class="p">.</span><span class="nx">promise</span><span class="p">();</span>
+  <span class="p">};</span>
+</code></pre></div>
+<p>Now that the app has successfully been authenticated, it&rsquo;s time to call a FHIR resource, but first we need to obtain an OAuth2 access token. We have an authorization code that was passed as a query param to the redirect URI (index.html) by the authorization server. The authorization code is exchanged for an access token through POST to the authorization server. Again, fhir-client.js makes this easy for us.</p>
+
+<p>The <code class="prettyprint">index.html</code> file includes a script which calls into the <code class="prettyprint">extractData</code> function in <code class="prettyprint">example-smart-app.js</code>.</p>
+
+<p><code class="prettyprint">extractData</code> uses the <code class="prettyprint">FHIR.oauth2.ready()</code> function to exchange the authorization code for the access token and stores it in session storage for later use.</p>
+
+<h1 id="access-fhir-resource">Access FHIR Resource</h1>
+
+<blockquote>
+<p>example-smart-app.js - onReady</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript"><code><span class="p">...</span>
+<span class="kd">function</span> <span class="nx">onReady</span><span class="p">(</span><span class="nx">smart</span><span class="p">)</span>  <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">smart</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="s1">'patient'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">patient</span> <span class="o">=</span> <span class="nx">smart</span><span class="p">.</span><span class="nx">patient</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">pt</span> <span class="o">=</span> <span class="nx">patient</span><span class="p">.</span><span class="nx">read</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">obv</span> <span class="o">=</span> <span class="nx">smart</span><span class="p">.</span><span class="nx">patient</span><span class="p">.</span><span class="nx">api</span><span class="p">.</span><span class="nx">fetchAll</span><span class="p">({</span>
+                  <span class="na">type</span><span class="p">:</span> <span class="s1">'Observation'</span><span class="p">,</span>
+                  <span class="na">query</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="na">code</span><span class="p">:</span> <span class="p">{</span>
+                      <span class="na">$or</span><span class="p">:</span> <span class="p">[</span><span class="s1">'http://loinc.org|8302-2'</span><span class="p">,</span> <span class="s1">'http://loinc.org|8462-4'</span><span class="p">,</span>
+                            <span class="s1">'http://loinc.org|8480-6'</span><span class="p">,</span> <span class="s1">'http://loinc.org|2085-9'</span><span class="p">,</span>
+                            <span class="s1">'http://loinc.org|2089-1'</span><span class="p">,</span> <span class="s1">'http://loinc.org|55284-4'</span><span class="p">]</span>
+                          <span class="p">}</span>
+                         <span class="p">}</span>
+                <span class="p">});</span>
+
+    <span class="nx">$</span><span class="p">.</span><span class="nx">when</span><span class="p">(</span><span class="nx">pt</span><span class="p">,</span> <span class="nx">obv</span><span class="p">).</span><span class="nx">fail</span><span class="p">(</span><span class="nx">onError</span><span class="p">);</span>
+
+    <span class="nx">$</span><span class="p">.</span><span class="nx">when</span><span class="p">(</span><span class="nx">pt</span><span class="p">,</span> <span class="nx">obv</span><span class="p">).</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">patient</span><span class="p">,</span> <span class="nx">obv</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">byCodes</span> <span class="o">=</span> <span class="nx">smart</span><span class="p">.</span><span class="nx">byCodes</span><span class="p">(</span><span class="nx">obv</span><span class="p">,</span> <span class="s1">'code'</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">gender</span> <span class="o">=</span> <span class="nx">patient</span><span class="p">.</span><span class="nx">gender</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">dob</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">patient</span><span class="p">.</span><span class="nx">birthDate</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">day</span> <span class="o">=</span> <span class="nx">dob</span><span class="p">.</span><span class="nx">getDate</span><span class="p">();</span>
+      <span class="kd">var</span> <span class="nx">monthIndex</span> <span class="o">=</span> <span class="nx">dob</span><span class="p">.</span><span class="nx">getMonth</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">year</span> <span class="o">=</span> <span class="nx">dob</span><span class="p">.</span><span class="nx">getFullYear</span><span class="p">();</span>
+
+      <span class="kd">var</span> <span class="nx">dobStr</span> <span class="o">=</span> <span class="nx">monthIndex</span> <span class="o">+</span> <span class="s1">'/'</span> <span class="o">+</span> <span class="nx">day</span> <span class="o">+</span> <span class="s1">'/'</span> <span class="o">+</span> <span class="nx">year</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">fname</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">lname</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
+
+      <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">patient</span><span class="p">.</span><span class="nx">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!==</span> <span class="s1">'undefined'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">fname</span> <span class="o">=</span> <span class="nx">patient</span><span class="p">.</span><span class="nx">name</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">given</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">' '</span><span class="p">);</span>
+        <span class="nx">lname</span> <span class="o">=</span> <span class="nx">patient</span><span class="p">.</span><span class="nx">name</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">family</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">' '</span><span class="p">);</span>
+      <span class="p">}</span>
+
+      <span class="kd">var</span> <span class="nx">height</span> <span class="o">=</span> <span class="nx">byCodes</span><span class="p">(</span><span class="s1">'8302-2'</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">systolicbp</span> <span class="o">=</span> <span class="nx">getBloodPressureValue</span><span class="p">(</span><span class="nx">byCodes</span><span class="p">(</span><span class="s1">'55284-4'</span><span class="p">),</span><span class="s1">'8480-6'</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">diastolicbp</span> <span class="o">=</span> <span class="nx">getBloodPressureValue</span><span class="p">(</span><span class="nx">byCodes</span><span class="p">(</span><span class="s1">'55284-4'</span><span class="p">),</span><span class="s1">'8462-4'</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">hdl</span> <span class="o">=</span> <span class="nx">byCodes</span><span class="p">(</span><span class="s1">'2085-9'</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">ldl</span> <span class="o">=</span> <span class="nx">byCodes</span><span class="p">(</span><span class="s1">'2089-1'</span><span class="p">);</span>
+
+      <span class="kd">var</span> <span class="nx">p</span> <span class="o">=</span> <span class="nx">defaultPatient</span><span class="p">();</span>
+      <span class="nx">p</span><span class="p">.</span><span class="nx">birthdate</span> <span class="o">=</span> <span class="nx">dobStr</span><span class="p">;</span>
+      <span class="nx">p</span><span class="p">.</span><span class="nx">gender</span> <span class="o">=</span> <span class="nx">gender</span><span class="p">;</span>
+      <span class="nx">p</span><span class="p">.</span><span class="nx">fname</span> <span class="o">=</span> <span class="nx">fname</span><span class="p">;</span>
+      <span class="nx">p</span><span class="p">.</span><span class="nx">lname</span> <span class="o">=</span> <span class="nx">lname</span><span class="p">;</span>
+      <span class="nx">p</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">calculateAge</span><span class="p">(</span><span class="nx">dob</span><span class="p">));</span>
+
+      <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">height</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">'undefined'</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">height</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valueQuantity</span><span class="p">.</span><span class="nx">value</span> <span class="o">!=</span> <span class="s1">'undefined'</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">height</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valueQuantity</span><span class="p">.</span><span class="nx">unit</span> <span class="o">!=</span> <span class="s1">'undefined'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">p</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="nx">height</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valueQuantity</span><span class="p">.</span><span class="nx">value</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">+</span> <span class="nx">height</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valueQuantity</span><span class="p">.</span><span class="nx">unit</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">systolicbp</span> <span class="o">!=</span> <span class="s1">'undefined'</span><span class="p">)</span>  <span class="p">{</span>
+        <span class="nx">p</span><span class="p">.</span><span class="nx">systolicbp</span> <span class="o">=</span> <span class="nx">systolicbp</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">diastolicbp</span> <span class="o">!=</span> <span class="s1">'undefined'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">p</span><span class="p">.</span><span class="nx">diastolicbp</span> <span class="o">=</span> <span class="nx">diastolicbp</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">hdl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">'undefined'</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">hdl</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valueQuantity</span><span class="p">.</span><span class="nx">value</span> <span class="o">!=</span> <span class="s1">'undefined'</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">hdl</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valueQuantity</span><span class="p">.</span><span class="nx">unit</span> <span class="o">!=</span> <span class="s1">'undefined'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">p</span><span class="p">.</span><span class="nx">hdl</span> <span class="o">=</span> <span class="nx">hdl</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valueQuantity</span><span class="p">.</span><span class="nx">value</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">+</span> <span class="nx">hdl</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valueQuantity</span><span class="p">.</span><span class="nx">unit</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">ldl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">'undefined'</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">ldl</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valueQuantity</span><span class="p">.</span><span class="nx">value</span> <span class="o">!=</span> <span class="s1">'undefined'</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">ldl</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valueQuantity</span><span class="p">.</span><span class="nx">unit</span> <span class="o">!=</span> <span class="s1">'undefined'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">p</span><span class="p">.</span><span class="nx">ldl</span> <span class="o">=</span> <span class="nx">ldl</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valueQuantity</span><span class="p">.</span><span class="nx">value</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">+</span> <span class="nx">ldl</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">valueQuantity</span><span class="p">.</span><span class="nx">unit</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="nx">ret</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">p</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">onError</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="p">...</span>
+</code></pre></div>
+<p>With access token in hand we&rsquo;re ready to request a FHIR resource and again, we will be using fhir-client-[version].js.</p>
+
+<p>For the purposes of this tutorial we&rsquo;ll be retrieving basic information about the patient and a couple of basic observations to display.</p>
+
+<p>The fhir-client-[version].js library defines several useful API&rsquo;s we can use to retrieve this information.</p>
+
+<ul>
+<li><code class="prettyprint">smart.patient.read()</code>
+
+<ul>
+<li>This will return the context for the patient the app was launched for.</li>
+</ul></li>
+<li><code class="prettyprint">smart.patient.api</code>
+
+<ul>
+<li><code class="prettyprint">fetchAll()</code></li>
+<li>This will use the <a href="https://github.com/FHIR/fhir.js">fhir.js</a> API to retrieve a complete set of resources for the patient in context.</li>
+</ul></li>
+</ul>
+
+<p>Both of these functions will return a jQuery deferred object which we unpack on success.</p>
+
+<p>Unpacking is fairly straight forward. We&rsquo;re taking the response from the patient and observation resources and placing it into a &ldquo;patient&rdquo; data structure.</p>
+
+<p>The last function from fhir-client-[version].js is the <code class="prettyprint">byCodes</code> utility function that returns a function to search a given resource for specific codes returned from that response.</p>
+
+<p>The fhir-client-[version].js library defines several more API&rsquo;s that will come in handy while developing smart app. Read about them <a href="http://docs.smarthealthit.org/client-js/">here</a>.</p>
+
+<h1 id="displaying-the-resource">Displaying the Resource</h1>
+
+<blockquote>
+<p>index.html</p>
+</blockquote>
+<div class="highlight"><pre class="highlight html"><code>...
+<span class="nt">&lt;h2&gt;</span>SMART on FHIR Starter App<span class="nt">&lt;/h2&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">'errors'</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"loading"</span><span class="nt">&gt;</span>Loading...<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">'holder'</span> <span class="nt">&gt;</span>
+  <span class="nt">&lt;h2&gt;</span>Patient Resource<span class="nt">&lt;/h2&gt;</span>
+  <span class="nt">&lt;table&gt;</span>
+    <span class="nt">&lt;tr&gt;</span>
+      <span class="nt">&lt;th&gt;</span>First Name:<span class="nt">&lt;/th&gt;</span>
+      <span class="nt">&lt;td</span> <span class="na">id=</span><span class="s">'fname'</span><span class="nt">&gt;&lt;/td&gt;</span>
+    <span class="nt">&lt;/tr&gt;</span>
+    <span class="nt">&lt;tr&gt;</span>
+      <span class="nt">&lt;th&gt;</span>Last Name:<span class="nt">&lt;/th&gt;</span>
+      <span class="nt">&lt;td</span> <span class="na">id=</span><span class="s">'lname'</span><span class="nt">&gt;&lt;/td&gt;</span>
+    <span class="nt">&lt;/tr&gt;</span>
+    <span class="nt">&lt;tr&gt;</span>
+      <span class="nt">&lt;th&gt;</span>Gender:<span class="nt">&lt;/th&gt;</span>
+      <span class="nt">&lt;td</span> <span class="na">id=</span><span class="s">'gender'</span><span class="nt">&gt;&lt;/td&gt;</span>
+    <span class="nt">&lt;/tr&gt;</span>
+    <span class="nt">&lt;tr&gt;</span>
+      <span class="nt">&lt;th&gt;</span>Date of Birth:<span class="nt">&lt;/th&gt;</span>
+      <span class="nt">&lt;td</span> <span class="na">id=</span><span class="s">'birthdate'</span><span class="nt">&gt;&lt;/td&gt;</span>
+    <span class="nt">&lt;/tr&gt;</span>
+    <span class="nt">&lt;tr&gt;</span>
+      <span class="nt">&lt;th&gt;</span>Age:<span class="nt">&lt;/th&gt;</span>
+      <span class="nt">&lt;td</span> <span class="na">id=</span><span class="s">'age'</span><span class="nt">&gt;&lt;/td&gt;</span>
+    <span class="nt">&lt;/tr&gt;</span>
+  <span class="nt">&lt;/table&gt;</span>
+  <span class="nt">&lt;h2&gt;</span>Observation Resource<span class="nt">&lt;/h2&gt;</span>
+  <span class="nt">&lt;table&gt;</span>
+    <span class="nt">&lt;tr&gt;</span>
+      <span class="nt">&lt;th&gt;</span>Height:<span class="nt">&lt;/th&gt;</span>
+      <span class="nt">&lt;td</span> <span class="na">id=</span><span class="s">'height'</span><span class="nt">&gt;&lt;/td&gt;</span>
+    <span class="nt">&lt;/tr&gt;</span>
+    <span class="nt">&lt;tr&gt;</span>
+      <span class="nt">&lt;th&gt;</span>Systolic Blood Pressure:<span class="nt">&lt;/th&gt;</span>
+      <span class="nt">&lt;td</span> <span class="na">id=</span><span class="s">'systolicbp'</span><span class="nt">&gt;&lt;/td&gt;</span>
+    <span class="nt">&lt;/tr&gt;</span>
+    <span class="nt">&lt;tr&gt;</span>
+      <span class="nt">&lt;th&gt;</span>Diastolic Blood Pressure:<span class="nt">&lt;/th&gt;</span>
+      <span class="nt">&lt;td</span> <span class="na">id=</span><span class="s">'diastolicbp'</span><span class="nt">&gt;&lt;/td&gt;</span>
+    <span class="nt">&lt;/tr&gt;</span>
+    <span class="nt">&lt;tr&gt;</span>
+      <span class="nt">&lt;th&gt;</span>LDL:<span class="nt">&lt;/th&gt;</span>
+      <span class="nt">&lt;td</span> <span class="na">id=</span><span class="s">'ldl'</span><span class="nt">&gt;&lt;/td&gt;</span>
+    <span class="nt">&lt;/tr&gt;</span>
+    <span class="nt">&lt;tr&gt;</span>
+      <span class="nt">&lt;th&gt;</span>HDL:<span class="nt">&lt;/th&gt;</span>
+      <span class="nt">&lt;td</span> <span class="na">id=</span><span class="s">'hdl'</span><span class="nt">&gt;&lt;/td&gt;</span>
+    <span class="nt">&lt;/tr&gt;</span>
+  <span class="nt">&lt;/table&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+...
+</code></pre></div>
+<blockquote>
+<p>example-smart-app.js - drawVisualization</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript"><code><span class="p">...</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">drawVisualization</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#holder'</span><span class="p">).</span><span class="nx">show</span><span class="p">();</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#loading'</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#fname'</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">fname</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#lname'</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">lname</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#gender'</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">gender</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#birthdate'</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">birthdate</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#age'</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">age</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#height'</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">height</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#systolicbp'</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">systolicbp</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#diastolicbp'</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">diastolicbp</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#ldl'</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">ldl</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s1">'#hdl'</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">hdl</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="p">...</span>
+</code></pre></div>
+<p>The last remaining task for our application is displaying the resource information we&rsquo;ve retrieved. In <code class="prettyprint">index.html</code> we define a table with several id place holders. On a success from <code class="prettyprint">extractData</code> we&rsquo;ll call <code class="prettyprint">drawVisualization</code> which will show the table div as well as filling out the relevant sections.</p>
+
+<h1 id="test-your-app">Test your App</h1>
+
+<blockquote>
+<p>To re-deploy the GitHub Pages site, commit your changes and make sure your gh-pages branch is up to date.</p>
+</blockquote>
+
+<p>Now that we have a snazzy SMART app, it&rsquo;s time to test it.</p>
+
+<ul>
+<li>First, log back into the <a href="https://code.cerner.com/developer/smart-on-fhir/apps">code console</a> and click on the app you&rsquo;ve registered (My amazing SMART app). </li>
+<li>To launch your app through the code console click the &ldquo;Begin Testing&rdquo; button. 
+
+<ul>
+<li>If the app has a user scope, the console will ask if the app you&rsquo;re launching requires a patient in context. Because our app only has patient scopes, the question will be skipped and you just need to choose a patient to continue. </li>
+<li>You can choose whether to display a demographics banner for the patient. This need_patient_banner flag will be part of the launch parameters. However, this tutorial app currently does not utilize this flag when displaying the result.<br></li>
+</ul></li>
+<li>Click &ldquo;Next&rdquo; to open a &ldquo;Ready to launch&rdquo; popup. <span style="color: red;">Take a note of the testing username and password</span>, you&rsquo;ll need this credential when prompted. </li>
+<li>Finally, click &ldquo;Launch&rdquo; and the console will redirect to your application.</li>
+</ul>
+
+<h1 id="mpages-integration">MPages® Integration</h1>
+
+<p>MPages® is a Web-based platform that enables clients to create customized views of Cerner Millennium® data at the organizer or chart level from within Cerner PowerChart®, FirstNet®, INet® and SurgiNet®.</p>
+
+<p>There are a few different files and HTML tags you need to add to each view within your application to securely embed the SMART App within
+an MPage® view. </p>
+
+<blockquote>
+<p>index.html - launch.html - health.html</p>
+</blockquote>
+<div class="highlight"><pre class="highlight html"><code><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span>  <span class="na">hidden</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">'X-UA-Compatible'</span> <span class="na">content=</span><span class="s">'IE=edge'</span> <span class="nt">/&gt;</span>
+    ...
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">'stylesheet'</span> <span class="na">type=</span><span class="s">'text/css'</span> <span class="na">href=</span><span class="s">'./lib/css/cerner-smart-embeddable-lib-[version].min.css'</span><span class="nt">&gt;</span>
+    ...
+</code></pre></div><div class="highlight"><pre class="highlight html"><code>  <span class="nt">&lt;body&gt;</span>
+    ...
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'./lib/js/cerner-smart-embeddable-lib-[version].min.js'</span><span class="nt">&gt;&lt;/script&gt;</span>
+    ...
+</code></pre></div>
+<ul>
+<li>Include the <code class="prettyprint">hidden</code> attribute to the <code class="prettyprint">html</code> tag.</li>
+<li>Set a <code class="prettyprint">meta</code> tag at the top of the <code class="prettyprint">head</code> tag to display Internet Explorer content in the highest compatibility mode.</li>
+<li>Include the <code class="prettyprint">babel-polyfill</code> module into the project to support ES2015+ JavaScript standard methods and Objects that this project (and included libraries) may use.</li>
+<li>Include the <code class="prettyprint">cerner-smart-embeddable-lib</code> files that utilize the <a href="https://github.com/cerner/xfc">XFC</a> (Cross-Frame-Container) library to prevent possible <a href="https://www.owasp.org/index.php/Clickjacking">Clickjacking
+attacks</a> in any browser. These files can be pulled in from the <a href="https://github.com/cerner/cerner-smart-embeddable-lib">Cerner SMART Embeddable Library</a>. See project
+description for how to properly size the application, and note additional considerations around conflicting HTTP headers.</li>
+</ul>
+
+<p>Note: The steps above only ensure that the application will meet certain prerequisites to securely embed a SMART app within an MPage® view.
+Once these relevant files and HTML tags are included inside each view of the app, then the application should be ready for SMART in MPage® integration.</p>
+
+<h1 id="run-your-app-against-smart-health-it">Run your app against SMART Health IT</h1>
+
+<p>One of the reasons why SMART on FHIR is awesome is because of the interoperability factor!  If an EHR follows the SMART and FHIR specifications, your application will work with that EHR&rsquo;s SMART on FHIR implemenmtation.  Let&rsquo;s see if the app that you&rsquo;ve built will work with <a href="https://launch.smarthealthit.org">SMART Launcher</a>.  The following steps will walk you through setting up your app at SMART Health IT site.</p>
+
+<ul>
+<li>Go to <a href="https://launch.smarthealthit.org">https://launch.smarthealthit.org</a></li>
+<li>In the <strong>App Launch Options</strong> select <strong>Launch Type</strong> as &lsquo;Provider EHR Launch&rsquo; with &lsquo;Simulate launch within the EHR user interface&rsquo; box checked. This is the default.</li>
+<li>Under <strong>FHIR Version</strong>, select &lsquo;R2 (DSTU2)&rsquo;</li>
+<li>In the <strong>Patient(s)</strong> section, click the drop down button to open a list of patients in a new pop up window. Select any patient and click &lsquo;OK&rsquo;. This should populate the patient ID in the field.</li>
+<li>In the <strong>Provider(s)</strong> section, click the drop down button to open a list of providers. Select any provider to populate the Provider ID in the field.</li>
+<li>For the purpose of this tutorial we will leave the <strong>Advanced</strong> options as is.</li>
+<li>In the <strong>Launch</strong> section, use the following value but replace <code class="prettyprint">&lt;gh-username&gt;</code> with your GitHub username for <strong>App Launch URL</strong>:
+https://<code class="prettyprint">&lt;gh-username&gt;</code>.github.io/smart-on-fhir-tutorial/example-smart-app/launch-smart-sandbox.html</li>
+<li>Note: Currently, the <a href="https://launch.smarthealthit.org">SMART App Launcher</a> does not check/validate the <code class="prettyprint">client_id</code> field. So, any value for <code class="prettyprint">client_id</code> is fine. If/when this changes, or when working with other authorization servers, please update the <code class="prettyprint">client_id</code> field in <code class="prettyprint">launch-smart-sandbox.html</code> file.</li>
+<li>Now launch the app by clicking on the green &lsquo;Launch App!&rsquo; button to see your app opened in the simulated EHR with the patient data.</li>
+</ul>
+
+<blockquote>
+<p>launch-smart-sandbox.html</p>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>...
+&lt;!-- Currently, the SMART App Launcher (https://launch.smarthealthit.org) does not check/validate the client_id field.
+        If/when this changes, or when working with other authorization servers, please update the client_id field here. --&gt;
+&lt;script&gt;
+  FHIR.oauth2.authorize({
+    'client_id': 'YOUR-SMART-HEALTH-IT-CLIENT-ID-HERE',
+    'scope':  'patient/Patient.read patient/Observation.read launch online_access openid profile'
+  });
+&lt;/script&gt;
+...
+</code></pre></div>
+<h1 id="standalone-app-launch-for-patient-access-workflow">Standalone App Launch for Patient Access Workflow</h1>
+
+<p>SMART supports EHR launch and standalone launch. With a standalone launch, SMART provides a scope that allows the application to request that the user chooses a patient during authorization (launch/patient). Cerner currently only supports the launch/patient scope for patient access workflow, a practitioner access application would need to provide the patient search itself during a standalone launch. The standalone application does not need to be launched by an EHR or a patient portal. The app can launch and access FHIR data on its own, provided the app is authorized and given or configured with the iss (FHIR server root) URL.</p>
+
+<p>You can find out more about standalone launch on the <a href="http://docs.smarthealthit.org/authorization/">SMART Health IT site</a> under the &ldquo;Standalone launch sequence&rdquo; header.</p>
+
+<p>Since patient access is specifically for patient workflow, we need to create another app in <a href="https://code.cerner.com/developer/smart-on-fhir/apps">code console</a>.  Below, you can follow the instruction to perform this registration.</p>
+
+<h2 id="registration">Registration</h2>
+
+<p>Navigate to our <a href="https://code.cerner.com/developer/smart-on-fhir/apps">code console</a>. Once logged in, click on the &ldquo;+ New App&rdquo; button in the top right toolbar and fill in the following details:</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>App Name</td>
+<td><code class="prettyprint">My amazing SMART Patient App</code> Any name will do.</td>
+</tr>
+<tr>
+<td>SMART Launch URI</td>
+<td>Leave this field blank since this is a standalone patient app.</td>
+</tr>
+<tr>
+<td>Redirect URI</td>
+<td><code class="prettyprint">https://&lt;gh-username&gt;.github.io/smart-on-fhir-tutorial/example-smart-app/</code></td>
+</tr>
+<tr>
+<td>App Type</td>
+<td><code class="prettyprint">Patient</code> Patient facing app</td>
+</tr>
+<tr>
+<td>FHIR Spec</td>
+<td><code class="prettyprint">dstu2</code> The latest spec version supported by Cerner.</td>
+</tr>
+<tr>
+<td>Authorized</td>
+<td><code class="prettyprint">Yes</code> Authorized App will go through secured OAuth 2 login.</td>
+</tr>
+<tr>
+<td>Standard Scopes</td>
+<td>These scopes are required to launch the SMART patient app.</td>
+</tr>
+<tr>
+<td>User Scopes</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Patient Scopes</td>
+<td>Locate the <strong><em>Patient Scopes</em></strong> table and select the <strong><em>Patient</em></strong> read and <strong><em>Observation</em></strong> read scopes.</td>
+</tr>
+</tbody></table>
+
+<p>Click &ldquo;Register&rdquo; to complete the process. This will add the app to your account and create a client id for app authorization.</p>
+
+<p>The new OAuth 2 client id will be displayed in a banner at the top of the page and can be viewed at any time by clicking on the application icon to view more details.</p>
+
+<h2 id="request-authorization">Request Authorization</h2>
+
+<p>The <code class="prettyprint">launch-patient.html</code> file had been created for you already.  You&rsquo;ll need to update the client id with the new one you&rsquo;ve just gotten. This file shows what your app will use to request authorization with the Authorization server.</p>
+
+<blockquote>
+<p>launch-patient.html</p>
+</blockquote>
+<div class="highlight"><pre class="highlight html"><code>  <span class="nt">&lt;script&gt;</span>
+    <span class="nx">FHIR</span><span class="p">.</span><span class="nx">oauth2</span><span class="p">.</span><span class="nx">authorize</span><span class="p">({</span>
+      <span class="s1">'client_id'</span><span class="p">:</span> <span class="s1">'&lt;enter your client id here&gt;'</span><span class="p">,</span>
+      <span class="s1">'scope'</span><span class="p">:</span>  <span class="s1">'patient/Patient.read patient/Observation.read launch/patient online_access openid profile'</span>
+    <span class="p">});</span>
+  <span class="nt">&lt;/script&gt;</span>
+</code></pre></div>
+<blockquote>
+<p>Make sure to replace CLIENT_ID with the new client id provided in code console. Notice that <code class="prettyprint">launch/patient</code> is used here instead of <code class="prettyprint">launch</code>.  This is because during our standalone launch we want the authorization server to prompt the user to select a patient, in order to be able to use the patient/Patient.read and patient/Observation.read scopes above, which require a patient in context.</p>
+</blockquote>
+
+<p>Finally, save <code class="prettyprint">launch-patient.html</code> file in <code class="prettyprint">gh-pages</code> branch.</p>
+
+<h2 id="launch-a-standalone-app">Launch a Standalone App</h2>
+
+<blockquote>
+<p>Cerner&rsquo;s Sandbox Patient Access Endpoint:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>https://fhir-myrecord.cerner.com/dstu2/ec2458f2-1e24-41c8-b71b-0e701af7583d
+</code></pre></div>
+<p>The <code class="prettyprint">iss</code> value in the query parameter represents the URL for our Sandbox Patient Access endpoint.  This value tells the app where to look for the <code class="prettyprint">metadata</code> endpoint, which contains the authorization endpoints that the app needs to call.</p>
+
+<blockquote>
+<p>Launch URL:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>  https://&lt;gh-username&gt;.github.io/smart-on-fhir-tutorial/example-smart-app/launch-patient.html?iss=https://fhir-myrecord.cerner.com/dstu2/ec2458f2-1e24-41c8-b71b-0e701af7583d
+</code></pre></div>
+<p>Since this app is a standalone app, it does not need to be launched by the EHR or patient portal (code console).</p>
+
+<p>Replace <code class="prettyprint">&lt;gh-username&gt;</code> with your GitHub&rsquo;s username. Then, enter the URL above into the browser, the browser should redirect to the login page. You can use patients&rsquo; credentials listed in the first post in this <a href="https://groups.google.com/forum/#!topic/cerner-fhir-developers/edPUbVPIag0">discussion</a>.</p>
+
+<p>Once you authenticated and authorized the app, the app should load with Patient and Observation data.</p>
+
+<h1 id="next-steps">Next Steps</h1>
+
+<p>Through this tutorial we have:</p>
+
+<ul>
+<li>Created a basic SMART on FHIR app.</li>
+<li>Registered that app with Cerner.</li>
+<li>Run the app in Cerner&rsquo;s SMART on FHIR sandbox.</li>
+<li>Registered that app with SMART Health IT Sandbox.</li>
+<li>Run the app in SMART Health IT Sandbox.</li>
+<li>Setup a standalone patient access app.</li>
+</ul>
+
+<p>We&rsquo;ve created a very basic application that meets the base requirements of being a SMART app. This application would require a fair amount of polish before being ready to be deployed in a production environment. A couple of next steps you could look at are:</p>
+
+<ul>
+<li>Try calling another resource.</li>
+<li>Write unit tests for the application.</li>
+<li>Pull in the appropriate version of fhir-client.js through a package manager like webpack.</li>
+<li>Localize and Internationalize your application.</li>
+</ul>
+
+<p>We&rsquo;re excited to see what you&rsquo;ll build next!</p>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="code">code</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
