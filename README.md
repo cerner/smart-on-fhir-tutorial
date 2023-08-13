@@ -15,6 +15,7 @@ Getting Started
 You're going to need:
 
  - GitHub account
+ - Programming Language Knowledge
 
 License
 ------------------------------
