@@ -1,6 +1,6 @@
 # SMART Tutorial
 
-Run the tutorial here:
+Run over the tutorial here:
 https://cerner.github.io/smart-on-fhir-tutorial
 
 Description
