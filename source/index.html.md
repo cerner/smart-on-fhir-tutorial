@@ -27,7 +27,7 @@ Note: This tutorial is in the process of being updated for the newer version of 
 
 # Project Setup
 
-First, you'll want to fork this tutorial from [smart-on-fhir-tutorial](https://github.com/cerner/smart-on-fhir-tutorial) to your GitHub account. The branch you are going to work on is gh-pages.
+First, you'll want to access the tutorial at [smart-on-fhir-tutorial](https://github.com/cerner/smart-on-fhir-tutorial). Then, click on "Use this template" button to create a new repository with **smart-on-fhir-tutorial** as the repository name to your GitHub account. Keep the "Include all branches" unchecked, then click on "Create repository from template" button to complete. The branch you are going to work on is gh-pages.
 
 The `smart-on-fhir-tutorial/example-smart-app` folder contains the example SMART app which you'll be using throughout this tutorial. Let's take a look at some of the notable files contained within:
 
@@ -90,7 +90,7 @@ https://<gh-username>.github.io/smart-on-fhir-tutorial/example-smart-app/health
 
 For the purposes of this tutorial we will be hosting our SMART app through [GitHub Pages](https://help.github.com/articles/what-is-github-pages). GitHub Pages is a convenient way to host static or client rendered web sites.
 
-Setting up GitHub pages is easy, so easy in fact that it's already done for you. GitHub pages works by hosting content from a gh-pages branch. Since you forked the tutorial, the gh-pages branch has already been created, however GitHub won't publish your site until you make a change to the gh-pages branch, so let's make a change. Modify the index.html page to include your GitHub user-name in the title, and commit directly to gh-pages branch.
+Setting up GitHub pages is easy, so easy in fact that it's already done for you. GitHub pages works by hosting content from a gh-pages branch. The gh-pages branch has already been created, however GitHub won't publish your site until you make a change to the gh-pages branch, so let's make a change. Modify the index.html page to include your GitHub user-name in the title, and commit directly to gh-pages branch.
 
 Use GitHub UI to directly edit `index.html`. Simply switch the branch to gh-pages, navigate to `/example-smart-app/index.html` and click the pencil icon. Commit your changes to deploy.
 
@@ -112,11 +112,11 @@ App Type | ```Provider``` Provider facing app
 FHIR Spec | ```dstu2``` The latest spec version supported by Cerner.
 Authorized | ```Yes``` Authorized App will go through secured OAuth 2 login.
 Standard Scopes | These scopes are required to launch the SMART app.
-User Scopes | None 
+User Scopes | None
 Patient Scopes | Locate the ***Patient Scopes*** table and select the ***Patient*** read and ***Observation*** read scopes.
 
-Specifying user scopes or patient scopes will result in a slightly different testing workflow. See this section: [Test your App](#test-your-app). 
-More information about Patient-specific scopes vs. User-level scopes can be found in this [spec](http://hl7.org/fhir/smart-app-launch/scopes-and-launch-context/index.html#scopes-for-requesting-clinical-data). 
+Specifying user scopes or patient scopes will result in a slightly different testing workflow. See this section: [Test your App](#test-your-app).
+More information about Patient-specific scopes vs. User-level scopes can be found in this [spec](http://hl7.org/fhir/smart-app-launch/scopes-and-launch-context/index.html#scopes-for-requesting-clinical-data).
 
 Click "Register" to complete the process. This will add the app to your account and create a client id for app authorization.
 
@@ -464,11 +464,11 @@ The last remaining task for our application is displaying the resource informati
 
 Now that we have a snazzy SMART app, it's time to test it.
 
-* First, log back into the [code console](https://code.cerner.com/developer/smart-on-fhir/apps) and click on the app you've registered (My amazing SMART app). 
-* To launch your app through the code console click the "Begin Testing" button. 
-  * If the app has a user scope, the console will ask if the app you're launching requires a patient in context. Because our app only has patient scopes, the question will be skipped and you just need to choose a patient to continue. 
-  * You can choose whether to display a demographics banner for the patient. This need_patient_banner flag will be part of the launch parameters. However, this tutorial app currently does not utilize this flag when displaying the result.  
-* Click "Next" to open a "Ready to launch" popup. <span style="color: red;">Take a note of the testing username and password</span>, you'll need this credential when prompted. 
+* First, log back into the [code console](https://code.cerner.com/developer/smart-on-fhir/apps) and click on the app you've registered (My amazing SMART app).
+* To launch your app through the code console click the "Begin Testing" button.
+  * If the app has a user scope, the console will ask if the app you're launching requires a patient in context. Because our app only has patient scopes, the question will be skipped and you just need to choose a patient to continue.
+  * You can choose whether to display a demographics banner for the patient. This need_patient_banner flag will be part of the launch parameters. However, this tutorial app currently does not utilize this flag when displaying the result.
+* Click "Next" to open a "Ready to launch" popup. <span style="color: red;">Take a note of the testing username and password</span>, you'll need this credential when prompted.
 * Finally, click "Launch" and the console will redirect to your application.
 
 # MPages® Integration
@@ -476,7 +476,7 @@ Now that we have a snazzy SMART app, it's time to test it.
 MPages® is a Web-based platform that enables clients to create customized views of Cerner Millennium® data at the organizer or chart level from within Cerner PowerChart®, FirstNet®, INet® and SurgiNet®.
 
 There are a few different files and HTML tags you need to add to each view within your application to securely embed the SMART App within
-an MPage® view. 
+an MPage® view.
 
 >index.html - launch.html - health.html
 
