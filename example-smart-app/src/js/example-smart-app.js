@@ -7,64 +7,88 @@
       ret.reject();
     }
 
-    function onReady(smart)  {
+    function onReady(smart) {
+      var ret = $.Deferred();
+      
       if (smart.hasOwnProperty('patient')) {
         var patient = smart.patient;
         var pt = patient.read();
+        
+        // Fetch observations
         var obv = smart.patient.api.fetchAll({
-                    type: 'Observation',
-                    query: {
-                      code: {
-                        $or: ['http://loinc.org|8302-2', 'http://loinc.org|8462-4',
-                              'http://loinc.org|8480-6', 'http://loinc.org|2085-9',
-                              'http://loinc.org|2089-1', 'http://loinc.org|55284-4']
-                      }
-                    }
-                  });
-
-        $.when(pt, obv).fail(onError);
-
-        $.when(pt, obv).done(function(patient, obv) {
+          type: 'Observation',
+          query: {
+            code: {
+              $or: ['http://loinc.org|8302-2', 'http://loinc.org|8462-4',
+                    'http://loinc.org|8480-6', 'http://loinc.org|2085-9',
+                    'http://loinc.org|2089-1', 'http://loinc.org|55284-4']
+            }
+          }
+        });
+    
+        // Fetch medications
+        var medications = smart.patient.api.fetchAll({ type: 'MedicationStatement' });
+    
+        $.when(pt, obv, medications).fail(onError);
+    
+        $.when(pt, obv, medications).done(function(patient, obv, medications) {
           var byCodes = smart.byCodes(obv, 'code');
           var gender = patient.gender;
-
+    
           var fname = '';
           var lname = '';
-
+    
           if (typeof patient.name[0] !== 'undefined') {
             fname = patient.name[0].given.join(' ');
             lname = patient.name[0].family.join(' ');
           }
-
+    
           var height = byCodes('8302-2');
           var systolicbp = getBloodPressureValue(byCodes('55284-4'),'8480-6');
           var diastolicbp = getBloodPressureValue(byCodes('55284-4'),'8462-4');
           var hdl = byCodes('2085-9');
           var ldl = byCodes('2089-1');
-
+    
           var p = defaultPatient();
           p.birthdate = patient.birthDate;
           p.gender = gender;
           p.fname = fname;
           p.lname = lname;
           p.height = getQuantityValueAndUnit(height[0]);
-
+    
           if (typeof systolicbp != 'undefined')  {
             p.systolicbp = systolicbp;
           }
-
+    
           if (typeof diastolicbp != 'undefined') {
             p.diastolicbp = diastolicbp;
           }
-
+    
           p.hdl = getQuantityValueAndUnit(hdl[0]);
           p.ldl = getQuantityValueAndUnit(ldl[0]);
-
+    
+          // Process medication data
+          var medicationsData = [];
+          medications.forEach(function(medicationStatement) {
+            medicationsData.push({
+              name: medicationStatement.medicationCodeableConcept.text,
+              dosage: medicationStatement.dosage.text,
+              status: medicationStatement.status,
+              startDate: medicationStatement.dateAsserted,
+              endDate: medicationStatement.end,
+              instructions: medicationStatement.note
+            });
+          });
+          // You can use medicationsData array as needed
+          
+          // Resolve the deferred object with patient data
           ret.resolve(p);
         });
       } else {
         onError();
       }
+    
+      return ret.promise();
     }
 
     FHIR.oauth2.ready(onReady, onError);
