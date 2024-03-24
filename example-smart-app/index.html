@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv='X-UA-Compatible' content='IE=edge' />
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-    <title>My-SMART-App</title>
+    <title>Example-SMART-App</title>
 
     <link rel='stylesheet' type='text/css' href='./src/css/example-smart-app.css'>
     <!--
@@ -19,9 +19,9 @@
       <div class="bounce2"></div>
       <div class="bounce3"></div>
     </div>
-    <div id='holder' >
-      <h2>My-SMART-App</h2>
-
+    <div id='holder'>
+      <h2>Example-SMART-App</h2>
+    
       <h2>Patient Resource</h2>
       <table>
         <tr>
@@ -41,6 +41,7 @@
           <td id='birthdate'></td>
         </tr>
       </table>
+    
       <h2>Observation Resource</h2>
       <table>
         <tr>
@@ -50,7 +51,6 @@
         <tr>
           <th>Systolic Blood Pressure:</th>
           <td id='systolicbp'></td>
-
         </tr>
         <tr>
           <th>Diastolic Blood Pressure:</th>
@@ -65,7 +65,11 @@
           <td id='hdl'></td>
         </tr>
       </table>
+    
+      <h2>Medication Resource</h2>
+      <ul id='medications'></ul>
     </div>
+    
     <!-- Required JS files to enable this page to embed within an MPage -->
     <!--
       Temporarily disable cerner-smart-embeddable-lib
